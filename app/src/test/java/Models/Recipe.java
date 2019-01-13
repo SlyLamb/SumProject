@@ -8,6 +8,4 @@ public class Recipe {
     int servings;
     float duration;
     Bitmap image;
-
-
 }

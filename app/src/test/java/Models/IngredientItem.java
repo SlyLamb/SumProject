@@ -1,9 +1,9 @@
 package Models;
 
 public class IngredientItem {
-    String name;
-    Float pricePerUnit;
-    String measurement;
-    Float quantity;
-    Boolean selected;
+    private String name;
+    private Float pricePerUnit;
+    private String measurement;
+    private Float quantity;
+    private Boolean selected;
 }

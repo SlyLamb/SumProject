@@ -1,5 +1,5 @@
 package Models;
 
-public class Ingredient {
-    String specification;
+public class Ingredient extends IngredientItem {
+    private String specification;
 }

@@ -9,12 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.slylamb.pocketcuisine.Models.Ingredient;
 import com.slylamb.pocketcuisine.Presenters.RecipePresenter;
-import com.slylamb.pocketcuisine.Presenters.RecipePresenterImpl;
 import com.slylamb.pocketcuisine.R;
 import java.util.ArrayList;
 
 
-public class RecipeActivity extends Activity implements RecipeView {
+public class RecipeActivity extends Activity implements RecipePresenter.View {
 
     private RecipePresenter presenter;
     private ImageView imgRecipe;
@@ -34,7 +33,7 @@ public class RecipeActivity extends Activity implements RecipeView {
         setContentView(R.layout.recipe);
 
         initializeView();
-        presenter = new RecipePresenterImpl(this);
+        presenter = new RecipePresenter(this);
 
         presenter.setRecipeDetails(); // sets images and texts for selected recipe
 

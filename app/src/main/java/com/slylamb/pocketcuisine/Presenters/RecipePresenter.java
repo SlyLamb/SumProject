@@ -1,7 +1,6 @@
 package com.slylamb.pocketcuisine.Presenters;
 
 import android.graphics.Bitmap;
-
 import com.slylamb.pocketcuisine.Models.Ingredient;
 import com.slylamb.pocketcuisine.Models.Recipe;
 import com.slylamb.pocketcuisine.Models.User;
@@ -17,7 +16,7 @@ public class RecipePresenter {
     public RecipePresenter(View view) {
         this.view = view;
 
-        // Get recipe and user from database
+        // Todo: Get recipe and user from api and/or database
 
     }
 
@@ -42,7 +41,7 @@ public class RecipePresenter {
             view.setButton(false, "addFavorites");
         }
 
-        // Update user database
+        // Todo: Update user database
 
     }
 
@@ -57,7 +56,7 @@ public class RecipePresenter {
             view.setButton(false, "addCooked");
         }
 
-        // Update user database
+        // Todo: Update user database
 
     }
 
@@ -66,6 +65,8 @@ public class RecipePresenter {
 
         // Maybe use dialog to pick the date and choose if (b, l, d or s)
         // Doesn't require updating view as can add to meal planner more than once to different dates
+
+        view.showMealPlannerDialog();
 
         // Update user database
 
@@ -86,5 +87,7 @@ public class RecipePresenter {
         void setRecipeDetails(Bitmap image, String name, float duration, int servings, ArrayList<Ingredient> ingredients);
         // Set button look, different if already picked
         void setButton(boolean picked, String button);
+        // Open dialog for user to pick date and meal type before adding to meal planner
+        void showMealPlannerDialog();
     }
 }

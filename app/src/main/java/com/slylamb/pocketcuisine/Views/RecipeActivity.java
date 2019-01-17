@@ -21,6 +21,7 @@ import com.slylamb.pocketcuisine.Presenters.RecipePresenter;
 import com.slylamb.pocketcuisine.R;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class RecipeActivity extends Activity implements RecipePresenter.View {
@@ -143,7 +144,7 @@ public class RecipeActivity extends Activity implements RecipePresenter.View {
 
         final EditText etxtDatePicked = view.findViewById(R.id.etxt_date_picked);
         final Button btnPickDate = view.findViewById(R.id.btn_pick_date);
-        
+
         final RadioGroup rgrpMealType = view.findViewById(R.id.rgrp_meal_type);
         final RadioButton rbtnSelected;
 
@@ -152,6 +153,11 @@ public class RecipeActivity extends Activity implements RecipePresenter.View {
             .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+
+                    Date today = new Date();
+                    // check date selected is in the future
+                    // check no meals for type and date
+                    // call presenter method to add to mealplanner
 
                 }
             })

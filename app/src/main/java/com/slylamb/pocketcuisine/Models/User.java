@@ -1,4 +1,4 @@
-package Models;
+package com.slylamb.pocketcuisine.Models;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -16,10 +16,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.slylamb.pocketcuisine.R;
 
 public class User {
-    private ArrayList<ShoppingList> shoppingLists;
-    private ArrayList<Recipe> ownRecipes;
-    private ArrayList<Recipe> cookedRecipes;
-    private ArrayList<Recipe> favorites;
+//    private ArrayList<ShoppingList> shoppingLists;
+//    private ArrayList<Recipe> ownRecipes;
+//    private ArrayList<Recipe> cookedRecipes;
+//    private ArrayList<Recipe> favorites;
     private int theme;  // which theme did the user choose? Might change type
     private String email;
     private String password;
@@ -37,7 +37,9 @@ public class User {
         this.password = password;
     }
 
-    public String getUserName() {
+    public FirebaseUser getFirebaseUser(){return this.user;}
+
+    public String getEmail() {
         return this.email;
     }
 
@@ -58,12 +60,18 @@ public class User {
     }
 
     public void validatePassword(String password){
-        this.password = password;
+        if (TextUtils.isEmpty(password)) {
+
+        } else {
+            //mEmailField.setError(null);
+            this.password = password;
+        }
+
+
     }
 
     private void createAccount(String email, String password) {
 
-        // [START create_user_with_email]
         // What is Executor this??
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
@@ -79,49 +87,54 @@ public class User {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
 //                            Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
 //                                    Toast.LENGTH_SHORT).show();
-
                         }
 
                     }
                 });
-        // [END create_user_with_email]
     }
 
-//    private void signIn(String email, String password) {
-//        Log.d(TAG, "signIn:" + email);
+    public void signIn(String email, String password) {
+        Log.d(TAG, "signIn:" + email);
 //        if (!validateForm()) {
 //            return;
 //        }
-//
-//        showProgressDialog();
-//
-//        // [START sign_in_with_email]
-//        mAuth.signInWithEmailAndPassword(email, password)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//                            // Sign in success, update UI with the signed-in user's information
-//                            Log.d(TAG, "signInWithEmail:success");
-//                            FirebaseUser user = mAuth.getCurrentUser();
-//                            updateUI(user);
-//                        } else {
-//                            // If sign in fails, display a message to the user.
-//                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+
+        //showProgressDialog();
+
+        // [START sign_in_with_email]
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            //updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
 //                            Toast.makeText(EmailPasswordActivity.this, "Authentication failed.",
 //                                    Toast.LENGTH_SHORT).show();
-//                            updateUI(null);
-//                        }
-//
-//                        // [START_EXCLUDE]
-//                        if (!task.isSuccessful()) {
+                            //updateUI(null);
+                        }
+
+                        // [START_EXCLUDE]
+                        if (!task.isSuccessful()) {
+                            Log.d(TAG, "task is not successful");
 //                            mStatusTextView.setText(R.string.auth_failed);
-//                        }
-//                        hideProgressDialog();
-//                        // [END_EXCLUDE]
-//                    }
-//                });
-//        // [END sign_in_with_email]
+                        }
+
+
+                        // [END_EXCLUDE]
+                    }
+                });
+        // [END sign_in_with_email]
+    }
+
+//        private void signOut() {
+//        mAuth.signOut();
+//        //updateUI(null);
 //    }
 
 

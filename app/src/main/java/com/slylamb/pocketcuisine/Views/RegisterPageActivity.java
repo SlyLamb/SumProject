@@ -1,74 +1,54 @@
-package View;
+package com.slylamb.pocketcuisine.Views;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.slylamb.pocketcuisine.R;
+import com.slylamb.pocketcuisine.Presenters.RegisterPageActivityPresenter;
 
-import Presenter.RegisterPageActivityPresenter;
 
-//implements
-//        View.OnClickListener
 public class RegisterPageActivity extends AppCompatActivity implements RegisterPageActivityPresenter.View {
 
 
-
-    private RegisterPageActivityPresenter presenter;
-    private EditText mEmailField;
-    private EditText mPasswordField;
-
-    // [START declare_auth]
-    // [END declare_auth]
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-
-        presenter = new RegisterPageActivityPresenter(this);
-
-
-
-        // Views
-        mEmailField = findViewById(R.id.fieldEmail);
-        mPasswordField = findViewById(R.id.fieldPassword);
-
-        // Buttons
-       // findViewById(R.id.submit).setOnClickListener(this);
-
-        // [START initialize_auth]
-        // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
-        // [END initialize_auth]
-    }
-
-    // [START on_start_check_user]
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
-    }
-
-
-
-//    private void signOut() {
-//        mAuth.signOut();
-//        updateUI(null);
+//
+//    private RegisterPageActivityPresenter presenter;
+//    private EditText mEmailField;
+//    private EditText mPasswordField;
+//    private FirebaseAuth mAuth;
+//
+//
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_register);
+//
+//        presenter = new RegisterPageActivityPresenter(this);
+//
+//
+//
+//        // Views
+//        mEmailField = findViewById(R.id.fieldEmail);
+//        mPasswordField = findViewById(R.id.fieldPassword);
+//
+//        // Buttons
+//       // findViewById(R.id.submit).setOnClickListener(this);
+//
+//        // [START initialize_auth]
+//        // Initialize Firebase Auth
+//        mAuth = FirebaseAuth.getInstance();
+//        // [END initialize_auth]
 //    }
+//
+//    // [START on_start_check_user]
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        // Check if user is signed in (non-null) and update UI accordingly.
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        //updateUI(currentUser);
+//    }
+
+
+
+
 //
 //    private void sendEmailVerification() {
 //        // Disable button

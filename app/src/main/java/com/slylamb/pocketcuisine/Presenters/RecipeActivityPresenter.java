@@ -9,13 +9,13 @@ import com.slylamb.pocketcuisine.Models.User;
 
 import java.util.ArrayList;
 
-public class RecipePresenter {
+public class RecipeActivityPresenter {
 
     private View view;
     private Recipe recipe;
     private User user;
 
-    public RecipePresenter(View view) {
+    public RecipeActivityPresenter(View view) {
         this.view = view;
 
         // Todo: Get recipe and user from api and/or database

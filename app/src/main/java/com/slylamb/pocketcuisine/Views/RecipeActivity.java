@@ -17,15 +17,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.slylamb.pocketcuisine.Models.Ingredient;
-import com.slylamb.pocketcuisine.Presenters.RecipePresenter;
+import com.slylamb.pocketcuisine.Presenters.RecipeActivityPresenter;
 import com.slylamb.pocketcuisine.R;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 
-public class RecipeActivity extends Activity implements RecipePresenter.View {
+public class RecipeActivity extends Activity implements RecipeActivityPresenter.View {
 
-    private RecipePresenter presenter;
+    private RecipeActivityPresenter presenter;
     private ImageView imgRecipe;
     private TextView txtRecipeName;
     private Button btnAddFavorites;
@@ -43,7 +43,7 @@ public class RecipeActivity extends Activity implements RecipePresenter.View {
         setContentView(R.layout.recipe);
 
         initializeView();
-        presenter = new RecipePresenter(this);
+        presenter = new RecipeActivityPresenter(this);
 
         presenter.setRecipeDetails(); // sets images and texts for selected recipe
 

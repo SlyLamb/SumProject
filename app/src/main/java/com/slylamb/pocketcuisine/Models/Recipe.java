@@ -10,4 +10,10 @@ public class Recipe {
     private int servings;   // how many people can eat from this recipe
     private float duration; // how long to cook meal
     private Bitmap image; // might change type
+<<<<<<< HEAD
 }
+=======
+}
+
+
+>>>>>>> ming_work

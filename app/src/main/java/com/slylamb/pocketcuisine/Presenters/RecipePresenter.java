@@ -2,6 +2,8 @@ package com.slylamb.pocketcuisine.Presenters;
 
 import android.graphics.Bitmap;
 import com.slylamb.pocketcuisine.Models.Ingredient;
+import com.slylamb.pocketcuisine.Models.MealPlanner;
+import com.slylamb.pocketcuisine.Models.PlannedMeal;
 import com.slylamb.pocketcuisine.Models.Recipe;
 import com.slylamb.pocketcuisine.Models.User;
 
@@ -62,14 +64,17 @@ public class RecipePresenter {
 
     // Handle add meal planner button being pressed
     public void addMealPlanner() {
-
-        // Maybe use dialog to pick the date and choose if (b, l, d or s)
-        // Doesn't require updating view as can add to meal planner more than once to different dates
-
+        // Show meal planner dialog so user can pick date and confirm
         view.showMealPlannerDialog();
+    }
 
-        // Update user database
-
+    // Handle addMealPlanner dialog "Add" pressed
+    public void addMealToMealPlanner(String date) {
+        // Create planned meal from current recipe and date given in button
+        PlannedMeal meal = new PlannedMeal(recipe, date);
+        // Add meal to user's meal planner
+        user.addMealToMealPlanner(meal);
+        // Todo: Update user database
     }
 
     // Handle add shopping list button being pressed

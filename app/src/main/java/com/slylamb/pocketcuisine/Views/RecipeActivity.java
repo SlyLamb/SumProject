@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.slylamb.pocketcuisine.Models.Ingredient;
 import com.slylamb.pocketcuisine.Presenters.RecipePresenter;
 import com.slylamb.pocketcuisine.R;
@@ -138,27 +140,24 @@ public class RecipeActivity extends Activity implements RecipePresenter.View {
 
     @Override
     public void showMealPlannerDialog() {
-
+        // Inflate dialog layout
         LayoutInflater layoutInflater = null;
         final View view = layoutInflater.inflate(R.layout.add_meal_planner_dialog, null);
-
+        // Dialog has an edit text with the date picked and a button to open calendar
         final EditText etxtDatePicked = view.findViewById(R.id.etxt_date_picked);
         final Button btnPickDate = view.findViewById(R.id.btn_pick_date);
-
-        final RadioGroup rgrpMealType = view.findViewById(R.id.rgrp_meal_type);
-        final RadioButton rbtnSelected;
-
+        // Create dialog with title, message, and positive and negative behaviours
         AlertDialog dialog = new AlertDialog.Builder(this).setTitle("Add to Meal Planner:")
             .setMessage("Pick a date and meal type below").setCancelable(true).setView(view)
             .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-
-                    Date today = new Date();
-                    // check date selected is in the future
-                    // check no meals for type and date
-                    // call presenter method to add to mealplanner
-
+                    // Todo: checks, if and elses with Toasts
+                    // Add meal to meal planner
+                    presenter.addMealToMealPlanner(etxtDatePicked.getText().toString());
+                    // Let user know it's been successfully added
+                    Toast toast = new Toast(getBaseContext());
+                    // Todo: toast saying Meal added
                 }
             })
             .setNegativeButton("Cancel", null)

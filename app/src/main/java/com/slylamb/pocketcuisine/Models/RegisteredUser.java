@@ -1,4 +1,4 @@
-package Models;
+package com.slylamb.pocketcuisine.Models;
 
 public class RegisteredUser extends User {
     private String username;

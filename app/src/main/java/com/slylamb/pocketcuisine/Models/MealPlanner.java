@@ -1,4 +1,4 @@
-package Models;
+package com.slylamb.pocketcuisine.Models;
 
 import java.util.ArrayList;
 

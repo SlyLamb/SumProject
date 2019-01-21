@@ -79,12 +79,8 @@ public class RecipePresenter {
 
     // Handle add shopping list button being pressed
     public void addShoppingList() {
-
-        // Maybe use dialog to choose a shopping list name or ask to add to existing list?
-        // Doesn't require updating view also
-
-        // Update user database
-
+        // Show shopping list dialog so user can set name
+        view.showShoppingListDialog();
     }
 
     public interface View {
@@ -92,7 +88,9 @@ public class RecipePresenter {
         void setRecipeDetails(Bitmap image, String name, float duration, int servings, ArrayList<Ingredient> ingredients);
         // Set button look, different if already picked
         void setButton(boolean picked, String button);
-        // Open dialog for user to pick date and meal type before adding to meal planner
+        // Open dialog for user to pick date before adding to meal planner
         void showMealPlannerDialog();
+        // Open dialog for user to pick name before adding to shopping lists
+        void showShoppingListDialog();
     }
 }

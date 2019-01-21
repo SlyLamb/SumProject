@@ -13,8 +13,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +21,6 @@ import com.slylamb.pocketcuisine.Presenters.RecipePresenter;
 import com.slylamb.pocketcuisine.R;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 
 public class RecipeActivity extends Activity implements RecipePresenter.View {
@@ -146,6 +143,7 @@ public class RecipeActivity extends Activity implements RecipePresenter.View {
         // Dialog has an edit text with the date picked and a button to open calendar
         final EditText etxtDatePicked = view.findViewById(R.id.etxt_date_picked);
         final Button btnPickDate = view.findViewById(R.id.btn_pick_date);
+        btnPickDate.setText("Pick Date"); // Todo: change to string resource
         // Create dialog with title, message, and positive and negative behaviours
         AlertDialog dialog = new AlertDialog.Builder(this).setTitle("Add to Meal Planner:")
             .setMessage("Pick a date and meal type below").setCancelable(true).setView(view)
@@ -162,6 +160,50 @@ public class RecipeActivity extends Activity implements RecipePresenter.View {
             })
             .setNegativeButton("Cancel", null)
             .create();
+
+        btnPickDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar calendar = Calendar.getInstance();
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getBaseContext(),
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                String datePicked = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                                etxtDatePicked.setText(datePicked);
+
+                            }
+                        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+
+        });
+    }
+
+    @Override
+    public void showShoppingListDialog() {
+        // Inflate dialog layout
+        LayoutInflater layoutInflater = null;
+        final View view = layoutInflater.inflate(R.layout.add_shopping_list_dialog, null);
+        // Dialog has an edit text with the shopping list name
+        final EditText etxtShoppingListName = view.findViewById(R.id.etxt_shopping_list_name);
+        // Create dialog with title, message, and positive and negative behaviours
+        AlertDialog dialog = new AlertDialog.Builder(this).setTitle("Add to Shopping Lists:")
+                .setMessage("Pick a name").setCancelable(true).setView(view)
+                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Todo: checks, if and elses with Toasts
+                        // Add meal to meal planner
+                        presenter.addMealToMealPlanner(etxtDatePicked.getText().toString());
+                        // Let user know it's been successfully added
+                        Toast toast = new Toast(getBaseContext());
+                        // Todo: toast saying Meal added
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .create();
 
         btnPickDate.setOnClickListener(new View.OnClickListener() {
             @Override

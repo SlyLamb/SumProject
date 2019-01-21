@@ -2,9 +2,9 @@ package com.slylamb.pocketcuisine.Presenters;
 
 import android.graphics.Bitmap;
 import com.slylamb.pocketcuisine.Models.Ingredient;
-import com.slylamb.pocketcuisine.Models.MealPlanner;
 import com.slylamb.pocketcuisine.Models.PlannedMeal;
 import com.slylamb.pocketcuisine.Models.Recipe;
+import com.slylamb.pocketcuisine.Models.ShoppingList;
 import com.slylamb.pocketcuisine.Models.User;
 
 import java.util.ArrayList;
@@ -19,7 +19,6 @@ public class RecipeActivityPresenter {
         this.view = view;
 
         // Todo: Get recipe and user from api and/or database
-
     }
 
     // Set images and texts for current recipe in view
@@ -34,14 +33,14 @@ public class RecipeActivityPresenter {
 
     // Handle add favorite button being pressed
     public void addFavorites() {
-
+        // If user does not have current recipe in favorites yet, add it, otherwise, delete it
         if (!user.hasFavorite(recipe)) {
             user.addFavorite(recipe);
-            view.setButton(true, "addFavorites");
         } else {
             user.deleteFavorite(recipe);
-            view.setButton(false, "addFavorites");
         }
+        // Then update the button in the view
+        view.setButton(user.hasFavorite(recipe), "addFavorites");
 
         // Todo: Update user database
 
@@ -49,27 +48,21 @@ public class RecipeActivityPresenter {
 
     // Handle add cooked button being pressed
     public void addCooked() {
-
+        // If user does not have current recipe in cooked recipes yet, add it, otherwise, delete it
         if (!user.hasCooked(recipe)) {
             user.addCooked(recipe);
-            view.setButton(true, "addCooked");
         } else {
             user.deleteCooked(recipe);
-            view.setButton(false, "addCooked");
         }
+        // Then update the button in the view
+        view.setButton(user.hasCooked(recipe), "addCooked");
 
         // Todo: Update user database
 
     }
 
-    // Handle add meal planner button being pressed
-    public void addMealPlanner() {
-        // Show meal planner dialog so user can pick date and confirm
-        view.showMealPlannerDialog();
-    }
-
     // Handle addMealPlanner dialog "Add" pressed
-    public void addMealToMealPlanner(String date) {
+    public void addToMealPlanner(String date) {
         // Create planned meal from current recipe and date given in button
         PlannedMeal meal = new PlannedMeal(recipe, date);
         // Add meal to user's meal planner
@@ -77,10 +70,13 @@ public class RecipeActivityPresenter {
         // Todo: Update user database
     }
 
-    // Handle add shopping list button being pressed
-    public void addShoppingList() {
-        // Show shopping list dialog so user can set name
-        view.showShoppingListDialog();
+    // Handle addShoppingList dialog "Add" pressed
+    public void addMealToShoppingList(String name) {
+        // Create Shopping List from recipe
+        ShoppingList shoppingList = new ShoppingList(recipe, name);
+        // Add list to user's shopping lists
+        user.addShoppingList(shoppingList);
+        // Todo: Update user database
     }
 
     public interface View {

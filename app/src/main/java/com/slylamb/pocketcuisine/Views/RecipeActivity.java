@@ -41,7 +41,7 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe);
-
+        // Initialize view and presenter
         initializeView();
         presenter = new RecipeActivityPresenter(this);
 
@@ -64,14 +64,14 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
         btnAddMealPlanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.addMealPlanner();
+                showMealPlannerDialog();
             }
         });
 
         btnAddShoppingList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.addShoppingList();
+                showShoppingListDialog();
             }
         });
 
@@ -91,16 +91,18 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
 
     @Override
     public void setRecipeDetails(Bitmap image, String name, float duration, int servings, ArrayList<Ingredient> ingredients) {
-
         // Todo: Test outcome, mainly for ingredients - test ingredients without specification and old versions too (16api)
+        // Set image and texts with recipe information
         imgRecipe.setImageBitmap(image);
         txtRecipeName.setText(name);
         String durationText = String.valueOf(duration) + " minutes";
         txtRecipeDuration.setText(durationText);
         String servingsText = String.valueOf(servings) + " servings";
         txtRecipeServings.setText(servingsText);
+        // Start ingredientsText empty
         String ingredientsText = "";
         for (Ingredient ingredient : ingredients) {
+            // For each ingredient, add text in format: * 'quantity' 'measurement' 'specification (if any)' 'name'
             ingredientsText += "*" + ingredient.getQuantity() + " " + ingredient.getMeasurement() + " ";
             if (ingredient.hasSpecification()) {
                 ingredientsText += ingredient.getSpecification() + " ";
@@ -113,12 +115,10 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
             }
         }
         txtRecipeIngredients.setText(ingredientsText);
-
     }
 
     @Override
     public void setButton(boolean picked, String button) {
-
         // Todo: find meaningful color value, or different way to differentiate buttons (different images?)
         int color;
         if (picked) {
@@ -132,7 +132,6 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
             case "addCooked":
                 btnAddCooked.setBackgroundColor(color);
         }
-
     }
 
     @Override
@@ -152,27 +151,28 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
                 public void onClick(DialogInterface dialog, int which) {
                     // Todo: checks, if and elses with Toasts
                     // Add meal to meal planner
-                    presenter.addMealToMealPlanner(etxtDatePicked.getText().toString());
+                    presenter.addToMealPlanner(etxtDatePicked.getText().toString());
                     // Let user know it's been successfully added
-                    Toast toast = new Toast(getBaseContext());
-                    // Todo: toast saying Meal added
+                    // Let user know it's been successfully added
+                    Toast.makeText(getBaseContext(), "Recipe successfully added to Meal Planner",
+                            Toast.LENGTH_LONG).show();
                 }
             })
             .setNegativeButton("Cancel", null)
             .create();
 
+        // listener for button inside dialog, opens up calendar for user to pick date
         btnPickDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Calendar calendar = Calendar.getInstance();
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getBaseContext(),
                         new DatePickerDialog.OnDateSetListener() {
-
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                // Create string with date format wanted and add it to EditText
                                 String datePicked = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
                                 etxtDatePicked.setText(datePicked);
-
                             }
                         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
@@ -196,33 +196,13 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
                     public void onClick(DialogInterface dialog, int which) {
                         // Todo: checks, if and elses with Toasts
                         // Add meal to meal planner
-                        presenter.addMealToMealPlanner(etxtDatePicked.getText().toString());
+                        presenter.addMealToShoppingList(etxtShoppingListName.getText().toString());
                         // Let user know it's been successfully added
-                        Toast toast = new Toast(getBaseContext());
-                        // Todo: toast saying Meal added
+                        Toast.makeText(getBaseContext(), "Shopping List successfully created",
+                                Toast.LENGTH_LONG).show();
                     }
                 })
                 .setNegativeButton("Cancel", null)
                 .create();
-
-        btnPickDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar calendar = Calendar.getInstance();
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getBaseContext(),
-                        new DatePickerDialog.OnDateSetListener() {
-
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                String datePicked = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
-                                etxtDatePicked.setText(datePicked);
-
-                            }
-                        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.show();
-            }
-
-        });
     }
-
 }

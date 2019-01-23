@@ -138,4 +138,15 @@ public class User {
 //    }
 
 
+    // GABRIEL METHODS
+    /*
+    hasFavorite(recipe)
+hasCooked(recipe)
+addFavorite(recipe)
+deleteFavorite(recipe)
+addCooked(recipe)
+deleteCooked(recipe)
+addMealToMealPlanner(meal)
+addShoppingList(shoppingList)
+     */
 }

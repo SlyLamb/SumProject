@@ -1,3 +1,4 @@
+/*
 package com.slylamb.pocketcuisine.Views;
 
 import android.app.Activity;
@@ -206,3 +207,5 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
                 .create();
     }
 }
+
+*/

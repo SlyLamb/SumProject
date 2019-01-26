@@ -1,3 +1,4 @@
+/*
 package com.slylamb.pocketcuisine.Presenters;
 
 import android.graphics.Bitmap;
@@ -90,3 +91,5 @@ public class RecipeActivityPresenter {
         void showShoppingListDialog();
     }
 }
+
+*/

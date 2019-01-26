@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.slylamb.pocketcuisine.R;
 
 public class User {
-        private ArrayList<ShoppingList> shoppingLists;
+    private ArrayList<ShoppingList> shoppingLists;
     private ArrayList<Recipe> ownRecipes;
     private ArrayList<Recipe> cookedRecipes;
     private ArrayList<Recipe> favorites;

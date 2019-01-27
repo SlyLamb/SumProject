@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,11 +26,12 @@ import com.slylamb.pocketcuisine.Presenters.MainPageActivityPresenter;
 import com.slylamb.pocketcuisine.R;
 
 //import com.slylamb.pocketcuisine.RegisterPageActivityPresenter;
+import com.slylamb.pocketcuisine.Views.HomePageActivity;
 
 public class MainActivity extends AppCompatActivity implements MainPageActivityPresenter.View {
 
     private MainPageActivityPresenter presenter;
-    private Button btnLogin;
+    private Button btnLogin,btnConAsGuest;
     private TextView txtLoginSuccess;
 
     @Override
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements MainPageActivityP
         EditText txtPassword = findViewById(R.id.txtPassword);
         btnLogin = findViewById(R.id.btnLogin);
          txtLoginSuccess = findViewById(R.id.txtloginStatus);
+         btnConAsGuest = findViewById(R.id.btnConAsGuest);
         //btnLogin.setOnClickListener(this);
 
         txtEmail.addTextChangedListener(new TextWatcher() {
@@ -89,7 +92,15 @@ public class MainActivity extends AppCompatActivity implements MainPageActivityP
             }
         });
 
+        btnConAsGuest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+
+                startActivity(new Intent(MainActivity.this, HomePageActivity.class));
+
+            }
+        });
 
     }
 

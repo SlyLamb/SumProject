@@ -28,6 +28,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Views.HomePageActivity"
+            android:parentActivityName=".Views.MainActivity"></activity>
+        <activity android:name=".Views.SearchRecipeActivity"
+            android:parentActivityName=".Views.HomePageActivity"></activity>
     </application>
 
 </manifest>

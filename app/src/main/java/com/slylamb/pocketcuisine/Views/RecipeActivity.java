@@ -4,8 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.slylamb.pocketcuisine.Models.Ingredient;
 import com.slylamb.pocketcuisine.Presenters.RecipeActivityPresenter;
 import com.slylamb.pocketcuisine.R;
 import java.util.ArrayList;
@@ -43,38 +41,36 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
         setContentView(R.layout.recipe);
         // Initialize view and presenter
         initializeView();
-        presenter = new RecipeActivityPresenter(this);
-
+        // Get recipe id from RecipeSearchActivity
+        Intent intent = getIntent();
+        String recipeID = intent.getStringExtra("recipeID");
+        // Initialize presenter and pass on recipeID for recipe in API
+        presenter = new RecipeActivityPresenter(this, recipeID);
         presenter.setRecipeDetails(); // sets images and texts for selected recipe
-
         btnAddFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.addFavorites();
             }
         });
-
         btnAddCooked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.addCooked();
             }
         });
-
         btnAddMealPlanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showMealPlannerDialog();
             }
         });
-
         btnAddShoppingList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showShoppingListDialog();
             }
         });
-
     }
 
     private void initializeView() {
@@ -90,29 +86,16 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
     }
 
     @Override
-    public void setRecipeDetails(Bitmap image, String name, float duration, int servings, ArrayList<Ingredient> ingredients) {
-        // Todo: Test outcome, mainly for ingredients - test ingredients without specification and old versions too (16api)
+    public void setRecipeDetails(String imageLink, String name, ArrayList<String> ingredients) {
+        // Todo: Test outcome, mainly for ingredients - test ingredients without specification
         // Set image and texts with recipe information
-        imgRecipe.setImageBitmap(image);
+        //imgRecipe.setImageBitmap(image);
         txtRecipeName.setText(name);
-        String durationText = String.valueOf(duration) + " minutes";
-        txtRecipeDuration.setText(durationText);
-        String servingsText = String.valueOf(servings) + " servings";
-        txtRecipeServings.setText(servingsText);
         // Start ingredientsText empty
         String ingredientsText = "";
-        for (Ingredient ingredient : ingredients) {
-            // For each ingredient, add text in format: * 'quantity' 'measurement' 'specification (if any)' 'name'
-            ingredientsText += "*" + ingredient.getQuantity() + " " + ingredient.getMeasurement() + " ";
-            if (ingredient.hasSpecification()) {
-                ingredientsText += ingredient.getSpecification() + " ";
-            }
-            ingredientsText += ingredient.getName();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                ingredientsText += System.lineSeparator();
-            } else {
-                ingredientsText += "\n";
-            }
+        for (String ingredient : ingredients) {
+            // Add ingredient to ingredientsText and a new line
+            ingredientsText += ingredient + "\n";
         }
         txtRecipeIngredients.setText(ingredientsText);
     }
@@ -120,7 +103,7 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
     @Override
     public void setButton(boolean picked, String button) {
         // Todo: find meaningful color value, or different way to differentiate buttons (different images?)
-        int color;
+        /*int color;
         if (picked) {
             color = 1; //red
         } else {
@@ -131,54 +114,26 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
                 btnAddFavorites.setBackgroundColor(color);
             case "addCooked":
                 btnAddCooked.setBackgroundColor(color);
-        }
+        }*/
     }
 
     @Override
     public void showMealPlannerDialog() {
-        // Inflate dialog layout
-        LayoutInflater layoutInflater = null;
-        final View view = layoutInflater.inflate(R.layout.add_meal_planner_dialog, null);
-        // Dialog has an edit text with the date picked and a button to open calendar
-        final EditText etxtDatePicked = view.findViewById(R.id.etxt_date_picked);
-        final Button btnPickDate = view.findViewById(R.id.btn_pick_date);
-        btnPickDate.setText("Pick Date"); // Todo: change to string resource
-        // Create dialog with title, message, and positive and negative behaviours
-        AlertDialog dialog = new AlertDialog.Builder(this).setTitle("Add to Meal Planner:")
-            .setMessage("Pick a date and meal type below").setCancelable(true).setView(view)
-            .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+        final Calendar calendar = Calendar.getInstance();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getBaseContext(),
+            new DatePickerDialog.OnDateSetListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // Todo: checks, if and elses with Toasts
-                    // Add meal to meal planner
-                    presenter.addToMealPlanner(etxtDatePicked.getText().toString());
-                    // Let user know it's been successfully added
-                    // Let user know it's been successfully added
-                    Toast.makeText(getBaseContext(), "Recipe successfully added to Meal Planner",
-                            Toast.LENGTH_LONG).show();
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                // Create string with date format wanted and add it to EditText
+                String datePicked = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                // Add meal to meal planner at date picked
+                presenter.addToMealPlanner(datePicked);
+                // Let user know it's been successfully added
+                Toast.makeText(getBaseContext(), "Recipe successfully added to Meal Planner",
+                        Toast.LENGTH_LONG).show();
                 }
-            })
-            .setNegativeButton("Cancel", null)
-            .create();
-
-        // listener for button inside dialog, opens up calendar for user to pick date
-        btnPickDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar calendar = Calendar.getInstance();
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getBaseContext(),
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                // Create string with date format wanted and add it to EditText
-                                String datePicked = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
-                                etxtDatePicked.setText(datePicked);
-                            }
-                        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.show();
-            }
-
-        });
+            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
     }
 
     @Override
@@ -189,7 +144,7 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
         // Dialog has an edit text with the shopping list name
         final EditText etxtShoppingListName = view.findViewById(R.id.etxt_shopping_list_name);
         // Create dialog with title, message, and positive and negative behaviours
-        AlertDialog dialog = new AlertDialog.Builder(this).setTitle("Add to Shopping Lists:")
+        new AlertDialog.Builder(this).setTitle("Add to Shopping Lists:")
                 .setMessage("Pick a name").setCancelable(true).setView(view)
                 .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override

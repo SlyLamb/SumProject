@@ -106,12 +106,8 @@ public class RecipeActivityPresenter {
                     JSONArray ingredientsArray = recipeObj.getJSONArray("ingredients");
                     ArrayList<String> ingredients = new ArrayList<>();
                     for (int i = 0; i < ingredientsArray.length(); i++) {
-                        JSONObject ingredientObject = ingredientsArray.getJSONObject(i);
-                        ingredients.add(ingredientObject.getString())
+                        ingredients.add(ingredientsArray.getString(i));
                     }
-
-
-
                     recipe.setIngredients(ingredients);
                 }catch (JSONException e) {
                     e.printStackTrace();

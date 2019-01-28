@@ -29,8 +29,6 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
     private Button btnAddFavorites;
     private Button btnAddCooked;
     private Button btnAddMealPlanner;
-    private TextView txtRecipeDuration;
-    private TextView txtRecipeServings;
     private TextView txtRecipeIngredients;
     private Button btnAddShoppingList;
 
@@ -79,8 +77,6 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
         btnAddFavorites = findViewById(R.id.btn_add_favorites);
         btnAddCooked = findViewById(R.id.btn_add_cooked);
         btnAddMealPlanner = findViewById(R.id.btn_add_meal_planner);
-        txtRecipeDuration = findViewById(R.id.txt_recipe_duration);
-        txtRecipeServings = findViewById(R.id.txt_recipe_servings);
         txtRecipeIngredients = findViewById(R.id.txt_recipe_ingredients);
         btnAddShoppingList = findViewById(R.id.btn_add_shopping_list);
     }
@@ -120,7 +116,7 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
     @Override
     public void showMealPlannerDialog() {
         final Calendar calendar = Calendar.getInstance();
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getBaseContext(),
+        DatePickerDialog datePickerDialog = new DatePickerDialog(RecipeActivity.this,
             new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -139,12 +135,12 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
     @Override
     public void showShoppingListDialog() {
         // Inflate dialog layout
-        LayoutInflater layoutInflater = null;
-        final View view = layoutInflater.inflate(R.layout.add_shopping_list_dialog, null);
+        LayoutInflater myLayout = LayoutInflater.from(RecipeActivity.this);
+        final View view = myLayout.inflate(R.layout.add_shopping_list_dialog, null);
         // Dialog has an edit text with the shopping list name
         final EditText etxtShoppingListName = view.findViewById(R.id.etxt_shopping_list_name);
         // Create dialog with title, message, and positive and negative behaviours
-        new AlertDialog.Builder(this).setTitle("Add to Shopping Lists:")
+        new AlertDialog.Builder(RecipeActivity.this).setTitle("Add to Shopping Lists:")
                 .setMessage("Pick a name").setCancelable(true).setView(view)
                 .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override

@@ -9,6 +9,7 @@ import com.slylamb.pocketcuisine.Models.Recipe;
 import com.slylamb.pocketcuisine.Models.ShoppingList;
 import com.slylamb.pocketcuisine.Models.User;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -98,10 +99,20 @@ public class RecipeActivityPresenter {
                     JSONObject recipeObj = response.getJSONObject("recipe");
                     // Initialize recipe and set its variables
                     recipe = new Recipe();
-                    /*recipe.setImageLink(recipeObj.getString("image_url"));
+                    recipe.setImageLink(recipeObj.getString("image_url"));
                     recipe.setTitle(recipeObj.getString("title"));
                     recipe.setPublisher(recipeObj.getString("publisher"));
-                    recipe.setIngredients(recipeObj.getJSONArray("ingredients"));*/
+                    // For recipes, get JSONArray and convert into List of Strings
+                    JSONArray ingredientsArray = recipeObj.getJSONArray("ingredients");
+                    ArrayList<String> ingredients = new ArrayList<>();
+                    for (int i = 0; i < ingredientsArray.length(); i++) {
+                        JSONObject ingredientObject = ingredientsArray.getJSONObject(i);
+                        ingredients.add(ingredientObject.getString())
+                    }
+
+
+
+                    recipe.setIngredients(ingredients);
                 }catch (JSONException e) {
                     e.printStackTrace();
                 }

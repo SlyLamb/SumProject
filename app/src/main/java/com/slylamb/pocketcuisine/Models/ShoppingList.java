@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class ShoppingList {
     private String name;
-    private ArrayList<IngredientItem> items;
+    private ArrayList<String> items;
 
     // GABRIEL METHODS
     public ShoppingList(Recipe recipe, String name) {

@@ -1,5 +1,6 @@
 package com.slylamb.pocketcuisine.Views;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -84,7 +85,10 @@ public class MainActivity extends AppCompatActivity implements MainPageActivityP
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.login();
+                //presenter.login();  ONLY LINE BEFORE EDITING
+                Intent intent = new Intent(getApplicationContext(), RecipeActivity.class);
+                intent.putExtra("recipeID", "92b194");
+                startActivity(intent);
 
             }
         });

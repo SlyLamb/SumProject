@@ -146,7 +146,7 @@ public class User {
         // Go thru all favorites
         for (int i = 0; i < total; i++) {
             // If any matches the recipe passed on, return true, otherwise, false
-            if (recipe.getName().equals(favorites.get(i).getName())) {
+            if (recipe.getTitle().equals(favorites.get(i).getTitle())) {
                 return true;
             }
         }
@@ -158,7 +158,7 @@ public class User {
        // Go thru all favorites
        for (int i = 0; i < total; i++) {
            // If any matches the recipe passed on, return true, otherwise, false
-           if (recipe.getName().equals(cookedRecipes.get(i).getName())) {
+           if (recipe.getTitle().equals(cookedRecipes.get(i).getTitle())) {
                return true;
            }
        }

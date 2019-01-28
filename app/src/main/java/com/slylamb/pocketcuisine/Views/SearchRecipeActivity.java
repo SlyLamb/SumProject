@@ -69,8 +69,10 @@ public class SearchRecipeActivity extends AppCompatActivity {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String url = baseUrl+key+"&q="+txtSearchField.getText().toString();
                 recipeList = getRecipes(url);
+                Log.d("url",url);
                 recipeRecyclerViewAdapter.notifyDataSetChanged();
 
             }
@@ -87,6 +89,7 @@ public class SearchRecipeActivity extends AppCompatActivity {
     }
 
     public List<Recipe> getRecipes(String url) {
+        Log.d("getrecipe","getrecipecalled");
         recipeList.clear();
 
         final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -94,9 +97,11 @@ public class SearchRecipeActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try{
+
+                    Log.d("jsonrequest","jsonreuqestcalled");
                     JSONArray recipesArray = response.getJSONArray("recipes");
 
-                    //Log.d("response",recipesArray.toString());
+                    Log.d("recipesArray",recipesArray.toString());
                     for (int i = 0; i < recipesArray.length(); i++) {
 
                         JSONObject recipeObj = recipesArray.getJSONObject(i);
@@ -104,7 +109,7 @@ public class SearchRecipeActivity extends AppCompatActivity {
                         Recipe recipe = new Recipe();
                         recipe.setImageLink(recipeObj.getString("image_url"));
                         recipe.setTitle(recipeObj.getString("title"));
-                       // Log.d("imageLink",recipe.getImageLink());
+                        Log.d("imageLink",recipe.getImageLink());
                         recipe.setPublisher(recipeObj.getString("publisher"));
                         recipeList.add(recipe);
 
@@ -127,8 +132,6 @@ public class SearchRecipeActivity extends AppCompatActivity {
 
             }
         });
-
-
 
         queue.add(request);
 

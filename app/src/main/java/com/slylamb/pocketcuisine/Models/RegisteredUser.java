@@ -13,13 +13,12 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.concurrent.Executor;
 
 public class RegisteredUser extends User {
-    private String username;
-    private String password;
-    private MealPlanner schedule;
     private String email;
+    private String password;
     private FirebaseAuth mAuth;
     private static final String TAG = "EmailPassword";
     private FirebaseUser user;
+    private MealPlanner schedule;
 
     public RegisteredUser(){
 

@@ -1,4 +1,4 @@
-/*
+
 package com.slylamb.pocketcuisine.Presenters;
 
 import com.android.volley.Request;
@@ -133,5 +133,3 @@ public class RecipeActivityPresenter {
         void showShoppingListDialog();
     }
 }
-
-*/

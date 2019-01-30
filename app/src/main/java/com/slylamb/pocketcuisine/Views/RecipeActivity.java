@@ -45,7 +45,7 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
         String recipeID = intent.getStringExtra("recipeID");
         // Initialize presenter and pass on recipeID for recipe in API
         presenter = new RecipeActivityPresenter(this, recipeID);
-        presenter.setRecipeDetails(); // sets images and texts for selected recipe
+        //presenter.setRecipeDetails(); // sets images and texts for selected recipe
         btnAddFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,6 +155,6 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
                     }
                 })
                 .setNegativeButton("Cancel", null)
-                .create();
+                .create().show();
     }
 }

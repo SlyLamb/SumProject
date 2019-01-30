@@ -26,6 +26,7 @@
             android:parentActivityName=".Views.MainActivity"></activity>
         <activity android:name=".Views.SearchRecipeActivity"
             android:parentActivityName=".Views.HomePageActivity"></activity>
+        <activity android:name=".Views.RecipeActivity"></activity>
     </application>
 
 </manifest>

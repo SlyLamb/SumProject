@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -37,6 +38,7 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
     private Button btnAddMealPlanner;
     private TextView txtRecipeIngredients;
     private Button btnAddShoppingList;
+    private WebView wvwPublisherSite;
 
 
     @Override
@@ -85,19 +87,20 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
         btnAddMealPlanner = findViewById(R.id.btn_add_meal_planner);
         txtRecipeIngredients = findViewById(R.id.txt_recipe_ingredients);
         btnAddShoppingList = findViewById(R.id.btn_add_shopping_list);
+        wvwPublisherSite = findViewById(R.id.wvw_publisher_site);
     }
 
     @Override
-    public void setRecipeDetails(String imageLink, String name, ArrayList<String> ingredients) {
+    public void setRecipeDetails(String imageLink, String name, String sourceURL, ArrayList<String> ingredients) {
         // Todo: Image not showing, must also add publisher name and link to website
         // Set image and texts with recipe information
-        String newImageLink = imageLink.replace("http","https");
-        Picasso.with(this)
-                .load(newImageLink)
+        Picasso.with(RecipeActivity.this)
+                .load(imageLink)
                 .error(R.drawable.common_full_open_on_phone)
                 .fit()
                 .into(imgRecipe);
         txtRecipeName.setText(name);
+        wvwPublisherSite.loadUrl(sourceURL);
         // Start ingredientsText empty
         String ingredientsText = "";
         for (String ingredient : ingredients) {

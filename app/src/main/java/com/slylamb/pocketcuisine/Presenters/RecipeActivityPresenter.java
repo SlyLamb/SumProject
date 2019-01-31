@@ -40,7 +40,7 @@ public class RecipeActivityPresenter {
         //getRecipeFromAPI(url);
 
         recipe = new Recipe();
-        recipe.setImageLink("https://static.food2fork.com/iW8v49knM5faff.jpg");
+        recipe.setImageLink("http://static.food2fork.com/iW8v49knM5faff.jpg");
         recipe.setTitle("Chicken with Spring Vegetables and Gnocchi");
         recipe.setPublisher("Framed Cooks");
         ArrayList<String> ingredients = new ArrayList<>();
@@ -55,7 +55,7 @@ public class RecipeActivityPresenter {
         ingredients.add("Coarse salt and fresh ground pepper");
         ingredients.add("Shaved parmesan for garnish");
         recipe.setIngredients(ingredients);
-        recipe.setSourceURL("https://www.framedcooks.com/2012/05/chicken-with-spring-vegetables-and-gnocchi.html");
+        recipe.setSourceURL("http://www.framedcooks.com/2012/05/chicken-with-spring-vegetables-and-gnocchi.html");
 
         user = new User();
 

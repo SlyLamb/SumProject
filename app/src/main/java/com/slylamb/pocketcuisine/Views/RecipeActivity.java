@@ -94,7 +94,7 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
     public void setRecipeDetails(String imageLink, String name, String sourceURL, ArrayList<String> ingredients) {
         // Todo: Image not showing, must also add publisher name and link to website
         // Set image and texts with recipe information
-        Picasso.with(RecipeActivity.this)
+        Picasso.with(this)
                 .load(imageLink)
                 .error(R.drawable.common_full_open_on_phone)
                 .fit()

@@ -92,7 +92,7 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
 
     @Override
     public void setRecipeDetails(String imageLink, String name, String sourceURL, ArrayList<String> ingredients) {
-        // Todo: Image not showing, must also add publisher name and link to website
+        // Todo: Image not showing
         // Set image and texts with recipe information
         Picasso.with(this)
                 .load(imageLink)

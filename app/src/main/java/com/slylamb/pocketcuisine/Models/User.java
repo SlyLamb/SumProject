@@ -52,12 +52,10 @@ public class User {
     }
     // Delete recipe from users list of favorites
     public void deleteFavorite(Recipe recipe) {
-        // Todo: add try and catch as there might be no recipe in favorites to remove
         favorites.remove(recipe);
     }
     // Delete recipe from users list of cooked recipes
     public void deleteCooked(Recipe recipe) {
-        // Todo: add try and catch as there might be no recipe in cooked to remove
         cookedRecipes.remove(recipe);
     }
     // Add planned meal to users meal planner

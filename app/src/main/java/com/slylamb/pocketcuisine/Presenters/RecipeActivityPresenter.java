@@ -1,14 +1,20 @@
 
 package com.slylamb.pocketcuisine.Presenters;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.slylamb.pocketcuisine.Models.PlannedMeal;
 import com.slylamb.pocketcuisine.Models.Recipe;
 import com.slylamb.pocketcuisine.Models.ShoppingList;
 import com.slylamb.pocketcuisine.Models.User;
+import com.slylamb.pocketcuisine.Views.RecipeActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,20 +22,44 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static android.content.ContentValues.TAG;
+
 public class RecipeActivityPresenter {
 
     private View view;
     private Recipe recipe;
     private User user;
-    private final String baseUrl = "https://www.food2fork.com/api/search?key=";
+    private final String baseUrl = "https://www.food2fork.com/api/get?key=";
     private final String key = "f5b73a553a6a92ccfabca695807bdaeb"; //50 calls limit per day
     private final String recipeSearch = "&rId=";
 
     public RecipeActivityPresenter(View view, String recipeID) {
         this.view = view;
         // Set recipe's properties from API url
-        String url = baseUrl + key + recipeSearch + recipeID;
-        getRecipeFromAPI(url);
+        //String url = baseUrl + key + recipeSearch + recipeID;
+        //getRecipeFromAPI(url);
+
+        recipe = new Recipe();
+        recipe.setImageLink("http://static.food2fork.com/iW8v49knM5faff.jpg");
+        recipe.setTitle("Chicken with Spring Vegetables and Gnocchi");
+        recipe.setPublisher("Framed Cooks");
+        ArrayList<String> ingredients = new ArrayList<>();
+        ingredients.add("10 cups chicken broth");
+        ingredients.add("1/2 stick butter");
+        ingredients.add("6 tablespoons flour");
+        ingredients.add("I large bulb of fennel, trim and sliced");
+        ingredients.add("4 carrots, peeled and sliced");
+        ingredients.add("1 leek, cut in half lengthwise and thinly sliced (white and light green part only)");
+        ingredients.add("12 ounces fresh potato or ricotta gnocchi");
+        ingredients.add("1/2 cup chopped fresh parsley, plus extra for garnish");
+        ingredients.add("Coarse salt and fresh ground pepper");
+        ingredients.add("Shaved parmesan for garnish");
+        recipe.setIngredients(ingredients);
+
+        user = new User();
+
+
+
 
         // Todo: Get recipe and user from api and/or database
     }
@@ -85,14 +115,15 @@ public class RecipeActivityPresenter {
     // Handle addShoppingList dialog "Add" pressed
     public void addMealToShoppingList(String name) {
         // Create Shopping List from recipe
-        ShoppingList shoppingList = new ShoppingList(recipe, name);
+        ShoppingList shoppingList = new ShoppingList(recipe.getIngredients(), name);
         // Add list to user's shopping lists
         user.addShoppingList(shoppingList);
         // Todo: Update user database
     }
 
-    //
+    // Initialise recipe and sets its values from API url
     public void getRecipeFromAPI(String url) {
+        // Todo: not working
         final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -110,7 +141,7 @@ public class RecipeActivityPresenter {
                         ingredients.add(ingredientsArray.getString(i));
                     }
                     recipe.setIngredients(ingredients);
-                }catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }

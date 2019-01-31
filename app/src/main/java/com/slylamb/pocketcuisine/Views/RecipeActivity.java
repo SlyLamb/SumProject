@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -18,8 +19,12 @@ import android.widget.Toast;
 
 import com.slylamb.pocketcuisine.Presenters.RecipeActivityPresenter;
 import com.slylamb.pocketcuisine.R;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import static android.content.ContentValues.TAG;
 
 
 public class RecipeActivity extends Activity implements RecipeActivityPresenter.View {
@@ -45,7 +50,7 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
         String recipeID = intent.getStringExtra("recipeID");
         // Initialize presenter and pass on recipeID for recipe in API
         presenter = new RecipeActivityPresenter(this, recipeID);
-        //presenter.setRecipeDetails(); // sets images and texts for selected recipe
+        presenter.setRecipeDetails(); // sets images and texts for selected recipe
         btnAddFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,9 +89,14 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
 
     @Override
     public void setRecipeDetails(String imageLink, String name, ArrayList<String> ingredients) {
-        // Todo: Test outcome, mainly for ingredients - test ingredients without specification
+        // Todo: Image not showing, must also add publisher name and link to website
         // Set image and texts with recipe information
-        //imgRecipe.setImageBitmap(image);
+        String newImageLink = imageLink.replace("http","https");
+        Picasso.with(this)
+                .load(newImageLink)
+                .error(R.drawable.common_full_open_on_phone)
+                .fit()
+                .into(imgRecipe);
         txtRecipeName.setText(name);
         // Start ingredientsText empty
         String ingredientsText = "";

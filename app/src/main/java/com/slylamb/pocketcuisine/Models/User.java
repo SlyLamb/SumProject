@@ -10,7 +10,14 @@ public class User {
     private int theme;  // which theme did the user choose? Might change type
     private MealPlanner planner;
 
-
+    public User() {
+        shoppingLists = new ArrayList<>();
+        ownRecipes = new ArrayList<>();
+        cookedRecipes = new ArrayList<>();
+        favorites = new ArrayList<>();
+        // theme = DEFAULT;
+        planner = new MealPlanner();
+    }
     // Check if recipe passed on is in this users favorites list
    public boolean hasFavorite(Recipe recipe) {
         int total = favorites.size();
@@ -60,5 +67,12 @@ public class User {
     // Add shopping list to users shopping lists
     public void addShoppingList(ShoppingList list) {
         shoppingLists.add(list);
+    }
+    // Getters
+    public MealPlanner getPlanner() {
+        return planner;
+    }
+    public ShoppingList getShoppingListAt(int i) {
+        return shoppingLists.get(i);
     }
 }

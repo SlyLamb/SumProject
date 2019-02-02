@@ -2,5 +2,6 @@
     <string name="app_name">PocketCuisine</string>
     <string name="title_activity_delete_this">deleteThis</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_shopping_list_single">ShoppingListSingle</string>
 </resources>
 

@@ -7,6 +7,7 @@ public class Recipe {
     private String title;
     private String imageLink;
     private String publisher;
+    private String sourceURL;
     private ArrayList<String> ingredients;
 
     public Recipe(){}
@@ -21,6 +22,9 @@ public class Recipe {
     public String getPublisher() {
         return publisher;
     }
+    public String getSourceURL() {
+        return sourceURL;
+    }
     public ArrayList<String> getIngredients() {
         return(ingredients);
     }
@@ -29,11 +33,16 @@ public class Recipe {
         this.title = title;
     }
     public void setImageLink(String imageLink){
-        this.imageLink = imageLink;
+        // Swapping http with https so image is found and displayed
+        this.imageLink = imageLink.replace("http","https");
 
     }
     public void setPublisher(String publisher){
         this.publisher = publisher;
+    }
+    public void setSourceURL(String sourceURL) {
+        // Swapping http with https so web page is found and displayed
+         this.sourceURL = sourceURL.replace("http","https");
     }
     public void setIngredients(ArrayList<String> ingredients) {
         this.ingredients = new ArrayList<>(ingredients);

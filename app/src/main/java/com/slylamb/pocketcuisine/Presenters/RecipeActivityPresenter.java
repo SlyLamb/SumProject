@@ -55,6 +55,7 @@ public class RecipeActivityPresenter {
         ingredients.add("Coarse salt and fresh ground pepper");
         ingredients.add("Shaved parmesan for garnish");
         recipe.setIngredients(ingredients);
+        recipe.setSourceURL("http://www.framedcooks.com/2012/05/chicken-with-spring-vegetables-and-gnocchi.html");
 
         user = new User();
 
@@ -67,7 +68,7 @@ public class RecipeActivityPresenter {
     // Set images and texts for current recipe in view
     public void setRecipeDetails() {
         // Set fields image, name, duration, servings and ingredients
-        view.setRecipeDetails(recipe.getImageLink(), recipe.getTitle(), recipe.getIngredients());
+        view.setRecipeDetails(recipe.getImageLink(), recipe.getTitle(), recipe.getSourceURL() , recipe.getIngredients());
         // Set buttons as they look different if already a favorite or cooked recipe
         view.setButton(user.hasFavorite(recipe), "addFavorites");
         view.setButton(user.hasCooked(recipe), "addCooked");
@@ -134,6 +135,7 @@ public class RecipeActivityPresenter {
                     recipe.setImageLink(recipeObj.getString("image_url"));
                     recipe.setTitle(recipeObj.getString("title"));
                     recipe.setPublisher(recipeObj.getString("publisher"));
+                    recipe.setSourceURL(recipeObj.getString("source_url"));
                     // For recipes, get JSONArray and convert into List of Strings
                     JSONArray ingredientsArray = recipeObj.getJSONArray("ingredients");
                     ArrayList<String> ingredients = new ArrayList<>();
@@ -155,7 +157,7 @@ public class RecipeActivityPresenter {
 
     public interface View {
         // Set recipe details in the view
-        void setRecipeDetails(String imageLink, String name, ArrayList<String> ingredients);
+        void setRecipeDetails(String imageLink, String name, String sourceURL, ArrayList<String> ingredients);
         // Set button look, different if already picked
         void setButton(boolean picked, String button);
         // Open dialog for user to pick date before adding to meal planner

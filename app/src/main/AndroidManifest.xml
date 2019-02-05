@@ -27,6 +27,7 @@
         <activity android:name=".Views.SearchRecipeActivity"
             android:parentActivityName=".Views.HomePageActivity"></activity>
         <activity android:name=".Views.RecipeActivity"></activity>
+        <activity android:name=".Views.MealPlannerActivity" />
     </application>
 
 </manifest>

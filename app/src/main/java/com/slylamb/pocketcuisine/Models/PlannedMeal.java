@@ -23,4 +23,7 @@ public class PlannedMeal {
     public Recipe getRecipe() {
         return recipe;
     }
+    public Date getDate() {
+        return date;
+    }
 }

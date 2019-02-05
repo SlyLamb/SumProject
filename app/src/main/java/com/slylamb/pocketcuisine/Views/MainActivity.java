@@ -89,8 +89,10 @@ public class MainActivity extends AppCompatActivity implements MainPageActivityP
             @Override
             public void onClick(View v) {
                 //presenter.login();  ONLY LINE BEFORE EDITING
-                Intent intent = new Intent(getApplicationContext(), RecipeActivity.class);
-                intent.putExtra("recipeID", "92b194");
+                //Intent intent = new Intent(getApplicationContext(), RecipeActivity.class);
+                //intent.putExtra("recipeID", "92b194");
+                //startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), MealPlannerActivity.class);
                 startActivity(intent);
 
             }

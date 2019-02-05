@@ -1,0 +1,60 @@
+package com.slylamb.pocketcuisine.Presenters;
+
+import com.slylamb.pocketcuisine.Models.MealPlanner;
+import com.slylamb.pocketcuisine.Models.PlannedMeal;
+import com.slylamb.pocketcuisine.Models.ShoppingList;
+import com.slylamb.pocketcuisine.Models.User;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
+public class MealPlannerActivityPresenter {
+
+    private View view;
+    private MealPlanner mealPlanner;
+    private User user;
+
+    public MealPlannerActivityPresenter(View view) {
+        this.view = view;
+
+        // Todo: get user and user's meal planner from database
+    }
+
+    // Returns true if meal planner has a meal on date and false otherwise
+    public boolean hasMealOnDate(String date) {
+        return mealPlanner.hasMealOnDate(date);
+    }
+
+    // Returns list of strings with all dates which have meals
+    public ArrayList<String> getDatesWithMeals() {
+        // Get meals from meal planner and initialise list of strings
+        ArrayList<PlannedMeal> meals = mealPlanner.getPlannedMeals();
+        ArrayList<String> mealsDates = new ArrayList<>();
+        for (int i = 0; i < meals.size(); i++) {
+            // Extract date string from each planned meal and add to list of strings
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            mealsDates.add(formatter.format(meals.get(i).getDate()));
+        }
+        // Return list of strings with dates in format dd-MM-yyyy
+        return(mealsDates);
+    }
+
+    // Add new shopping list with name and list of ingredients for all planned meals between dateFrom and dateTo
+    public void newShoppingList(String name, String dateFrom, String dateTo) {
+        ArrayList<String> ingredients = mealPlanner.getIngredients(dateFrom, dateTo);
+        // Create Shopping List from list of ingredients
+        ShoppingList shoppingList = new ShoppingList(ingredients, name);
+        // Add list to user's shopping lists
+        user.addShoppingList(shoppingList);
+        // Todo: Update user database
+    }
+
+
+
+    public interface View {
+        // Set the dates which already have planned meals so they're differentiated
+        void setDatesWithMeals();
+        // Open dialog for user to pick name and date range for shopping list
+        void showShoppingListDialog();
+    }
+}

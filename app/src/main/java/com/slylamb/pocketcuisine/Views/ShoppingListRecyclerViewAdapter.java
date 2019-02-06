@@ -2,6 +2,7 @@ package com.slylamb.pocketcuisine.Views;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import android.content.Context;
@@ -26,12 +27,12 @@ import java.util.List;
 public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<ShoppingListRecyclerViewAdapter.ViewHolder> {
 
     private Context context;
-    //private List<Ingredient>ingredientItems;
-    private List<String>ingredientItems;
+    private List<Ingredient>ingredientItems;
+    //private List<String>ingredientItems;
 
     private LayoutInflater inflater;
 
-    public ShoppingListRecyclerViewAdapter(Context context, List<String>ingredientItems){
+    public ShoppingListRecyclerViewAdapter(Context context, List<Ingredient>ingredientItems){
         this.context = context;
         this.ingredientItems = ingredientItems;
 
@@ -50,9 +51,9 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
     @Override
     public void onBindViewHolder( ShoppingListRecyclerViewAdapter.ViewHolder viewHolder, int i) {
 
-        String ingredient = ingredientItems.get(i);
+        Ingredient ingredient = ingredientItems.get(i);
 
-        viewHolder.itemName.setText(ingredient);
+        viewHolder.itemName.setText(ingredient.getItemName());
 
     }
 

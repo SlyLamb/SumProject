@@ -23,6 +23,7 @@ import android.widget.EditText;
 
 import com.slylamb.pocketcuisine.Data.DataBaseHandler;
 import com.slylamb.pocketcuisine.Models.Ingredient;
+import com.slylamb.pocketcuisine.Models.Recipe;
 import com.slylamb.pocketcuisine.R;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +34,8 @@ public class ShoppingListActivity extends AppCompatActivity {
     private ShoppingListRecyclerViewAdapter recyclerViewAdapter;
     private DataBaseHandler db;
     private List<Ingredient> ingredientList;
-    //private List<Ingredient> ingredientItems;
-    private List<String> ingredientItems;
+    private List<Ingredient> ingredientItems;
+    //private List<String> ingredientItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class ShoppingListActivity extends AppCompatActivity {
 //            }
 //        });
 
-      //  db = new DataBaseHandler(this);
+        db = new DataBaseHandler(this);
         recyclerView = (RecyclerView) findViewById(R.id.shoppingListRecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -62,30 +63,37 @@ public class ShoppingListActivity extends AppCompatActivity {
         ingredientList = new ArrayList<>();
         ingredientItems = new ArrayList<>();
 
+        List<String> newingredientItems= new ArrayList<>();
 
-        ingredientItems.add("2 jalapeno peppers, cut in half lengthwise and seeded");
-        ingredientItems.add("2 slices sour dough bread");
-        ingredientItems.add("1 tablespoon butter, room temperature");
-        ingredientItems.add("2 tablespoons cream cheese, room temperature");
-        ingredientItems.add("1/2 cup jack and cheddar cheese, shredded");
-        ingredientItems.add("1 tablespoon tortilla chips, crumbled\n");
+//
+//        ingredientItems.add("2 jalapeno peppers, cut in half lengthwise and seeded");
+//        ingredientItems.add("2 slices sour dough bread");
+//        ingredientItems.add("1 tablespoon butter, room temperature");
+//        ingredientItems.add("2 tablespoons cream cheese, room temperature");
+//        ingredientItems.add("1/2 cup jack and cheddar cheese, shredded");
+//        ingredientItems.add("1 tablespoon tortilla chips, crumbled\n");
 
-
-//        ingredientList = db.getALLStringItems();
-//
-//        for(Ingredient i : ingredientList){
-//
-//            Ingredient ingredient = new Ingredient();
-//            ingredient.setItemName(i.getItemName());
-//            ingredientItems.add(ingredient);
-//
+//        for(int i=0;i<ingredientItems.size();i++){
+//            String[] splitted = ingredientItems.get(i).split(",");
+//            newingredientItems.add(splitted[0]);
 //        }
-//
+
+
+        Recipe recipe = new Recipe();
+        db.addShoppingListFromRecipe( recipe);
+        ingredientList = db.getALLStringItems();
+
+        for(Ingredient i : ingredientList){
+
+            Ingredient ingredient = new Ingredient();
+            ingredient.setItemName(i.getItemName());
+            ingredientItems.add(ingredient);
+
+        }
+
         recyclerViewAdapter = new ShoppingListRecyclerViewAdapter(this,ingredientItems);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerViewAdapter.notifyDataSetChanged();
-
-
 
     }
 

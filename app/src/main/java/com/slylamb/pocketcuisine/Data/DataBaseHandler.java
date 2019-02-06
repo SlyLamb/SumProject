@@ -45,18 +45,45 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     public void addShoppingListFromRecipe(Recipe recipe) {
 
+        List<String>ingredientItems = new ArrayList<>();
 
-        ArrayList<String> ingredients = new ArrayList<>(recipe.getIngredients());
+        List<String> newingredientItems= new ArrayList<>();
+
+        ingredientItems.add("2 jalapeno peppers, cut in half lengthwise and seeded");
+        ingredientItems.add("2 slices sour dough bread");
+        ingredientItems.add("1 tablespoon butter, room temperature");
+        ingredientItems.add("2 tablespoons cream cheese, room temperature");
+        ingredientItems.add("1/2 cup jack and cheddar cheese, shredded");
+        ingredientItems.add("1 tablespoon tortilla chips, crumbled\n");
+
+        for(int i=0;i<ingredientItems.size();i++){
+            String[] splitted = ingredientItems.get(i).split(",");
+            newingredientItems.add(splitted[0]);
+        }
+
+
+
+        //ArrayList<String> ingredients = new ArrayList<>(recipe.getIngredients());
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        for(int i=0;i<ingredients.size();i++){
+//        for(int i=0;i<ingredients.size();i++){
+//
+//            values.put(Constants.KEY_ITEM_STRING,ingredients.get(i));
+//
+//        }
 
-            values.put(Constants.KEY_ITEM_STRING,ingredients.get(i));
+        for(int i=0;i<newingredientItems.size();i++){
+
+            values.put(Constants.KEY_ITEM_STRING,newingredientItems.get(i));
+            Log.d("database ingredient",newingredientItems.get(i));
+            db.insert(Constants.TABLE_NAME, null, values);
+
 
         }
 
-        db.insert(Constants.TABLE_NAME, null, values);
+
+       // Log.d("database","insert works");
 
     }
 
@@ -68,17 +95,20 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         List<Ingredient> ingredientList = new ArrayList<>();
 
         Cursor cursor = db.query(Constants.TABLE_NAME, new String[] {
-                Constants.KEY_ID, Constants.KEY_ITEM_STRING,
-                Constants.KEY_DATE_Time}, null, null, null, null, Constants.KEY_DATE_Time + " DESC");
+                 Constants.KEY_ITEM_STRING}, null, null, null, null, null );
+
+       // Constants.KEY_ID,
 
         if (cursor.moveToFirst()) {
             do {
                 Ingredient ingredient = new Ingredient();
-                ingredient.setID(Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_ID))));
+               // ingredient.setID(Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_ID))));
                 ingredient.setItemName(cursor.getString(cursor.getColumnIndex(Constants.KEY_ITEM_STRING)));
+                Log.d("database",ingredient.getItemName());
 
 
                 ingredientList.add(ingredient);
+
 
             }while (cursor.moveToNext());
         }

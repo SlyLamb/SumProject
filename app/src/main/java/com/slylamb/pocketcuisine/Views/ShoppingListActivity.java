@@ -81,7 +81,7 @@ public class ShoppingListActivity extends AppCompatActivity {
 
         Recipe recipe = new Recipe();
         db.addShoppingListFromRecipe( recipe);
-        ingredientList = db.getALLStringItems();
+        ingredientList = db.getALLStringItemsFromShoppingListTB();
 
         for(Ingredient i : ingredientList){
 

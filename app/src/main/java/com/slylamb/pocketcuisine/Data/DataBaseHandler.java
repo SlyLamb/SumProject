@@ -25,18 +25,23 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String CREATE_PLANEDMEAL_TABLE ="CREATE TABLE " + Constants.TABLE_NAME + "("
+        String CREATE_SHOPPINGLIST_TABLE ="CREATE TABLE " + Constants.TABLE_SHOPPINGLIST_NAME + "("
                 + Constants.KEY_ID + " INTEGER PRIMARY KEY," + Constants.KEY_ITEM_STRING + " TEXT"
                  + " );";
 
-        db.execSQL(CREATE_PLANEDMEAL_TABLE);
+        String CREATE_PLANNEDMEAL_TABLE="CREATE TABLE " + Constants.TABLE_PLANNED_MEAL + "("
+                + Constants.KEY_PLANNEDMEAL_ID + " INTEGER PRIMARY KEY," + Constants.KEY_PLANNEDMEAL_NAME + " TEXT,"
+                + Constants.KEY_PLANNEDMEAL_URL + " TEXT," + Constants.KEY_PLANNEDMEAL_IMAGELINK + " TEXT"+ " );";
+
+        db.execSQL(CREATE_SHOPPINGLIST_TABLE);
+        db.execSQL(CREATE_PLANNEDMEAL_TABLE);
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_SHOPPINGLIST_NAME);
 
 
         onCreate(db);
@@ -49,6 +54,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
         List<String> newingredientItems= new ArrayList<>();
 
+        // hardcoded example, will remove later
         ingredientItems.add("2 jalapeno peppers, cut in half lengthwise and seeded");
         ingredientItems.add("2 slices sour dough bread");
         ingredientItems.add("1 tablespoon butter, room temperature");
@@ -77,7 +83,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
             values.put(Constants.KEY_ITEM_STRING,newingredientItems.get(i));
             Log.d("database ingredient",newingredientItems.get(i));
-            db.insert(Constants.TABLE_NAME, null, values);
+            db.insert(Constants.TABLE_SHOPPINGLIST_NAME, null, values);
+
 
 
         }
@@ -89,12 +96,12 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 
 
-    public List<Ingredient> getALLStringItems() {
+    public List<Ingredient> getALLStringItemsFromShoppingListTB() {
         SQLiteDatabase db = this.getReadableDatabase();
 
         List<Ingredient> ingredientList = new ArrayList<>();
 
-        Cursor cursor = db.query(Constants.TABLE_NAME, new String[] {
+        Cursor cursor = db.query(Constants.TABLE_SHOPPINGLIST_NAME, new String[] {
                  Constants.KEY_ITEM_STRING}, null, null, null, null, null );
 
        // Constants.KEY_ID,

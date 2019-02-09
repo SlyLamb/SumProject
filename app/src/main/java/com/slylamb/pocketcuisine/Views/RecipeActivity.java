@@ -33,35 +33,41 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
     private RecipeActivityPresenter presenter;
     private ImageView imgRecipe;
     private TextView txtRecipeName;
+    private WebView wvwPublisherSite;
     private Button btnAddFavorites;
-    private Button btnAddCooked;
     private Button btnAddMealPlanner;
     private Button btnAddShoppingList;
-    private WebView wvwPublisherSite;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe);
-        // Initialize view and presenter
         initializeView();
-        // Get recipe id from RecipeSearchActivity
+
+        // Get intent from previous activity
         Intent intent = getIntent();
-        String recipeID = intent.getStringExtra("recipeID");
-        // Initialize presenter and pass on recipeID for recipe in API
-        presenter = new RecipeActivityPresenter(this, recipeID);
-        presenter.setRecipeDetails(); // sets images and texts for selected recipe
+        String recipeID;
+        // If intent has recipeIDapi extras, user came from Recipe Search activity
+        if (intent.hasExtra("recipeIDapi")) {
+            recipeID = intent.getStringExtra("recipeIDapi");
+            // Initialize presenter and pass on recipeID for recipe in API
+            presenter = new RecipeActivityPresenter(this, recipeID, "API");
+        // If intent has recipeIDdb extras, user came from Favorites or Planned Meals activity
+        } else if (intent.hasExtra("recipeIDdb")) {
+            recipeID = intent.getStringExtra("recipeIDdb");
+            // Initialize presenter and pass on recipeID for recipe in Database
+            presenter = new RecipeActivityPresenter(this, recipeID, "DB");
+        }
+
+        // Set images and texts for selected recipe
+        presenter.setRecipeDetails();
         btnAddFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.addFavorites();
-            }
-        });
-        btnAddCooked.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.addCooked();
+                Toast.makeText(getBaseContext(), "Recipe successfully added to Favorites",
+                        Toast.LENGTH_LONG).show();
             }
         });
         btnAddMealPlanner.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +79,9 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
         btnAddShoppingList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showShoppingListDialog();
+                presenter.addMealToShoppingList();
+                Toast.makeText(getBaseContext(), "Recipe ingredients successfully added to Shopping List",
+                        Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -81,11 +89,10 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
     private void initializeView() {
         imgRecipe = findViewById(R.id.img_recipe);
         txtRecipeName = findViewById(R.id.txt_recipe_name);
+        wvwPublisherSite = findViewById(R.id.wvw_publisher_site);
         btnAddFavorites = findViewById(R.id.btn_add_favorites);
-        btnAddCooked = findViewById(R.id.btn_add_cooked);
         btnAddMealPlanner = findViewById(R.id.btn_add_meal_planner);
         btnAddShoppingList = findViewById(R.id.btn_add_shopping_list);
-        wvwPublisherSite = findViewById(R.id.wvw_publisher_site);
     }
 
     @Override
@@ -135,30 +142,5 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
                 }
             }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
-    }
-
-    @Override
-    public void showShoppingListDialog() {
-        // Inflate dialog layout
-        LayoutInflater myLayout = LayoutInflater.from(RecipeActivity.this);
-        final View view = myLayout.inflate(R.layout.add_shopping_list_dialog, null);
-        // Dialog has an edit text with the shopping list name
-        final EditText etxtShoppingListName = view.findViewById(R.id.etxt_shopping_list_name);
-        // Create dialog with title, message, and positive and negative behaviours
-        new AlertDialog.Builder(RecipeActivity.this).setTitle("Add to Shopping Lists:")
-                .setMessage("Pick a name").setCancelable(true).setView(view)
-                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Todo: checks, if and elses with Toasts
-                        // Add meal to meal planner
-                        presenter.addMealToShoppingList(etxtShoppingListName.getText().toString());
-                        // Let user know it's been successfully added
-                        Toast.makeText(getBaseContext(), "Shopping List successfully created",
-                                Toast.LENGTH_LONG).show();
-                    }
-                })
-                .setNegativeButton("Cancel", null)
-                .create().show();
     }
 }

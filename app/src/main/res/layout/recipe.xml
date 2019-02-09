@@ -6,49 +6,58 @@
     tools:layout_editor_absoluteY="8dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <ImageView
-            android:id="@+id/img_recipe"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:src="@tools:sample/avatars" />
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/txt_recipe_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/img_recipe"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    tools:src="@tools:sample/avatars" />
 
-        <Button
-            android:id="@+id/btn_add_favorites"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="+FAV" />
+                <TextView
+                    android:id="@+id/txt_recipe_name"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_add_cooked"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="+COOKED" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btn_add_meal_planner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="+PLANNER" />
+                <Button
+                    android:id="@+id/btn_add_favorites"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="+FAV" />
 
-        <TextView
-            android:id="@+id/txt_recipe_ingredients"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/btn_add_shopping_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Make Shopping List" />
+                <Button
+                    android:id="@+id/btn_add_meal_planner"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="+PLANNER" />
+        </LinearLayout>
 
         <WebView
             android:id="@+id/wvw_publisher_site"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="0dp"
+            android:layout_weight="8" />
+
+        <Button
+            android:id="@+id/btn_add_shopping_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="Make Shopping List" />
 
 </LinearLayout>

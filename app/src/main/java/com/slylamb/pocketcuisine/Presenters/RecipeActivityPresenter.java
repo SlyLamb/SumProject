@@ -28,16 +28,21 @@ public class RecipeActivityPresenter {
 
     private View view;
     private Recipe recipe;
-    private User user;
     private final String baseUrl = "https://www.food2fork.com/api/get?key=";
     private final String key = "f5b73a553a6a92ccfabca695807bdaeb"; //50 calls limit per day
     private final String recipeSearch = "&rId=";
 
-    public RecipeActivityPresenter(View view, String recipeID) {
+    public RecipeActivityPresenter(View view, String recipeID, String type) {
         this.view = view;
-        // Set recipe's properties from API url
-        //String url = baseUrl + key + recipeSearch + recipeID;
-        //getRecipeFromAPI(url);
+        // If type is API, must get recipe from API
+        if (type.equals("API")) {
+            // Get api url
+            String url = baseUrl + key + recipeSearch + recipeID;
+            getRecipeFromAPI(url);
+        // If type is DB, must get recipe from Database
+        } else if (type.equals("DB")) {
+
+        }
 
         recipe = new Recipe();
         recipe.setImageLink("http://static.food2fork.com/iW8v49knM5faff.jpg");
@@ -114,7 +119,7 @@ public class RecipeActivityPresenter {
     }
 
     // Handle addShoppingList dialog "Add" pressed
-    public void addMealToShoppingList(String name) {
+    public void addMealToShoppingList() {
         // Create Shopping List from recipe
         ShoppingList shoppingList = new ShoppingList(recipe.getIngredients(), name);
         // Add list to user's shopping lists
@@ -162,7 +167,5 @@ public class RecipeActivityPresenter {
         void setButton(boolean picked, String button);
         // Open dialog for user to pick date before adding to meal planner
         void showMealPlannerDialog();
-        // Open dialog for user to pick name before adding to shopping lists
-        void showShoppingListDialog();
     }
 }

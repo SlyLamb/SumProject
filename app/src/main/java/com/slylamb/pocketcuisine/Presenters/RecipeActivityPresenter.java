@@ -10,6 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.slylamb.pocketcuisine.Models.Ingredient;
 import com.slylamb.pocketcuisine.Models.PlannedMeal;
 import com.slylamb.pocketcuisine.Models.Recipe;
 import com.slylamb.pocketcuisine.Models.ShoppingList;
@@ -41,33 +42,21 @@ public class RecipeActivityPresenter {
             getRecipeFromAPI(url);
         // If type is DB, must get recipe from Database
         } else if (type.equals("DB")) {
-
+            // Todo: get recipe from database
         }
-
+        // TEST DATA
         recipe = new Recipe();
         recipe.setImageLink("http://static.food2fork.com/iW8v49knM5faff.jpg");
         recipe.setTitle("Chicken with Spring Vegetables and Gnocchi");
         recipe.setPublisher("Framed Cooks");
-        ArrayList<String> ingredients = new ArrayList<>();
-        ingredients.add("10 cups chicken broth");
-        ingredients.add("1/2 stick butter");
-        ingredients.add("6 tablespoons flour");
-        ingredients.add("I large bulb of fennel, trim and sliced");
-        ingredients.add("4 carrots, peeled and sliced");
-        ingredients.add("1 leek, cut in half lengthwise and thinly sliced (white and light green part only)");
-        ingredients.add("12 ounces fresh potato or ricotta gnocchi");
-        ingredients.add("1/2 cup chopped fresh parsley, plus extra for garnish");
-        ingredients.add("Coarse salt and fresh ground pepper");
-        ingredients.add("Shaved parmesan for garnish");
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+        Ingredient ingredient = new Ingredient();
+        ingredient.setItemName("10 cups chicken broth");
+        ingredients.add(ingredient);
+        ingredient.setItemName("1/2 stick butter");
+        ingredients.add(ingredient);
         recipe.setIngredients(ingredients);
         recipe.setSourceURL("http://www.framedcooks.com/2012/05/chicken-with-spring-vegetables-and-gnocchi.html");
-
-        user = new User();
-
-
-
-
-        // Todo: Get recipe and user from api and/or database
     }
 
     // Set images and texts for current recipe in view
@@ -75,37 +64,21 @@ public class RecipeActivityPresenter {
         // Set fields image, name, duration, servings and ingredients
         view.setRecipeDetails(recipe.getImageLink(), recipe.getTitle(), recipe.getSourceURL());
         // Set buttons as they look different if already a favorite or cooked recipe
-        view.setButton(user.hasFavorite(recipe), "addFavorites");
-        view.setButton(user.hasCooked(recipe), "addCooked");
+        // Todo: need to look for recipes in database, if exist, pass true, otherwise, false
+        view.setFavoriteButton(false);
     }
 
     // Handle add favorite button being pressed
     public void addFavorites() {
         // If user does not have current recipe in favorites yet, add it, otherwise, delete it
-        if (!user.hasFavorite(recipe)) {
+        // Todo: need to look for recipes in database, if doesn't exist, add it, otherwise, delete it
+        /*if (!user.hasFavorite(recipe)) {
             user.addFavorite(recipe);
         } else {
             user.deleteFavorite(recipe);
         }
         // Then update the button in the view
-        view.setButton(user.hasFavorite(recipe), "addFavorites");
-
-        // Todo: Update user database
-
-    }
-
-    // Handle add cooked button being pressed
-    public void addCooked() {
-        // If user does not have current recipe in cooked recipes yet, add it, otherwise, delete it
-        if (!user.hasCooked(recipe)) {
-            user.addCooked(recipe);
-        } else {
-            user.deleteCooked(recipe);
-        }
-        // Then update the button in the view
-        view.setButton(user.hasCooked(recipe), "addCooked");
-
-        // Todo: Update user database
+        view.setFavoriteButton(?);*/
 
     }
 
@@ -113,15 +86,13 @@ public class RecipeActivityPresenter {
     public void addToMealPlanner(String date) {
         // Create planned meal from current recipe and date given in button
         PlannedMeal meal = new PlannedMeal(recipe, date);
-        // Add meal to user's meal planner
-        user.addMealToMealPlanner(meal);
-        // Todo: Update user database
+        // Todo: save planned meal in database
     }
 
-    // Handle addShoppingList dialog "Add" pressed
+    // Add meal's ingredients to shopping list
     public void addMealToShoppingList() {
         // Create Shopping List from recipe
-        ShoppingList shoppingList = new ShoppingList(recipe.getIngredients(), name);
+        ShoppingList shoppingList = new ShoppingList(recipe.getIngredients());
         // Add list to user's shopping lists
         user.addShoppingList(shoppingList);
         // Todo: Update user database
@@ -164,7 +135,7 @@ public class RecipeActivityPresenter {
         // Set recipe details in the view
         void setRecipeDetails(String imageLink, String name, String sourceURL);
         // Set button look, different if already picked
-        void setButton(boolean picked, String button);
+        void setFavoriteButton(boolean picked);
         // Open dialog for user to pick date before adding to meal planner
         void showMealPlannerDialog();
     }

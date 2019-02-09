@@ -109,20 +109,9 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
     }
 
     @Override
-    public void setButton(boolean picked, String button) {
+    public void setFavoriteButton(boolean picked) {
         // Todo: find meaningful color value, or different way to differentiate buttons (different images?)
-        /*int color;
-        if (picked) {
-            color = 1; //red
-        } else {
-            color = 2; //blue
-        }
-        switch (button) {
-            case "addFavorites":
-                btnAddFavorites.setBackgroundColor(color);
-            case "addCooked":
-                btnAddCooked.setBackgroundColor(color);
-        }*/
+
     }
 
     @Override

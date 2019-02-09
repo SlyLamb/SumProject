@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PlannedMeal {
+
+    private String ID;
     private Recipe recipe;
     private Date date;      // Date that the recipe is scheduled for
 

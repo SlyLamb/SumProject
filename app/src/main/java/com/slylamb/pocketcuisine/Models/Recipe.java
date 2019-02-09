@@ -4,11 +4,12 @@ import java.util.ArrayList;
 
 public class Recipe {
 
+    private String ID;
     private String title;
     private String imageLink;
     private String publisher;
     private String sourceURL;
-    private ArrayList<String> ingredients;
+    private ArrayList<Ingredient> ingredients;
 
     public Recipe(){}
 
@@ -25,7 +26,7 @@ public class Recipe {
     public String getSourceURL() {
         return sourceURL;
     }
-    public ArrayList<String> getIngredients() {
+    public ArrayList<Ingredient> getIngredients() {
         return(ingredients);
     }
     // Setters
@@ -44,7 +45,7 @@ public class Recipe {
         // Swapping http with https so web page is found and displayed
          this.sourceURL = sourceURL.replace("http","https");
     }
-    public void setIngredients(ArrayList<String> ingredients) {
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
         this.ingredients = new ArrayList<>(ingredients);
     }
 

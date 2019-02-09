@@ -68,7 +68,7 @@ public class RecipeActivityPresenter {
     // Set images and texts for current recipe in view
     public void setRecipeDetails() {
         // Set fields image, name, duration, servings and ingredients
-        view.setRecipeDetails(recipe.getImageLink(), recipe.getTitle(), recipe.getSourceURL() , recipe.getIngredients());
+        view.setRecipeDetails(recipe.getImageLink(), recipe.getTitle(), recipe.getSourceURL());
         // Set buttons as they look different if already a favorite or cooked recipe
         view.setButton(user.hasFavorite(recipe), "addFavorites");
         view.setButton(user.hasCooked(recipe), "addCooked");
@@ -157,7 +157,7 @@ public class RecipeActivityPresenter {
 
     public interface View {
         // Set recipe details in the view
-        void setRecipeDetails(String imageLink, String name, String sourceURL, ArrayList<String> ingredients);
+        void setRecipeDetails(String imageLink, String name, String sourceURL);
         // Set button look, different if already picked
         void setButton(boolean picked, String button);
         // Open dialog for user to pick date before adding to meal planner

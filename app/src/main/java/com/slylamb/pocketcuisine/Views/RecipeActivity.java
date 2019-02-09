@@ -36,7 +36,6 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
     private Button btnAddFavorites;
     private Button btnAddCooked;
     private Button btnAddMealPlanner;
-    private TextView txtRecipeIngredients;
     private Button btnAddShoppingList;
     private WebView wvwPublisherSite;
 
@@ -85,13 +84,12 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
         btnAddFavorites = findViewById(R.id.btn_add_favorites);
         btnAddCooked = findViewById(R.id.btn_add_cooked);
         btnAddMealPlanner = findViewById(R.id.btn_add_meal_planner);
-        txtRecipeIngredients = findViewById(R.id.txt_recipe_ingredients);
         btnAddShoppingList = findViewById(R.id.btn_add_shopping_list);
         wvwPublisherSite = findViewById(R.id.wvw_publisher_site);
     }
 
     @Override
-    public void setRecipeDetails(String imageLink, String name, String sourceURL, ArrayList<String> ingredients) {
+    public void setRecipeDetails(String imageLink, String name, String sourceURL) {
         // Todo: Image not showing
         // Set image and texts with recipe information
         Picasso.with(this)
@@ -101,13 +99,6 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
                 .into(imgRecipe);
         txtRecipeName.setText(name);
         wvwPublisherSite.loadUrl(sourceURL);
-        // Start ingredientsText empty
-        String ingredientsText = "";
-        for (String ingredient : ingredients) {
-            // Add ingredient to ingredientsText and a new line
-            ingredientsText += ingredient + "\n";
-        }
-        txtRecipeIngredients.setText(ingredientsText);
     }
 
     @Override

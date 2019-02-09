@@ -1,4 +1,4 @@
-package com.slylamb.pocketcuisine.Views;
+/* com.slylamb.pocketcuisine.Views;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -138,3 +138,4 @@ public class MealPlannerActivity extends AppCompatActivity implements MealPlanne
                 .create().show();
     }
 }
+*/

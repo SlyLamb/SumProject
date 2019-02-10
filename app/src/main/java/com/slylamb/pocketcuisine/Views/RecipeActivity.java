@@ -54,11 +54,15 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
             recipeID = intent.getStringExtra("recipeIDapi");
             // Initialize presenter and pass on recipeID for recipe in API
             presenter = new RecipeActivityPresenter(this, recipeID, "API");
-        // If intent has recipeIDdb extras, user came from Favorites or Planned Meals activity
+        // If intent has recipeIDdb extras, user came from Favorites
         } else if (intent.hasExtra("recipeIDdb")) {
             recipeID = intent.getStringExtra("recipeIDdb");
             // Initialize presenter and pass on recipeID for recipe in Database
             presenter = new RecipeActivityPresenter(this, recipeID, "DB");
+        } else if (intent.hasExtra("plannedMealIDdb")) {
+            recipeID = intent.getStringExtra("plannedMealIDdb");
+            // Initialize presenter and pass on recipeID for planned meal in Database
+            presenter = new RecipeActivityPresenter(this, recipeID, "PM");
         }
 
         // Set images and texts for selected recipe

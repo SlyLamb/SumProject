@@ -12,6 +12,9 @@ public class PlannedMeal {
     private Recipe recipe;
     private Date date;      // Date that the recipe is scheduled for
 
+    public PlannedMeal() {
+        recipe = new Recipe();
+    }
     public PlannedMeal(Recipe recipe, String date) {
         this.recipe = recipe;
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");

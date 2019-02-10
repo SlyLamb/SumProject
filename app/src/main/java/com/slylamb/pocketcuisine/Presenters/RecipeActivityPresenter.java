@@ -46,6 +46,13 @@ public class RecipeActivityPresenter {
         // If type is DB, must get recipe from Database
         } else if (type.equals("DB")) {
             recipe = db.getRecipe(recipeID);
+        // If type is PM, must get recipe from Database as a planned meal
+        } else if (type.equals("PM")) {
+            PlannedMeal plannedMeal = db.getPlannedMeal(recipeID);
+            recipe = new Recipe();
+            recipe.setTitle(plannedMeal.getRecipe().getTitle());
+            recipe.setImageLink(plannedMeal.getRecipe().getImageLink());
+            recipe.setSourceURL(plannedMeal.getRecipe().getSourceURL());
         }
 
         // TEST DATA

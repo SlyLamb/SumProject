@@ -1,22 +1,37 @@
 package com.slylamb.pocketcuisine.Views;
 
+import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 
+import com.slylamb.pocketcuisine.Models.MealPlanner;
+import com.slylamb.pocketcuisine.Models.PlannedMeal;
+import com.slylamb.pocketcuisine.Models.Recipe;
 import com.slylamb.pocketcuisine.R;
 
-public class PlannedMealsListViewAdapter extends BaseAdapter {
-    public PlannedMealsListViewAdapter(String date) {
+import java.util.ArrayList;
 
+public class PlannedMealsListViewAdapter extends BaseAdapter {
+
+    private PlannedMealsActivityPresenter presenter;
+    private ArrayList<String> plannedMeals;
+
+    public PlannedMealsListViewAdapter(ArrayList<String> plannedMealsTitles) {
+        plannedMeals = new ArrayList<>(plannedMealsTitles);
+        presenter = new PlannedMealsActivityPresenter();
     }
     class ViewHolder {
-        String recipeTitle;
+        int position;
+        Button btnMeal;
+        Button btnDeleteMeal;
     }
     // How many items in ListView
     @Override
     public int getCount() {
-
+        return plannedMeals.size();
     }
     @Override
     public Object getItem(int i) {
@@ -29,73 +44,53 @@ public class PlannedMealsListViewAdapter extends BaseAdapter {
 
 // BELOW NOT DONE YET
     @Override
-    public View getView(final int i, View convertView, ViewGroup viewGroup) {
+    public View getView(final int i, View convertView, final ViewGroup viewGroup) {
         ViewHolder vh;
         if (convertView == null) {
             // If it's not recycled, inflate it from xml
-            convertView = getLayoutInflater().inflate(R.layout.ranking_list, viewGroup, false);
-            // Create a new ViewHolder for it
+            convertView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.planned_meal, viewGroup, false);
+            // Create a new ViewHolder
             vh = new ViewHolder();
-            vh.rankedPlayer = convertView.findViewById(R.id.rankingPlayer);
-            // And set the tag to it
+            // Find view for buttons
+            vh.btnMeal = convertView.findViewById(R.id.btn_meal);
+            vh.btnDeleteMeal = convertView.findViewById(R.id.btn_delete_meal);
             convertView.setTag(vh);
-        } else
+        } else {
             vh = (ViewHolder) convertView.getTag(); // Otherwise get the ViewHolder
+        }
         // Set its position
         vh.position = i;
-        // Set text in TextView
-        String text = (vh.position + 1) + ". " + competition.getPlayerAt(vh.position).getName()
-                + " " + competition.getPlayerAt(vh.position).getScore();
-        vh.rankedPlayer.setText(text);
+        // Set text in meal button
+        vh.btnMeal.setText(plannedMeals.get(vh.position));
+        // Set behavior in meal button
+        vh.btnMeal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PlannedMealsActivity.getApplicationContext(), Recipe.class);
+                intent.putExtra("recipeID")
+                        /*
+                        Intent intent = new Intent(getApplicationContext(), PlannedMealsActivity.class);
+                    intent.putExtra("date", dateString);
+                    startActivity(intent);
+                         */
+            }
+        });
+        // Set behavior in delete meal button
+        vh.btnDeleteMeal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         return convertView;
     }
-
-
 }
 
 /*
-public class RankingAdapter extends BaseAdapter {
-        class ViewHolder {
-            int position;
-            TextView rankedPlayer;
-        }
-
-        // How many items in the GridView
-        @Override
-        public int getCount() {
-            return competition.totalPlayers();
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public View getView(final int i, View convertView, ViewGroup viewGroup) {
-            ViewHolder vh;
-            if (convertView == null) {
-                // If it's not recycled, inflate it from xml
-                convertView = getLayoutInflater().inflate(R.layout.ranking_list, viewGroup, false);
-                // Create a new ViewHolder for it
-                vh = new ViewHolder();
-                vh.rankedPlayer = convertView.findViewById(R.id.rankingPlayer);
-                // And set the tag to it
-                convertView.setTag(vh);
-            } else
-                vh = (ViewHolder) convertView.getTag(); // Otherwise get the ViewHolder
-            // Set its position
-            vh.position = i;
-            // Set text in TextView
-            String text = (vh.position + 1) + ". " + competition.getPlayerAt(vh.position).getName()
-                    + " " + competition.getPlayerAt(vh.position).getScore();
-            vh.rankedPlayer.setText(text);
-            return convertView;
-        }
-    }
+(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.addFavorites();
+            }
+        });
  */

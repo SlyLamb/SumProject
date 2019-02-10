@@ -118,5 +118,10 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public void addShoppingListFromIngredients(ArrayList<Ingredient> ingredients) {
         // Todo: add ingredents to database
     }
+    //
+    public PlannedMeal getPlannedMeal(String keyId) {
+        // Todo: get planned meal from database and return it
+        return new PlannedMeal();
+    }
 
 }

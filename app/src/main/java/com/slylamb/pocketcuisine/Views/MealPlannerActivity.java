@@ -2,6 +2,7 @@ package com.slylamb.pocketcuisine.Views;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -155,5 +156,11 @@ public class MealPlannerActivity extends AppCompatActivity implements MealPlanne
         } catch (ParseException e) {
             return false;
         }
+    }
+
+    // Get this context
+    @Override
+    public Context getContext() {
+        return this.getContext();
     }
 }

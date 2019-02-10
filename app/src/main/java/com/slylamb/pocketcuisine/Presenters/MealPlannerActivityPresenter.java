@@ -1,5 +1,7 @@
 package com.slylamb.pocketcuisine.Presenters;
 
+import android.content.Context;
+
 import com.slylamb.pocketcuisine.Data.DataBaseHandler;
 import com.slylamb.pocketcuisine.Models.Ingredient;
 import com.slylamb.pocketcuisine.Models.MealPlanner;
@@ -18,6 +20,7 @@ public class MealPlannerActivityPresenter {
 
     public MealPlannerActivityPresenter(View view) {
         this.view = view;
+        db = new DataBaseHandler(view.getContext());
         ArrayList<PlannedMeal> plannedMeals = db.getPlannedMeals();
         mealPlanner = new MealPlanner();
         mealPlanner.setPlannedMeals(plannedMeals);
@@ -42,19 +45,12 @@ public class MealPlannerActivityPresenter {
         return(mealsDates);
     }
 
-    // Add new shopping list with name and list of ingredients for all planned meals between dateFrom and dateTo
+    // Add new shopping list for all planned meals between dateFrom and dateTo
     public void addIngredientsToList(String dateFrom, String dateTo) {
         ArrayList<Ingredient> ingredients = mealPlanner.getIngredients(dateFrom, dateTo);
-        // Create Shopping List from list of ingredients
-        ShoppingList shoppingList = new ShoppingList(ingredients, name);
-        // Add list to user's shopping lists
-        user.addShoppingList(shoppingList);
-        // Todo: Update user database
+        // Add ingredients to database
+        db.addShoppingListFromIngredients(ingredients);
     }
-
-    /*addIngredientsToList(dateFrom, dateTo);*/
-
-
 
     public interface View {
         // Set the dates which already have planned meals so they're differentiated
@@ -63,5 +59,7 @@ public class MealPlannerActivityPresenter {
         void showShoppingListDialog();
         // Validate date string so it matches format
         boolean validDate(String date);
+        // Get views activity context
+        Context getContext();
     }
 }

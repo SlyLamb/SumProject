@@ -67,8 +67,6 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
             @Override
             public void onClick(View v) {
                 presenter.addFavorites();
-                Toast.makeText(getBaseContext(), "Recipe successfully added to Favorites",
-                        Toast.LENGTH_LONG).show();
             }
         });
         btnAddMealPlanner.setOnClickListener(new View.OnClickListener() {

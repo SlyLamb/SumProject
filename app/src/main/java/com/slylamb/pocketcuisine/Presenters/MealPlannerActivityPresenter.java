@@ -1,5 +1,7 @@
 package com.slylamb.pocketcuisine.Presenters;
 
+import com.slylamb.pocketcuisine.Data.DataBaseHandler;
+import com.slylamb.pocketcuisine.Models.Ingredient;
 import com.slylamb.pocketcuisine.Models.MealPlanner;
 import com.slylamb.pocketcuisine.Models.PlannedMeal;
 import com.slylamb.pocketcuisine.Models.ShoppingList;
@@ -12,12 +14,13 @@ public class MealPlannerActivityPresenter {
 
     private View view;
     private MealPlanner mealPlanner;
-    private User user;
+    private DataBaseHandler db;
 
     public MealPlannerActivityPresenter(View view) {
         this.view = view;
-
-        // Todo: get user and user's meal planner from database
+        ArrayList<PlannedMeal> plannedMeals = db.getPlannedMeals();
+        mealPlanner = new MealPlanner();
+        mealPlanner.setPlannedMeals(plannedMeals);
     }
 
     // Returns true if meal planner has a meal on date and false otherwise
@@ -40,14 +43,16 @@ public class MealPlannerActivityPresenter {
     }
 
     // Add new shopping list with name and list of ingredients for all planned meals between dateFrom and dateTo
-    public void newShoppingList(String name, String dateFrom, String dateTo) {
-        ArrayList<String> ingredients = mealPlanner.getIngredients(dateFrom, dateTo);
+    public void addIngredientsToList(String dateFrom, String dateTo) {
+        ArrayList<Ingredient> ingredients = mealPlanner.getIngredients(dateFrom, dateTo);
         // Create Shopping List from list of ingredients
         ShoppingList shoppingList = new ShoppingList(ingredients, name);
         // Add list to user's shopping lists
         user.addShoppingList(shoppingList);
         // Todo: Update user database
     }
+
+    /*addIngredientsToList(dateFrom, dateTo);*/
 
 
 
@@ -56,5 +61,7 @@ public class MealPlannerActivityPresenter {
         void setDatesWithMeals();
         // Open dialog for user to pick name and date range for shopping list
         void showShoppingListDialog();
+        // Validate date string so it matches format
+        boolean validDate(String date);
     }
 }

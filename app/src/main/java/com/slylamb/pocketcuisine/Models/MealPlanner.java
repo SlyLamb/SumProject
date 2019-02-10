@@ -20,7 +20,7 @@ public class MealPlanner {
     public ArrayList<PlannedMeal> getPlannedMeals() {
         return(plannedMeals);
     }
-    public ArrayList<String> getIngredients(String dateFrom, String dateTo) {
+    public ArrayList<Ingredient> getIngredients(String dateFrom, String dateTo) {
         // Get Date object of dateFrom and dateTo strings
         Date from = null, to = null;
         try {
@@ -30,7 +30,7 @@ public class MealPlanner {
             e.printStackTrace();
         }
         // Initialise ingredients list
-        ArrayList<String> ingredients = new ArrayList<>();
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
         // Go thru planned meals until you reach date from
         int i = 0;
         while (plannedMeals.get(i).getDate().before(from)) i++;
@@ -41,6 +41,12 @@ public class MealPlanner {
         }
         return(ingredients);
     }
+
+    // Setters
+    public void setPlannedMeals(ArrayList<PlannedMeal> meals) {
+        plannedMeals = new ArrayList<>(meals);
+    }
+
 
     // Add planned meal to list of planned meals
     public void addMeal(PlannedMeal meal) {

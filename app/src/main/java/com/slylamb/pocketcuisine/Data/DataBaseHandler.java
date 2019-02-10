@@ -109,5 +109,12 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public void addPlannedMeal(PlannedMeal meal) {
         // Todo: add planned meal to database
     }
+    // Get all planned meals
+    public ArrayList<PlannedMeal> getPlannedMeals() {
+        // Todo: get planned meals from database
+        return new ArrayList<>();
+    }
+    //
+    
 
 }

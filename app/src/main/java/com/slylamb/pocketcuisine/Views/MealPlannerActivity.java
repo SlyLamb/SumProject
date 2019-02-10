@@ -1,4 +1,4 @@
-/* com.slylamb.pocketcuisine.Views;
+package com.slylamb.pocketcuisine.Views;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,6 +20,7 @@ import com.slylamb.pocketcuisine.Models.MealPlanner;
 import com.slylamb.pocketcuisine.Presenters.MealPlannerActivityPresenter;
 import com.slylamb.pocketcuisine.R;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -116,26 +117,43 @@ public class MealPlannerActivity extends AppCompatActivity implements MealPlanne
         // Inflate dialog layout
         LayoutInflater myLayout = LayoutInflater.from(MealPlannerActivity.this);
         final View view = myLayout.inflate(R.layout.generate_shopping_list_dialog, null);
-        // Dialog has 3 edit texts, one for the name, one for the from date and the other for the to date
-        final EditText etxtName = view.findViewById(R.id.etxt_name);
-        final EditText etxtFromDate = view.findViewById(R.id.etxt_from_date);
-        final EditText etxtToDate = view.findViewById(R.id.etxt_to_date);
+        // Dialog has 2 edit texts,one for the from date and the other for the to date
+        final EditText etxtDateFrom = view.findViewById(R.id.etxt_date_from);
+        final EditText etxtDateTo = view.findViewById(R.id.etxt_date_to);
         // Create dialog with title, message, and positive and negative behaviours
         new AlertDialog.Builder(MealPlannerActivity.this).setTitle("Add to Shopping Lists:")
-                .setMessage("Pick a name and a date range").setCancelable(true).setView(view)
+                .setMessage("Pick a date range").setCancelable(true).setView(view)
                 .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // Todo: checks, if and elses with Toasts
-                        // Add meal to meal planner
-                        presenter.newShoppingList(etxtName.getText().toString(), etxtFromDate.getText().toString(), etxtToDate.getText().toString());
-                        // Let user know it's been successfully added
-                        Toast.makeText(getBaseContext(), "Shopping List successfully created",
-                                Toast.LENGTH_LONG).show();
+                        String dateFrom = etxtDateFrom.getText().toString();
+                        String dateTo = etxtDateTo.getText().toString();
+                        if (validDate(dateFrom) && validDate(dateTo)) {
+                            presenter.addIngredientsToList(dateFrom, dateTo);
+                            Toast.makeText(getBaseContext(), "Ingredients for date range successfully added to Shopping List",
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getBaseContext(), "Please use this format for date: dd-mm-yyyy. And pick a future date",
+                                    Toast.LENGTH_LONG).show();
+                        }
                     }
                 })
                 .setNegativeButton("Cancel", null)
                 .create().show();
     }
+
+    // Validade date format, must match dd-mm-yyyy
+    @Override
+    public boolean validDate(String date) {
+        // Setup format
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        format.setLenient(false);
+        // Try to parse with correct format, if it works, return true, otherwise, false
+        try {
+            Date javaDate = format.parse(date);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
 }
-*/

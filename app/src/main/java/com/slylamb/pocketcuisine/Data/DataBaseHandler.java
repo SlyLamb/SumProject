@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.slylamb.pocketcuisine.Models.PlannedMeal;
 import com.slylamb.pocketcuisine.Models.Recipe;
 import com.slylamb.pocketcuisine.Models.Ingredient;
 
@@ -86,7 +87,27 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         return ingredientList;
     }
 
-
-
+    // Get recipe at keyId
+    public Recipe getRecipe(String keyId) {
+        // Todo: get recipe from database using KEY_ID
+        return new Recipe();
+    }
+    // True if recipe in database, false otherwise
+    public boolean hasRecipe(String title) {
+        // Todo: return true if any recipe in database match title, false otherwise
+        return false;
+    }
+    // Add recipe to database
+    public void addRecipe(Recipe recipe) {
+        // Todo: add recipe to database
+    }
+    // Delete recipe from database
+    public void deleteRecipe(String title) {
+        // Todo: delete recipe from database
+    }
+    // Add planned meal to database
+    public void addPlannedMeal(PlannedMeal meal) {
+        // Todo: add planned meal to database
+    }
 
 }

@@ -4,6 +4,7 @@ package com.slylamb.pocketcuisine.Views;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -131,5 +132,10 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
                 }
             }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
+    }
+
+    @Override
+    public Context getContext() {
+        return this.getContext();
     }
 }

@@ -23,11 +23,13 @@
         </activity>
         <activity
             android:name=".Views.HomePageActivity"
-            android:parentActivityName=".Views.MainActivity"></activity>
-        <activity android:name=".Views.SearchRecipeActivity"
-            android:parentActivityName=".Views.HomePageActivity"></activity>
-        <activity android:name=".Views.RecipeActivity"></activity>
+            android:parentActivityName=".Views.MainActivity" />
+        <activity
+            android:name=".Views.SearchRecipeActivity"
+            android:parentActivityName=".Views.HomePageActivity" />
+        <activity android:name=".Views.RecipeActivity" />
         <activity android:name=".Views.MealPlannerActivity" />
+        <activity android:name=".Views.PlannedMealsActivity"></activity>
     </application>
 
 </manifest>

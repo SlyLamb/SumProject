@@ -1,5 +1,6 @@
 package com.slylamb.pocketcuisine.Views;
 
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,6 +21,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.support.v7.widget.helper.ItemTouchHelper;
+
 
 import com.slylamb.pocketcuisine.Data.DataBaseHandler;
 import com.slylamb.pocketcuisine.Models.Ingredient;
@@ -28,6 +31,10 @@ import com.slylamb.pocketcuisine.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.slylamb.pocketcuisine.Util.SwipeController;
+import com.slylamb.pocketcuisine.Util.SwipeControllerActions;
+
+
 public class ShoppingListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -35,6 +42,9 @@ public class ShoppingListActivity extends AppCompatActivity {
     private DataBaseHandler db;
     private List<Ingredient> ingredientList;
     private List<Ingredient> ingredientItems;
+    SwipeController swipeController = null;
+
+
     //private List<String> ingredientItems;
 
     @Override
@@ -43,22 +53,33 @@ public class ShoppingListActivity extends AppCompatActivity {
         setContentView(R.layout.shopping_list);
 
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
         db = new DataBaseHandler(this);
         recyclerView = (RecyclerView) findViewById(R.id.shoppingListRecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+
+//        swipeController = new SwipeController(new SwipeControllerActions() {
+//            @Override
+//            public void onRightClicked(int position) {
+////                recyclerViewAdapter.players.remove(position);
+////                recyclerViewAdapter.notifyItemRemoved(position);
+////                recyclerViewAdapter.notifyItemRangeChanged(position, recyclerViewAdapter.getItemCount());
+//            }
+//        });
+//
+//        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+//        itemTouchhelper.attachToRecyclerView(recyclerView);
+//
+//        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+//            @Override
+//            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+//                swipeController.onDraw(c);
+//            }
+//        });
+
+
 
         ingredientList = new ArrayList<>();
         ingredientItems = new ArrayList<>();

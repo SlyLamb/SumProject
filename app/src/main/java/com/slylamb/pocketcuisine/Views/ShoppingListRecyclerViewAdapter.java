@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.slylamb.pocketcuisine.Data.DataBaseHandler;
 import com.slylamb.pocketcuisine.Models.Ingredient;
 import com.slylamb.pocketcuisine.R;
 
@@ -71,7 +72,31 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
             super(itemView);
             context = cxt;
             itemName = (TextView) itemView.findViewById(R.id.itemName);
-            btnDelete = (Button) itemView.findViewById(R.id.deleteButton);
+            btnDelete = (Button) itemView.findViewById(R.id.btnDeleteRow);
+
+            btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Ingredient ingredient = ingredientItems.get(getAdapterPosition());
+                    Log.d("position",String.valueOf(getAdapterPosition()));
+
+                     deleteItem(1);
+
+                }
+            });
+
+
+
+        }
+
+
+        public void deleteItem(int id){
+            DataBaseHandler db = new DataBaseHandler(context);
+            db.deleteStringItemFromShoppingListTB(id);
+            ingredientItems.remove(getAdapterPosition());
+            notifyItemRemoved(getAdapterPosition());
+
         }
 
 

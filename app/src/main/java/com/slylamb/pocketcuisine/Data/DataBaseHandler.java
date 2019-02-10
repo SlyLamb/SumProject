@@ -25,16 +25,18 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
+        Log.d("dbhandler","onCreate has been called");
+
         String CREATE_SHOPPINGLIST_TABLE ="CREATE TABLE " + Constants.TABLE_SHOPPINGLIST_NAME + "("
-                + Constants.KEY_ID + " INTEGER PRIMARY KEY," + Constants.KEY_ITEM_STRING + " TEXT"
+                + Constants.KEY_STRING_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + Constants.KEY_ITEM_STRING + " TEXT"
                  + " );";
 
-        String CREATE_PLANNEDMEAL_TABLE="CREATE TABLE " + Constants.TABLE_PLANNED_MEAL + "("
-                + Constants.KEY_PLANNEDMEAL_ID + " INTEGER PRIMARY KEY," + Constants.KEY_PLANNEDMEAL_NAME + " TEXT,"
-                + Constants.KEY_PLANNEDMEAL_URL + " TEXT," + Constants.KEY_PLANNEDMEAL_IMAGELINK + " TEXT"+ " );";
+//        String CREATE_PLANNEDMEAL_TABLE="CREATE TABLE " + Constants.TABLE_PLANNED_MEAL + "("
+//                + Constants.KEY_PLANNEDMEAL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + Constants.KEY_PLANNEDMEAL_NAME + " TEXT,"
+//                + Constants.KEY_PLANNEDMEAL_URL + " TEXT," + Constants.KEY_PLANNEDMEAL_IMAGELINK + " TEXT"+ " );";
 
         db.execSQL(CREATE_SHOPPINGLIST_TABLE);
-        db.execSQL(CREATE_PLANNEDMEAL_TABLE);
+       // db.execSQL(CREATE_PLANNEDMEAL_TABLE);
 
     }
 
@@ -49,6 +51,18 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     }
 
     public void addShoppingListFromRecipe(Recipe recipe) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+         db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_SHOPPINGLIST_NAME);
+
+
+        String CREATE_SHOPPINGLIST_TABLE ="CREATE TABLE " + Constants.TABLE_SHOPPINGLIST_NAME + "("
+                + Constants.KEY_STRING_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + Constants.KEY_ITEM_STRING + " TEXT"
+                + " );";
+
+        db.execSQL(CREATE_SHOPPINGLIST_TABLE);
+
 
         List<String>ingredientItems = new ArrayList<>();
 
@@ -70,7 +84,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 
         //ArrayList<String> ingredients = new ArrayList<>(recipe.getIngredients());
-        SQLiteDatabase db = this.getWritableDatabase();
+        //SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
 //        for(int i=0;i<ingredients.size();i++){
@@ -84,6 +98,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
             values.put(Constants.KEY_ITEM_STRING,newingredientItems.get(i));
             Log.d("database ingredient",newingredientItems.get(i));
             db.insert(Constants.TABLE_SHOPPINGLIST_NAME, null, values);
+            Log.d("dbhandler","insert has been called");
 
 
 
@@ -102,17 +117,16 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         List<Ingredient> ingredientList = new ArrayList<>();
 
         Cursor cursor = db.query(Constants.TABLE_SHOPPINGLIST_NAME, new String[] {
-                 Constants.KEY_ITEM_STRING}, null, null, null, null, null );
+                 Constants.KEY_STRING_ITEM_ID,Constants.KEY_ITEM_STRING}, null, null, null, null, null );
 
-       // Constants.KEY_ID,
 
         if (cursor.moveToFirst()) {
             do {
                 Ingredient ingredient = new Ingredient();
-               // ingredient.setID(Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_ID))));
+                ingredient.setID(Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_STRING_ITEM_ID))));
+                Log.d("setID",cursor.getString(cursor.getColumnIndex(Constants.KEY_STRING_ITEM_ID)));
                 ingredient.setItemName(cursor.getString(cursor.getColumnIndex(Constants.KEY_ITEM_STRING)));
                 Log.d("database",ingredient.getItemName());
-
 
                 ingredientList.add(ingredient);
 
@@ -121,6 +135,14 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         }
 
         return ingredientList;
+    }
+
+    public void deleteStringItemFromShoppingListTB(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(Constants.TABLE_SHOPPINGLIST_NAME, Constants.KEY_STRING_ITEM_ID + " = ?",
+                new String[] {String.valueOf(id)});
+
+        db.close();
     }
 
 

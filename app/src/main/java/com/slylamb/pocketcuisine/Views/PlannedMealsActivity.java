@@ -6,11 +6,12 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.slylamb.pocketcuisine.Models.PlannedMeal;
+import com.slylamb.pocketcuisine.Presenters.PlannedMealsActivityPresenter;
 import com.slylamb.pocketcuisine.R;
 
 import java.util.ArrayList;
 
-public class PlannedMealsActivity extends AppCompatActivity implements PlannedMealsActivityPresenter.View {
+public class PlannedMealsActivity extends AppCompatActivity  {
 
     private PlannedMealsActivityPresenter presenter;
     private ListView lstvPlannedMeals;

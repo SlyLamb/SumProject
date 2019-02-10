@@ -1,5 +1,6 @@
 package com.slylamb.pocketcuisine.Views;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import com.slylamb.pocketcuisine.Models.MealPlanner;
 import com.slylamb.pocketcuisine.Models.PlannedMeal;
 import com.slylamb.pocketcuisine.Models.Recipe;
+import com.slylamb.pocketcuisine.Presenters.PlannedMealsActivityPresenter;
 import com.slylamb.pocketcuisine.R;
 
 import java.util.ArrayList;
@@ -17,9 +19,11 @@ import java.util.ArrayList;
 public class PlannedMealsListViewAdapter extends BaseAdapter {
 
     private PlannedMealsActivityPresenter presenter;
+    private Context context;
     private ArrayList<String> plannedMeals;
 
-    public PlannedMealsListViewAdapter(ArrayList<String> plannedMealsTitles) {
+    public PlannedMealsListViewAdapter(Context context, ArrayList<String> plannedMealsTitles) {
+        this.context = context;
         plannedMeals = new ArrayList<>(plannedMealsTitles);
         presenter = new PlannedMealsActivityPresenter();
     }
@@ -66,31 +70,19 @@ public class PlannedMealsListViewAdapter extends BaseAdapter {
         vh.btnMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PlannedMealsActivity.getApplicationContext(), Recipe.class);
-                intent.putExtra("recipeID")
-                        /*
-                        Intent intent = new Intent(getApplicationContext(), PlannedMealsActivity.class);
-                    intent.putExtra("date", dateString);
-                    startActivity(intent);
-                         */
+                Intent intent = new Intent(context, Recipe.class);
+                intent.putExtra("plannedMealIDdb", presenter.getPlannedMealId());
+                context.startActivity(intent);
             }
         });
         // Set behavior in delete meal button
+        final int position = vh.position;
         vh.btnDeleteMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                presenter.deletePlannedMeal(plannedMeals.get(position));
             }
         });
         return convertView;
     }
 }
-
-/*
-(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.addFavorites();
-            }
-        });
- */

@@ -49,8 +49,6 @@ public class SearchRecipeActivity extends AppCompatActivity {
     private final String key = "f5b73a553a6a92ccfabca695807bdaeb";//50 calls limit per day
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,13 +76,9 @@ public class SearchRecipeActivity extends AppCompatActivity {
             }
         });
 
-
         recipeRecyclerViewAdapter = new RecipeRecyclerViewAdapter(this, recipeList );
         recyclerView.setAdapter(recipeRecyclerViewAdapter);
         recipeRecyclerViewAdapter.notifyDataSetChanged();
-
-
-
 
     }
 
@@ -114,9 +108,7 @@ public class SearchRecipeActivity extends AppCompatActivity {
                         recipeList.add(recipe);
 
                     }
-
                     recipeRecyclerViewAdapter.notifyDataSetChanged();
-
 
                 }catch (JSONException e) {
                     e.printStackTrace();

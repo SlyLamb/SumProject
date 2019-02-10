@@ -7,8 +7,6 @@ public class Ingredient {
     public Ingredient() {
     }
 
-
-
     public Integer getID() {
         return ID;
     }

@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import android.content.Intent;
@@ -24,6 +25,7 @@ import android.widget.EditText;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 
+import com.google.android.gms.common.internal.ShowFirstParty;
 import com.slylamb.pocketcuisine.Data.DataBaseHandler;
 import com.slylamb.pocketcuisine.Models.Ingredient;
 import com.slylamb.pocketcuisine.Models.Recipe;
@@ -42,6 +44,12 @@ public class ShoppingListActivity extends AppCompatActivity {
     private DataBaseHandler db;
     private List<Ingredient> ingredientList;
     private List<Ingredient> ingredientItems;
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
+    private EditText txtItem;
+    private EditText txtQuantity;
+    private Button btnSave;
+    private Button btnAdd;
     SwipeController swipeController = null;
 
 
@@ -52,7 +60,7 @@ public class ShoppingListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shopping_list);
 
-
+        btnAdd = findViewById(R.id.btnAdd);
         db = new DataBaseHandler(this);
         recyclerView = (RecyclerView) findViewById(R.id.shoppingListRecyclerView);
         recyclerView.setHasFixedSize(true);
@@ -79,42 +87,77 @@ public class ShoppingListActivity extends AppCompatActivity {
 //            }
 //        });
 
-
-
         ingredientList = new ArrayList<>();
         ingredientItems = new ArrayList<>();
 
         List<String> newingredientItems= new ArrayList<>();
-
-//
-//        ingredientItems.add("2 jalapeno peppers, cut in half lengthwise and seeded");
-//        ingredientItems.add("2 slices sour dough bread");
-//        ingredientItems.add("1 tablespoon butter, room temperature");
-//        ingredientItems.add("2 tablespoons cream cheese, room temperature");
-//        ingredientItems.add("1/2 cup jack and cheddar cheese, shredded");
-//        ingredientItems.add("1 tablespoon tortilla chips, crumbled\n");
-
-//        for(int i=0;i<ingredientItems.size();i++){
-//            String[] splitted = ingredientItems.get(i).split(",");
-//            newingredientItems.add(splitted[0]);
-//        }
 
 
         Recipe recipe = new Recipe();
         db.addShoppingListFromRecipe( recipe);
         ingredientList = db.getALLStringItemsFromShoppingListTB();
 
-        for(Ingredient i : ingredientList){
-
+        for(int i=0;i<ingredientList.size();i++){
             Ingredient ingredient = new Ingredient();
-            ingredient.setItemName(i.getItemName());
+            ingredient.setItemName(ingredientList.get(i).getItemName());
+            ingredient.setID(ingredientList.get(i).getID());
             ingredientItems.add(ingredient);
-
         }
 
         recyclerViewAdapter = new ShoppingListRecyclerViewAdapter(this,ingredientItems);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerViewAdapter.notifyDataSetChanged();
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopUpDialog();
+            }
+        });
+
+    }
+
+    public void showPopUpDialog(){
+        dialogBuilder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.shopping_list_pop_up, null);
+        txtItem = (EditText) view.findViewById(R.id.txtItem);
+        txtQuantity = (EditText) view.findViewById(R.id.txtQty);
+        btnSave = (Button) view.findViewById(R.id.btnSave);
+        dialogBuilder.setView(view);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveItemToDataBase(v);
+            }
+        });
+
+    }
+
+    public void saveItemToDataBase(View v){
+
+        Ingredient ingredient = new Ingredient();
+        String itemName = txtItem.getText().toString();
+        String itemQty = txtQuantity.getText().toString();
+        String item = itemQty + " "+itemName;
+        ingredient.setItemName(item);
+        db.addShoppingListFromUserInput(ingredient);
+        Snackbar.make(v, "Item Saved!", Snackbar.LENGTH_LONG).show();
+
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    this.sleep(1200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                dialog.dismiss();
+                startActivity(new Intent(ShoppingListActivity.this, ShoppingListActivity.class));
+            }
+        }.start();
 
     }
 

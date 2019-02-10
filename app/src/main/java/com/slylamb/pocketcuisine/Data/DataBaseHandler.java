@@ -50,11 +50,25 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     }
 
+    public void addShoppingListFromUserInput(Ingredient ingredient){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(Constants.KEY_ITEM_STRING,ingredient.getItemName());
+        Log.d("userinput",ingredient.getItemName());
+
+        db.insert(Constants.TABLE_SHOPPINGLIST_NAME, null, values);
+
+        Log.d("save","item saved into database");
+
+    }
+
     public void addShoppingListFromRecipe(Recipe recipe) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-         db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_SHOPPINGLIST_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_SHOPPINGLIST_NAME);
 
 
         String CREATE_SHOPPINGLIST_TABLE ="CREATE TABLE " + Constants.TABLE_SHOPPINGLIST_NAME + "("
@@ -81,17 +95,9 @@ public class DataBaseHandler extends SQLiteOpenHelper {
             newingredientItems.add(splitted[0]);
         }
 
-
-
         //ArrayList<String> ingredients = new ArrayList<>(recipe.getIngredients());
-        //SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-//        for(int i=0;i<ingredients.size();i++){
-//
-//            values.put(Constants.KEY_ITEM_STRING,ingredients.get(i));
-//
-//        }
 
         for(int i=0;i<newingredientItems.size();i++){
 
@@ -100,12 +106,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
             db.insert(Constants.TABLE_SHOPPINGLIST_NAME, null, values);
             Log.d("dbhandler","insert has been called");
 
-
-
         }
-
-
-       // Log.d("database","insert works");
 
     }
 
@@ -125,11 +126,11 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 Ingredient ingredient = new Ingredient();
                 ingredient.setID(Integer.parseInt(cursor.getString(cursor.getColumnIndex(Constants.KEY_STRING_ITEM_ID))));
                 Log.d("setID",cursor.getString(cursor.getColumnIndex(Constants.KEY_STRING_ITEM_ID)));
+                Log.d("getID",Integer.toString(ingredient.getID()));
                 ingredient.setItemName(cursor.getString(cursor.getColumnIndex(Constants.KEY_ITEM_STRING)));
                 Log.d("database",ingredient.getItemName());
 
                 ingredientList.add(ingredient);
-
 
             }while (cursor.moveToNext());
         }
@@ -144,7 +145,6 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
         db.close();
     }
-
 
 
 

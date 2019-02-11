@@ -36,7 +36,7 @@ public class RecipeActivityPresenter {
     private final String recipeSearch = "&rId=";
 
     public RecipeActivityPresenter(View view, String recipeID, String type) {
-        this.view = view;
+        this.view = view;/*
         db = new DataBaseHandler(view.getContext());
         // If type is API, must get recipe from API
         if (type.equals("API")) {
@@ -53,7 +53,7 @@ public class RecipeActivityPresenter {
             recipe.setTitle(plannedMeal.getRecipe().getTitle());
             recipe.setImageLink(plannedMeal.getRecipe().getImageLink());
             recipe.setSourceURL(plannedMeal.getRecipe().getSourceURL());
-        }
+        }*/
 
         // TEST DATA
         recipe = new Recipe();

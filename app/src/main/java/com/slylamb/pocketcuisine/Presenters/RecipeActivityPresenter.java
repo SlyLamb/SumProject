@@ -35,9 +35,9 @@ public class RecipeActivityPresenter {
     private final String key = "f5b73a553a6a92ccfabca695807bdaeb"; //50 calls limit per day
     private final String recipeSearch = "&rId=";
 
-    public RecipeActivityPresenter(View view, String recipeID, String type) {
-        this.view = view;/*
-        db = new DataBaseHandler(view.getContext());
+    public RecipeActivityPresenter(View view, Context context, String recipeID, String type) {
+        this.view = view;
+        db = new DataBaseHandler(context);/*
         // If type is API, must get recipe from API
         if (type.equals("API")) {
             // Get api url
@@ -145,7 +145,5 @@ public class RecipeActivityPresenter {
         void setFavoriteButton(boolean picked);
         // Open dialog for user to pick date before adding to meal planner
         void showMealPlannerDialog();
-        // Get context from activity
-        Context getContext();
     }
 }

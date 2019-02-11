@@ -53,17 +53,21 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
         if (intent.hasExtra("recipeIDapi")) {
             recipeID = intent.getStringExtra("recipeIDapi");
             // Initialize presenter and pass on recipeID for recipe in API
-            presenter = new RecipeActivityPresenter(this, recipeID, "API");
+            presenter = new RecipeActivityPresenter(this, this, recipeID, "API");
         // If intent has recipeIDdb extras, user came from Favorites
         } else if (intent.hasExtra("recipeIDdb")) {
             recipeID = intent.getStringExtra("recipeIDdb");
             // Initialize presenter and pass on recipeID for recipe in Database
-            presenter = new RecipeActivityPresenter(this, recipeID, "DB");
+            presenter = new RecipeActivityPresenter(this, this, recipeID, "DB");
         } else if (intent.hasExtra("plannedMealIDdb")) {
             recipeID = intent.getStringExtra("plannedMealIDdb");
             // Initialize presenter and pass on recipeID for planned meal in Database
-            presenter = new RecipeActivityPresenter(this, recipeID, "PM");
+            presenter = new RecipeActivityPresenter(this, this, recipeID, "PM");
         }
+
+        // DEBUGGING
+        presenter = new RecipeActivityPresenter(this, this, "test", "test");
+
 
         // Set images and texts for selected recipe
         presenter.setRecipeDetails();
@@ -134,10 +138,5 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
                 }
             }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
-    }
-
-    @Override
-    public Context getContext() {
-        return this.getContext();
     }
 }

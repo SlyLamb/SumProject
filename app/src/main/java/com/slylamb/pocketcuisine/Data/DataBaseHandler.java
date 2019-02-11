@@ -46,7 +46,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     public void addShoppingListFromRecipe(Recipe recipe) {
 
-
+/*
         ArrayList<String> ingredients = new ArrayList<>(recipe.getIngredients());
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -58,7 +58,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         }
 
         db.insert(Constants.TABLE_NAME, null, values);
-
+*/
     }
 
 

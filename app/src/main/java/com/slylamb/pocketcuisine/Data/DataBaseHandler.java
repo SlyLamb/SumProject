@@ -191,8 +191,16 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     }
     // True if recipe in database, false otherwise
     public boolean hasRecipe(String title) {
-        // Todo: return true if any recipe in database match title, false otherwise
-        return false;
+        // Get readable database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Get cursor for recipe with title that matches
+        Cursor cursor = db.query(Constants.TABLE_FAVORITE_RECIPE, new String[] {Constants.KEY_RECIPE_TITLE},
+                Constants.KEY_RECIPE_TITLE + " = " + title,null, null, null, null );
+        // If cursor can't move to first and its count is 0, no recipe found that matches selection criteria
+        if (!(cursor.moveToFirst()) || cursor.getCount() == 0) {
+            return false;
+        }
+        return true;
     }
     // Add recipe to database
     public void addRecipe(Recipe recipe) {

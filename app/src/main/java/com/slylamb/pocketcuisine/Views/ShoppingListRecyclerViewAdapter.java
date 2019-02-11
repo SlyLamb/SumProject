@@ -1,5 +1,6 @@
 package com.slylamb.pocketcuisine.Views;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.slylamb.pocketcuisine.Data.DataBaseHandler;
@@ -19,11 +21,11 @@ import java.util.List;
 
 public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<ShoppingListRecyclerViewAdapter.ViewHolder> {
 
+
     private Context context;
     private List<Ingredient>ingredientItems;
     private AlertDialog.Builder alertDialogBuilder;
     private AlertDialog dialog;
-    //private List<String>ingredientItems;
 
     private LayoutInflater inflater;
 
@@ -56,6 +58,7 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
     public int getItemCount() {
         return ingredientItems.size();
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder  {
         public TextView itemName;
@@ -118,7 +121,6 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
             });
 
         }
-
 
     }
 }

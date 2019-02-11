@@ -33,8 +33,6 @@ import com.slylamb.pocketcuisine.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.slylamb.pocketcuisine.Util.SwipeController;
-import com.slylamb.pocketcuisine.Util.SwipeControllerActions;
 
 
 public class ShoppingListActivity extends AppCompatActivity {
@@ -50,7 +48,7 @@ public class ShoppingListActivity extends AppCompatActivity {
     private EditText txtQuantity;
     private Button btnSave;
     private Button btnAdd;
-    SwipeController swipeController = null;
+    //SwipeController swipeController = null;
 
 
     //private List<String> ingredientItems;
@@ -65,27 +63,6 @@ public class ShoppingListActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.shoppingListRecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
-
-//        swipeController = new SwipeController(new SwipeControllerActions() {
-//            @Override
-//            public void onRightClicked(int position) {
-////                recyclerViewAdapter.players.remove(position);
-////                recyclerViewAdapter.notifyItemRemoved(position);
-////                recyclerViewAdapter.notifyItemRangeChanged(position, recyclerViewAdapter.getItemCount());
-//            }
-//        });
-//
-//        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
-//        itemTouchhelper.attachToRecyclerView(recyclerView);
-//
-//        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-//            @Override
-//            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-//                swipeController.onDraw(c);
-//            }
-//        });
 
         ingredientList = new ArrayList<>();
         ingredientItems = new ArrayList<>();
@@ -103,6 +80,7 @@ public class ShoppingListActivity extends AppCompatActivity {
             ingredient.setID(ingredientList.get(i).getID());
             ingredientItems.add(ingredient);
         }
+
 
         recyclerViewAdapter = new ShoppingListRecyclerViewAdapter(this,ingredientItems);
         recyclerView.setAdapter(recyclerViewAdapter);

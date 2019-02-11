@@ -1,5 +1,6 @@
 package com.slylamb.pocketcuisine.Views;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -68,11 +70,13 @@ public class SearchRecipeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(txtSearchField.getWindowToken(), 0);
+
                 String url = baseUrl+key+"&q="+txtSearchField.getText().toString();
                 recipeList = getRecipes(url);
                 Log.d("url",url);
                 recipeRecyclerViewAdapter.notifyDataSetChanged();
-
             }
         });
 

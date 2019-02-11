@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:id="@+id/layout_id"
     android:layout_width="match_parent"
@@ -41,14 +42,14 @@
 
             <Button
                 android:id="@+id/btnSave"
-                android:layout_marginTop="5dp"
-                android:layout_below="@id/txtQty"
-                android:text="Save Item"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                android:background="@color/colorAccent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtQty"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorPrimary"
+                android:text="Save Item"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
 
 
         </RelativeLayout>

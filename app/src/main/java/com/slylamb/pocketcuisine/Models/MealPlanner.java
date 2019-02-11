@@ -6,6 +6,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 public class MealPlanner {
@@ -45,13 +47,14 @@ public class MealPlanner {
     // Setters
     public void setPlannedMeals(ArrayList<PlannedMeal> meals) {
         plannedMeals = new ArrayList<>(meals);
+        // Sort planned meals by date and delete planned meals which are gone
+        Collections.sort(plannedMeals, plannedMealDateComparator);
+        deleteGoneDates();
     }
 
 
     // Add planned meal to list of planned meals
     public void addMeal(PlannedMeal meal) {
-        // Delete planned meals which are from yesterday or older
-        deleteGoneDates();
         // Find index to add meal to as must be in chronological order
         int i = 0;
         while (plannedMeals.get(i).getDate().before(meal.getDate())) i++;
@@ -82,4 +85,13 @@ public class MealPlanner {
             plannedMeals.remove(0);
         }
     }
+
+    public static Comparator<PlannedMeal> plannedMealDateComparator = new Comparator<PlannedMeal>() {
+
+        @Override
+        public int compare(PlannedMeal pm1, PlannedMeal pm2) {
+            return (pm1.getDate().compareTo(pm2.getDate()));
+            // Todo: test this
+        }
+    };
 }

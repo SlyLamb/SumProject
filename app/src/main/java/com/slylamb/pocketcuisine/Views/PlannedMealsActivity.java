@@ -1,5 +1,6 @@
 package com.slylamb.pocketcuisine.Views;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +12,7 @@ import com.slylamb.pocketcuisine.R;
 
 import java.util.ArrayList;
 
-public class PlannedMealsActivity extends AppCompatActivity  {
+public class PlannedMealsActivity extends AppCompatActivity implements PlannedMealsActivityPresenter.View {
 
     private PlannedMealsActivityPresenter presenter;
     private ListView lstvPlannedMeals;
@@ -32,5 +33,10 @@ public class PlannedMealsActivity extends AppCompatActivity  {
         // Initialise list view adapter with planned meals
         adapter = new PlannedMealsListViewAdapter(plannedMealsTitles);
         lstvPlannedMeals.setAdapter(adapter);
+    }
+
+    @Override
+    public Context getContext() {
+        return this.getContext();
     }
 }

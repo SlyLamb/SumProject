@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.concurrent.Executor;
 
-public class RegisteredUser extends User {
+public class RegisteredUser  {
     private String email;
     private String password;
     private FirebaseAuth mAuth;

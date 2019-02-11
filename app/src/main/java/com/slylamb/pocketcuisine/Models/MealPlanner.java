@@ -37,16 +37,23 @@ public class MealPlanner {
         // Initialise ingredients list
         ArrayList<Ingredient> ingredients = new ArrayList<>();
         // Go thru planned meals until you reach date from
-        for (int i = 0; i < plannedMeals.size(); i++) {
-            if ()
-            while (plannedMeals.get(i).getDate().before(from)) i++;
-            // Then go thru all planned meals up to date to, saving their ingredients to list
-            while (plannedMeals.get(i).getDate().before(to)) {
-                ingredients.addAll(plannedMeals.get(i).getRecipe().getIngredients());
-                i++;
+        int count = plannedMeals.size();
+        for (int i = 0; i < count; i++) { // Todo: out of bounds
+            while (plannedMeals.get(i).getDate().before(from)) {
+                if (i < count-1) i++;
+                else break;
             }
-        }
+            // Then go thru all planned meals up to date to, saving their ingredients to list
+            if (i < count) {
+                while (plannedMeals.get(i).getDate().before(to)) {
+                    Log.i(TAG, "DEBUGGING - meal planner model - i = " + i + " and planned meal at i = " + plannedMeals.get(i).getRecipe().getTitle());
+                    ingredients.addAll(plannedMeals.get(i).getRecipe().getIngredients());
+                    if (i < count-1) i++;
+                    else break;
+                }
+            }
 
+        }
         return(ingredients);
     }
     public ArrayList<PlannedMeal> getPlannedMealsOnDate(String dateString) {

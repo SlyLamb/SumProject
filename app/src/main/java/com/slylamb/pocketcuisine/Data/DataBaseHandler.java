@@ -120,6 +120,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
         // DEBUGGING
         // TEST DATA
+        // 1
         Recipe recipe = new Recipe();
         recipe.setImageLink("http://static.food2fork.com/iW8v49knM5faff.jpg");
         recipe.setTitle("Chicken with Spring Vegetables and Gnocchi");
@@ -128,8 +129,9 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         Ingredient ingredient = new Ingredient();
         ingredient.setItemName("10 cups chicken broth");
         ingredients.add(ingredient);
-        ingredient.setItemName("1/2 stick butter");
-        ingredients.add(ingredient);
+        Ingredient ingredient1 = new Ingredient();
+        ingredient1.setItemName("1/2 stick butter");
+        ingredients.add(ingredient1);
         recipe.setIngredients(ingredients);
         recipe.setSourceURL("http://www.framedcooks.com/2012/05/chicken-with-spring-vegetables-and-gnocchi.html");
         ArrayList<PlannedMeal> meals = new ArrayList<>();
@@ -145,6 +147,32 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         }
         meal.setDate(realDate);
         meals.add(meal);
+        // 2
+        Recipe recipe1 = new Recipe();
+        recipe1.setImageLink("http://static.food2fork.com/Jalapeno2BPopper2BGrilled2BCheese2BSandwich2B12B500fd186186.jpg");
+        recipe1.setTitle("Jalapeno Popper Grilled Cheese Sandwich");
+        recipe1.setPublisher("Closet Cooking");
+        ArrayList<Ingredient> ingredients1 = new ArrayList<>();
+        Ingredient ingredient2 = new Ingredient();
+        ingredient2.setItemName("2 jalapeno peppers, cut in half lengthwise and seeded");
+        ingredients1.add(ingredient2);
+        Ingredient ingredient3 = new Ingredient();
+        ingredient3.setItemName("2 slices sour dough bread");
+        ingredients1.add(ingredient3);
+        recipe1.setIngredients(ingredients1);
+        recipe1.setSourceURL("http://www.closetcooking.com/2011/04/jalapeno-popper-grilled-cheese-sandwich.html");
+        ArrayList<PlannedMeal> meals1 = new ArrayList<>();
+        PlannedMeal meal1 = new PlannedMeal();
+        meal1.setRecipe(recipe1);
+        String date1 = "19-02-2019";
+        Date realDate1 = new Date();
+        try {
+            realDate1 = formatter.parse(date1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        meal1.setDate(realDate1);
+        meals.add(meal1);
         return meals;
     }
     // Add ingredients to shopping list

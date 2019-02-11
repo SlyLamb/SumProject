@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -66,6 +67,8 @@ public class MealPlannerActivity extends AppCompatActivity implements MealPlanne
 
         // Setup calendar listener
         calendar.setCaldroidListener(new CaldroidListener() {
+            private static final String TAG = "b";
+
             @Override
             public void onSelectDate(Date date, View view) {
                 // Get string format of date clicked on

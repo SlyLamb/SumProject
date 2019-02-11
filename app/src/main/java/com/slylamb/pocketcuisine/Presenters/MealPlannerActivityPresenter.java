@@ -1,6 +1,7 @@
 package com.slylamb.pocketcuisine.Presenters;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.slylamb.pocketcuisine.Data.DataBaseHandler;
 import com.slylamb.pocketcuisine.Models.Ingredient;
@@ -11,6 +12,8 @@ import com.slylamb.pocketcuisine.Models.User;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import static android.support.constraint.Constraints.TAG;
 
 public class MealPlannerActivityPresenter {
 
@@ -48,6 +51,9 @@ public class MealPlannerActivityPresenter {
     // Add new shopping list for all planned meals between dateFrom and dateTo
     public void addIngredientsToList(String dateFrom, String dateTo) {
         ArrayList<Ingredient> ingredients = mealPlanner.getIngredients(dateFrom, dateTo);
+        for (int i = 0; i < ingredients.size(); i++) {
+            Log.i(TAG, "DEBUGGING - meal planner presenter - ingredient[" + i + "] = " + ingredients.get(i).getItemName());
+        }
         // Add ingredients to database
         db.addShoppingListFromIngredients(ingredients);
     }

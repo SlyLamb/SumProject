@@ -1,6 +1,7 @@
 
 package com.slylamb.pocketcuisine.Presenters;
 
+import android.app.ExpandableListActivity;
 import android.content.Context;
 import android.util.Log;
 
@@ -37,7 +38,7 @@ public class RecipeActivityPresenter {
 
     public RecipeActivityPresenter(View view, Context context, String recipeID, String type) {
         this.view = view;
-        db = new DataBaseHandler(context);/*
+        db = new DataBaseHandler(context);
         // If type is API, must get recipe from API
         if (type.equals("API")) {
             // Get api url
@@ -53,8 +54,8 @@ public class RecipeActivityPresenter {
             recipe.setTitle(plannedMeal.getRecipe().getTitle());
             recipe.setImageLink(plannedMeal.getRecipe().getImageLink());
             recipe.setSourceURL(plannedMeal.getRecipe().getSourceURL());
-        }*/
-
+        }
+/*
         // TEST DATA
         recipe = new Recipe();
         recipe.setImageLink("http://static.food2fork.com/iW8v49knM5faff.jpg");
@@ -67,7 +68,7 @@ public class RecipeActivityPresenter {
         ingredient.setItemName("1/2 stick butter");
         ingredients.add(ingredient);
         recipe.setIngredients(ingredients);
-        recipe.setSourceURL("http://www.framedcooks.com/2012/05/chicken-with-spring-vegetables-and-gnocchi.html");
+        recipe.setSourceURL("http://www.framedcooks.com/2012/05/chicken-with-spring-vegetables-and-gnocchi.html");*/
     }
 
     // Set images and texts for current recipe in view
@@ -105,37 +106,61 @@ public class RecipeActivityPresenter {
 
     // Initialise recipe and sets its values from API url
     public void getRecipeFromAPI(String url) {
-        // Todo: not working
-        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONObject recipeObj = response.getJSONObject("recipe");
-                    // Initialize recipe and set its variables
-                    recipe = new Recipe();
-                    recipe.setImageLink(recipeObj.getString("image_url"));
-                    recipe.setTitle(recipeObj.getString("title"));
-                    recipe.setPublisher(recipeObj.getString("publisher"));
-                    recipe.setSourceURL(recipeObj.getString("source_url"));
-                    // For recipes, get JSONArray and convert into List of Strings
-                    JSONArray ingredientsArray = recipeObj.getJSONArray("ingredients");
-                    ArrayList<Ingredient> ingredients = new ArrayList<>();
-                    for (int i = 0; i < ingredientsArray.length(); i++) {
-                        Ingredient ingredient = new Ingredient();
-                        ingredient.setItemName(ingredientsArray.getString(i));
-                        ingredients.add(ingredient);
-                    }
-                    recipe.setIngredients(ingredients);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        Log.i(TAG, "DEBUGGING - API - inside getRecipeFromAPI, url = " + url);
+        JSONObject recipeObj = new JSONObject();
+        try {
+            recipeObj = new JSONObject(url);
+            Log.i(TAG, "DEBUGGING - API - recipeObj = " + recipeObj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        recipe = new Recipe();
+        String imgLink = null, title = null, publisher = null, sourceURL = null;
+        try {
+            imgLink = recipeObj.getString("image_url");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            title = recipeObj.getString("title");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            publisher = recipeObj.getString("publisher");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sourceURL = recipeObj.getString("source_url");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG, "DEBUGGING - API - imgLink = " + imgLink + ", title = " + title + ", publisher = " + publisher + ", source = " + sourceURL);
+        recipe.setImageLink(imgLink);
+        recipe.setTitle(title);
+        recipe.setPublisher(publisher);
+        recipe.setSourceURL(sourceURL);
+        // For recipes, get JSONArray and convert into List of Strings
+        JSONArray ingredientsArray = new JSONArray();
+        try {
+            ingredientsArray = recipeObj.getJSONArray("ingredients");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+        for (int i = 0; i < ingredientsArray.length(); i++) {
+            String ingredientString = new String();
+            try {
+                ingredientString = ingredientsArray.getString(i);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError arg0) {
-                // TODO Auto-generated method stub
-            }
-        });
+            Ingredient ingredient = new Ingredient();
+            ingredient.setItemName(ingredientString);
+            ingredients.add(ingredient);
+        }
+        recipe.setIngredients(ingredients);
     }
 
     public interface View {

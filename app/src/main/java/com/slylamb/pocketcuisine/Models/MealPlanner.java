@@ -47,7 +47,6 @@ public class MealPlanner {
             // Then go thru all planned meals up to date to, saving their ingredients to list
             if (i < count) {
                 while (plannedMeals.get(i).getDate().before(to)) {
-                    Log.i(TAG, "DEBUGGING - meal planner model - i = " + i + " and planned meal at i = " + plannedMeals.get(i).getRecipe().getTitle());
                     ingredients.addAll(plannedMeals.get(i).getRecipe().getIngredients());
                     if (i < count-1) i++;
                     else break;
@@ -70,15 +69,16 @@ public class MealPlanner {
         // Go thru all planned meals before selected date
         int i = 0;
         while (plannedMeals.get(i).getDate().before(date)) {
-            Log.i(Constraints.TAG, "DEBUGGING - meal planner - while - planned meal = " + plannedMeals.get(i).getRecipe().getTitle());
             i++;
         }
-        Log.i(Constraints.TAG, "DEBUGGING - meal planner - thru while - planned meal = " + plannedMeals.get(i).getRecipe().getTitle());
         // Once we get to the current date, go thru all meals on this date
-        Log.i(Constraints.TAG, "DEBUGGING - meal planner - planned meal date = " + plannedMeals.get(i).getDateString() + " and date = " + dateString);
-        while (plannedMeals.get(i).getDateString().equals(dateString)) {
-            Log.i(Constraints.TAG, "DEBUGGING - meal planner - new while - planned meal = " + plannedMeals.get(i).getRecipe().getTitle());
-            meals.add(plannedMeals.get(i));
+        while (i < plannedMeals.size()) {
+            if (plannedMeals.get(i).getDateString().equals(dateString)) {
+                meals.add(plannedMeals.get(i));
+            }
+            if (date.before(plannedMeals.get(i).getDate())) {
+                break;
+            }
             i++;
         }
         return meals;
@@ -125,12 +125,6 @@ public class MealPlanner {
     private void deleteGoneDates() {
         // Get todays date
         Date today = Calendar.getInstance().getTime();
-        /*
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-
-        //to convert Date to String, use format method of SimpleDateFormat class.
-        String strDate = dateFormat.format(date);
-         */
         // While the oldest planned meal is before today, keep deleting them
         while (plannedMeals.get(0).getDate().before(today)) {
             plannedMeals.remove(0);

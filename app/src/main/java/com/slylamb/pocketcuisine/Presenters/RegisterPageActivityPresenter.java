@@ -1,15 +1,15 @@
 package com.slylamb.pocketcuisine.Presenters;
 
-import com.slylamb.pocketcuisine.Models.User;
+import com.slylamb.pocketcuisine.Models.RegisteredUser;
 
 
 public class RegisterPageActivityPresenter {
 
-    private User user;
+    private RegisteredUser user;
     private View view;
 
     public RegisterPageActivityPresenter(View view) {
-        this.user = new User();
+        this.user = new RegisteredUser();
         this.view = view;
     }
 

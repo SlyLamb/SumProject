@@ -125,9 +125,12 @@ public class MealPlanner {
     private void deleteGoneDates() {
         // Get todays date
         Date today = Calendar.getInstance().getTime();
-        // While the oldest planned meal is before today, keep deleting them
-        while (plannedMeals.get(0).getDate().before(today)) {
-            plannedMeals.remove(0);
+        // If there are planned meals
+        if (plannedMeals.size() > 0) {
+            // While the oldest planned meal is before today, keep deleting them
+            while (plannedMeals.get(0).getDate().before(today)) {
+                plannedMeals.remove(0);
+            }
         }
     }
 

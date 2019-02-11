@@ -63,6 +63,12 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 + Constants.KEY_PLANNEDMEAL_DATE + " TEXT );";
         db.execSQL(CREATE_PLANNEDMEAL_TABLE);
 
+        String CREATE_INGREDIENT_TABLE = "CREATE TABLE " + Constants.TABLE_INGREDIENT + "("
+                + Constants.KEY_INGREDIENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + Constants.KEY_INGREDIENT_TEXT + " TEXT," + Constants.KEY_INGREDIENT_RECIPE + " TEXT,"
+                + Constants.KEY_INGREDIENT_PLANNEDMEAL + " TEXT );";
+        db.execSQL(CREATE_INGREDIENT_TABLE);
+
     }
 
     @Override
@@ -70,8 +76,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_SHOPPINGLIST_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_FAVORITE_RECIPE);
         db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_PLANNED_MEAL);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_INGREDIENT);
         onCreate(db);
-
     }
 
 
@@ -170,7 +176,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 
     //----------------------------------------------------------------------------------------
-    // GABRIEL CODE START
+    // GABRIEL CODE STARTS
     //----------------------------------------------------------------------------------------
     // Get recipe at keyId
     public Recipe getRecipe(String keyId) {
@@ -180,14 +186,31 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.query(Constants.TABLE_FAVORITE_RECIPE, new String[] {
                 Constants.KEY_RECIPE_ID, Constants.KEY_RECIPE_TITLE, Constants.KEY_RECIPE_IMAGE,
                 Constants.KEY_RECIPE_PUBLISHER, Constants.KEY_RECIPE_SOURCE}, Constants.KEY_RECIPE_ID + " = " + keyId,
-                null, null, null, null );
+                null, null, null, null);
         // Create recipe object from database and return it
         Recipe recipe = new Recipe();
         recipe.setTitle(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_TITLE)));
         recipe.setImageLink(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_IMAGE)));
         recipe.setPublisher(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_PUBLISHER)));
         recipe.setSourceURL(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_SOURCE)));
+        // Get recipe id so ingredients can be found
+        String recipeId = cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_ID));
+        // New query for cursor, now getting ingredients that belong to this recipe
+        cursor = db.query(Constants.TABLE_INGREDIENT, new String[] {Constants.KEY_INGREDIENT_TEXT,
+                Constants.KEY_INGREDIENT_RECIPE}, Constants.KEY_INGREDIENT_RECIPE + " = " + recipeId,
+                null, null, null, null);
+        // Initialise list of ingredients and go thru all ingredients
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                // Create recipe from planned meal info
+                Ingredient ingredient = new Ingredient();
+                ingredient.setItemName(cursor.getString(cursor.getColumnIndex(Constants.KEY_INGREDIENT_TEXT)));
+                ingredients.add(ingredient);
+            } while (cursor.moveToNext());
+        }
         cursor.close();
+        recipe.setIngredients(ingredients);
         return recipe;
     }
     // True if recipe in database, false otherwise
@@ -215,15 +238,26 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         values.put(Constants.KEY_RECIPE_IMAGE, recipe.getImageLink());
         values.put(Constants.KEY_RECIPE_PUBLISHER, recipe.getPublisher());
         values.put(Constants.KEY_RECIPE_SOURCE, recipe.getSourceURL());
-        // Interst recipe values to database
-        db.insert(Constants.TABLE_FAVORITE_RECIPE, null, values);
+        // Insert recipe values to database and get id
+        long recipeID = db.insert(Constants.TABLE_FAVORITE_RECIPE, null, values);
+        // Get ingredients from recipe
+        ArrayList<Ingredient> ingredients = recipe.getIngredients();
+        // Go thru all ingredients, add their text and recipe id
+        for (int i = 0; i < ingredients.size(); i++) {
+            ContentValues ingredientValues = new ContentValues();
+            ingredientValues.put(Constants.KEY_INGREDIENT_TEXT, ingredients.get(i).getItemName());
+            ingredientValues.put(Constants.KEY_INGREDIENT_RECIPE, Long.toString(recipeID));
+            db.insert(Constants.TABLE_INGREDIENT, null, ingredientValues);
+        }
     }
     // Delete recipe from database
     public void deleteRecipe(String title) {
         // Get writable database
         SQLiteDatabase db = this.getWritableDatabase();
-        // Delete recipe which matches title
-        db.delete(Constants.TABLE_FAVORITE_RECIPE, Constants.KEY_RECIPE_TITLE + " = " + title, null);
+        // Delete recipe which matches title and keep id
+        long recipeID = db.delete(Constants.TABLE_FAVORITE_RECIPE, Constants.KEY_RECIPE_TITLE + " = " + title, null);
+        // Delete ingredients from this recipe
+        db.delete(Constants.TABLE_INGREDIENT, Constants.KEY_INGREDIENT_RECIPE + " = " + Long.toString(recipeID), null);
     }
 
     // Get all planned meals
@@ -232,8 +266,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         // Get cursor for planned meals
         Cursor cursor = db.query(Constants.TABLE_PLANNED_MEAL, new String[]{
-                        Constants.KEY_PLANNEDMEAL_ID, Constants.KEY_PLANNEDMEAL_TITLE, Constants.KEY_PLANNEDMEAL_IMAGE,
-                        Constants.KEY_PLANNEDMEAL_PUBLISHER, Constants.KEY_PLANNEDMEAL_SOURCE, Constants.KEY_PLANNEDMEAL_DATE},
+                 Constants.KEY_PLANNEDMEAL_ID, Constants.KEY_PLANNEDMEAL_TITLE, Constants.KEY_PLANNEDMEAL_IMAGE,
+                 Constants.KEY_PLANNEDMEAL_PUBLISHER, Constants.KEY_PLANNEDMEAL_SOURCE, Constants.KEY_PLANNEDMEAL_DATE},
                 null, null, null, null, null);
         // Initialize planned meals list
         ArrayList<PlannedMeal> meals = new ArrayList<>();
@@ -246,6 +280,23 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 recipe.setImageLink(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_IMAGE)));
                 recipe.setPublisher(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_PUBLISHER)));
                 recipe.setSourceURL(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_SOURCE)));
+                // Get cursor for ingredients from this planned meal
+                Cursor ingredientCursor = db.query(Constants.TABLE_INGREDIENT, new String[] {
+                        Constants.KEY_INGREDIENT_TEXT, Constants.KEY_INGREDIENT_PLANNEDMEAL},
+                        Constants.KEY_INGREDIENT_PLANNEDMEAL + " = " + cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_ID)),
+                        null, null, null, null);
+                // Initialise list of ingredients and go thru all ingredients
+                ArrayList<Ingredient> ingredients = new ArrayList<>();
+                if (ingredientCursor.moveToFirst()) {
+                    do {
+                        // Create ingredient from ingredient text in dtabase
+                        Ingredient ingredient = new Ingredient();
+                        ingredient.setItemName(ingredientCursor.getString(ingredientCursor.getColumnIndex(Constants.KEY_INGREDIENT_TEXT)));
+                        ingredients.add(ingredient);
+                    } while (ingredientCursor.moveToNext());
+                }
+                ingredientCursor.close();
+                recipe.setIngredients(ingredients);
                 // Then create planned meal with recipe and date and add it to list
                 PlannedMeal meal = new PlannedMeal();
                 meal.setRecipe(recipe);
@@ -254,6 +305,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return meals;
     }
     // Get planned meal with keyId
@@ -265,13 +317,30 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 Constants.KEY_PLANNEDMEAL_ID, Constants.KEY_PLANNEDMEAL_TITLE, Constants.KEY_PLANNEDMEAL_IMAGE,
                 Constants.KEY_PLANNEDMEAL_PUBLISHER, Constants.KEY_PLANNEDMEAL_SOURCE, Constants.KEY_PLANNEDMEAL_DATE},
                 Constants.KEY_PLANNEDMEAL_ID + " = " + keyId,
-                null, null, null, null );
+                null, null, null, null);
         // Create recipe object from planned meal info
         Recipe recipe = new Recipe();
         recipe.setTitle(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_TITLE)));
         recipe.setImageLink(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_IMAGE)));
         recipe.setPublisher(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_PUBLISHER)));
         recipe.setSourceURL(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_SOURCE)));
+        // Get planned meal id and do new query to find ingredients that belong to this meal
+        String plannedMealID = cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_ID));
+        cursor = db.query(Constants.TABLE_INGREDIENT, new String[] {
+                Constants.KEY_INGREDIENT_TEXT, Constants.KEY_INGREDIENT_PLANNEDMEAL},
+                Constants.KEY_INGREDIENT_PLANNEDMEAL + " = " + plannedMealID,
+                null,null,null,null);
+        // Initialize ingredients list
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                // Create ingredient from ingredient text in database
+                Ingredient ingredient = new Ingredient();
+                ingredient.setItemName(cursor.getString(cursor.getColumnIndex(Constants.KEY_INGREDIENT_TEXT)));
+                ingredients.add(ingredient);
+            } while (cursor.moveToNext());
+        }
+        recipe.setIngredients(ingredients);
         PlannedMeal meal = new PlannedMeal();
         meal.setRecipe(recipe);
         meal.setDateFromString(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_DATE)));
@@ -289,8 +358,15 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         values.put(Constants.KEY_PLANNEDMEAL_PUBLISHER, meal.getRecipe().getPublisher());
         values.put(Constants.KEY_PLANNEDMEAL_SOURCE, meal.getRecipe().getSourceURL());
         values.put(Constants.KEY_PLANNEDMEAL_DATE, meal.getDateString());
-        // Interst planned meal values to database
-        db.insert(Constants.TABLE_PLANNED_MEAL, null, values);
+        // Insert planned meal values to database
+        long mealID = db.insert(Constants.TABLE_PLANNED_MEAL, null, values);
+        // Go thru all ingredients in meal
+        for (int i = 0; i < meal.getRecipe().getIngredients().size(); i++) {
+            ContentValues ingredientValue = new ContentValues();
+            ingredientValue.put(Constants.KEY_INGREDIENT_TEXT, meal.getRecipe().getIngredients().get(i).getItemName());
+            ingredientValue.put(Constants.KEY_INGREDIENT_PLANNEDMEAL, Long.toString(mealID));
+            db.insert(Constants.TABLE_INGREDIENT, null, ingredientValue);
+        }
     }
     // Delete planned meal with keyId
     public void deletePlannedMeal(String keyId) {
@@ -298,6 +374,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         // Delete planned meal which matches title
         db.delete(Constants.TABLE_PLANNED_MEAL, Constants.KEY_PLANNEDMEAL_ID + " = " + keyId, null);
+        // Delete ingredients from this meal
+        db.delete(Constants.TABLE_INGREDIENT, Constants.KEY_INGREDIENT_PLANNEDMEAL + " = " + keyId, null);
     }
 
     // Add ingredients to shopping list
@@ -310,7 +388,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
             String[] splitted = ingredients.get(i).getItemName().split(",");
             ingredientsNames.add(splitted[0]);
         }
-        //
+        // Get each ingredient and insert to shopping list table
         ContentValues values = new ContentValues();
         for (int i = 0; i < ingredientsNames.size(); i++) {
             values.put(Constants.KEY_ITEM_STRING, ingredientsNames.get(i));

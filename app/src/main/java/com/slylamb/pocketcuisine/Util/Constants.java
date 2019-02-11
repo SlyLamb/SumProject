@@ -7,6 +7,7 @@ public class Constants {
     public static final String TABLE_FAVORITE_RECIPE = "favoriteRecipeTB";
     public static final String TABLE_PLANNED_MEAL = "plannedMealTB";
     public static final String TABLE_SHOPPINGLIST_NAME = "shoppingListTB";
+    public static final String TABLE_INGREDIENT = "ingredientTB";
 
     //Table columns
     public static final String KEY_STRING_ITEM_ID = "id";
@@ -29,5 +30,11 @@ public class Constants {
     public static final String KEY_PLANNEDMEAL_PUBLISHER = "planned_meal_publisher";
     public static final String KEY_PLANNEDMEAL_SOURCE = "planned_meal_source_url";
     public static final String KEY_PLANNEDMEAL_DATE = "planned_meal_date";
+
+    // ingredientsTB
+    public static final String KEY_INGREDIENT_ID = "ingredient_id";
+    public static final String KEY_INGREDIENT_TEXT = "ingredient_text";
+    public static final String KEY_INGREDIENT_RECIPE = "ingredient_recipe";
+    public static final String KEY_INGREDIENT_PLANNEDMEAL = "ingredient_plannedmeal";
 
 }

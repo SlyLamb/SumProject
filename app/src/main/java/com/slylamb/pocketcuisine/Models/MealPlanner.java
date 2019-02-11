@@ -1,6 +1,7 @@
 package com.slylamb.pocketcuisine.Models;
 
 import android.text.format.DateUtils;
+import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -9,6 +10,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+
+import static android.content.ContentValues.TAG;
 
 public class MealPlanner {
     private ArrayList<PlannedMeal> plannedMeals;
@@ -34,13 +37,16 @@ public class MealPlanner {
         // Initialise ingredients list
         ArrayList<Ingredient> ingredients = new ArrayList<>();
         // Go thru planned meals until you reach date from
-        int i = 0;
-        while (plannedMeals.get(i).getDate().before(from)) i++;
-        // Then go thru all planned meals up to date to, saving their ingredients to list
-        while (plannedMeals.get(i).getDate().before(to)) {
-            ingredients.addAll(plannedMeals.get(i).getRecipe().getIngredients());
-            i++;
+        for (int i = 0; i < plannedMeals.size(); i++) {
+            if ()
+            while (plannedMeals.get(i).getDate().before(from)) i++;
+            // Then go thru all planned meals up to date to, saving their ingredients to list
+            while (plannedMeals.get(i).getDate().before(to)) {
+                ingredients.addAll(plannedMeals.get(i).getRecipe().getIngredients());
+                i++;
+            }
         }
+
         return(ingredients);
     }
     public ArrayList<PlannedMeal> getPlannedMealsOnDate(String dateString) {
@@ -106,7 +112,13 @@ public class MealPlanner {
     // Delete all meals which have now been and gone
     private void deleteGoneDates() {
         // Get todays date
-        Date today = new Date();
+        Date today = Calendar.getInstance().getTime();
+        /*
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+
+        //to convert Date to String, use format method of SimpleDateFormat class.
+        String strDate = dateFormat.format(date);
+         */
         // While the oldest planned meal is before today, keep deleting them
         while (plannedMeals.get(0).getDate().before(today)) {
             plannedMeals.remove(0);

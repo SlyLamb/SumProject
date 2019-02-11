@@ -10,14 +10,13 @@ import java.util.ArrayList;
 
 public class PlannedMealsActivityPresenter {
 
-    private View view;
     private MealPlanner planner;
     private ArrayList<PlannedMeal> plannedMealsOnDate;
     private DataBaseHandler db;
 
-    public PlannedMealsActivityPresenter() {
+    public PlannedMealsActivityPresenter(Context context) {
         // Initialize database and get list of planned meals from it
-        db = new DataBaseHandler(view.getContext());
+        db = new DataBaseHandler(context);
         ArrayList<PlannedMeal> plannedMeals = db.getPlannedMeals();
         // Initialize planenr with planned meals from database
         planner = new MealPlanner();
@@ -48,10 +47,5 @@ public class PlannedMealsActivityPresenter {
         planner.deletePlannedMeal(meal);
         plannedMealsOnDate.remove(i);
         db.deletePlannedMeal(meal.getID());
-    }
-
-    public interface View {
-        // Get activity context
-        Context getContext();
     }
 }

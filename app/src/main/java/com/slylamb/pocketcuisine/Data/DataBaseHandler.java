@@ -13,8 +13,12 @@ import com.slylamb.pocketcuisine.Models.Ingredient;
 
 import com.slylamb.pocketcuisine.Util.Constants;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 public class DataBaseHandler extends SQLiteOpenHelper {
     private Context context;
@@ -112,7 +116,36 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     // Get all planned meals
     public ArrayList<PlannedMeal> getPlannedMeals() {
         // Todo: get planned meals from database
-        return new ArrayList<>();
+        //return new ArrayList<>();
+
+        // DEBUGGING
+        // TEST DATA
+        Recipe recipe = new Recipe();
+        recipe.setImageLink("http://static.food2fork.com/iW8v49knM5faff.jpg");
+        recipe.setTitle("Chicken with Spring Vegetables and Gnocchi");
+        recipe.setPublisher("Framed Cooks");
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+        Ingredient ingredient = new Ingredient();
+        ingredient.setItemName("10 cups chicken broth");
+        ingredients.add(ingredient);
+        ingredient.setItemName("1/2 stick butter");
+        ingredients.add(ingredient);
+        recipe.setIngredients(ingredients);
+        recipe.setSourceURL("http://www.framedcooks.com/2012/05/chicken-with-spring-vegetables-and-gnocchi.html");
+        ArrayList<PlannedMeal> meals = new ArrayList<>();
+        PlannedMeal meal = new PlannedMeal();
+        meal.setRecipe(recipe);
+        String date = "15-02-2019";
+        final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Date realDate = new Date();
+        try {
+            realDate = formatter.parse(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        meal.setDate(realDate);
+        meals.add(meal);
+        return meals;
     }
     // Add ingredients to shopping list
     public void addShoppingListFromIngredients(ArrayList<Ingredient> ingredients) {
@@ -122,6 +155,9 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public PlannedMeal getPlannedMeal(String keyId) {
         // Todo: get planned meal from database and return it
         return new PlannedMeal();
+
+
+
     }
     // Delete planned meal with keyId
     public void deletePlannedMeal(String keyId) {

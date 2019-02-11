@@ -25,7 +25,7 @@ public class PlannedMealsListViewAdapter extends BaseAdapter {
     public PlannedMealsListViewAdapter(Context context, ArrayList<String> plannedMealsTitles) {
         this.context = context;
         plannedMeals = new ArrayList<>(plannedMealsTitles);
-        presenter = new PlannedMealsActivityPresenter();
+        presenter = new PlannedMealsActivityPresenter(context);
     }
     class ViewHolder {
         int position;

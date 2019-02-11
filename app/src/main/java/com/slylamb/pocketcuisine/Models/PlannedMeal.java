@@ -34,4 +34,12 @@ public class PlannedMeal {
     public Date getDate() {
         return date;
     }
+
+    // Setters
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }

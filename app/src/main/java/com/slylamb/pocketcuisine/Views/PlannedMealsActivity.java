@@ -12,7 +12,7 @@ import com.slylamb.pocketcuisine.R;
 
 import java.util.ArrayList;
 
-public class PlannedMealsActivity extends AppCompatActivity implements PlannedMealsActivityPresenter.View {
+public class PlannedMealsActivity extends AppCompatActivity {
 
     private PlannedMealsActivityPresenter presenter;
     private ListView lstvPlannedMeals;
@@ -24,19 +24,14 @@ public class PlannedMealsActivity extends AppCompatActivity implements PlannedMe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.planned_meals);
         lstvPlannedMeals = findViewById(R.id.lstv_planned_meals);
-        presenter = new PlannedMealsActivityPresenter();
+        presenter = new PlannedMealsActivityPresenter(this);
         // Get intent with date from MealPlannerActivity
         Intent intent = getIntent();
         date = intent.getStringExtra("date");
         // Get planned meals titles on date chosen
         ArrayList<String> plannedMealsTitles = new ArrayList<>(presenter.getPlannedMealsTitles(date));
         // Initialise list view adapter with planned meals
-        adapter = new PlannedMealsListViewAdapter(this.getContext(), plannedMealsTitles);
+        adapter = new PlannedMealsListViewAdapter(this, plannedMealsTitles);
         lstvPlannedMeals.setAdapter(adapter);
-    }
-
-    @Override
-    public Context getContext() {
-        return this.getContext();
     }
 }

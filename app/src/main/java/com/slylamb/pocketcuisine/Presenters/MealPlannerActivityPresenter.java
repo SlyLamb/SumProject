@@ -18,9 +18,9 @@ public class MealPlannerActivityPresenter {
     private MealPlanner mealPlanner;
     private DataBaseHandler db;
 
-    public MealPlannerActivityPresenter(View view) {
+    public MealPlannerActivityPresenter(View view, Context context) {
         this.view = view;
-        db = new DataBaseHandler(view.getContext());
+        db = new DataBaseHandler(context);
         ArrayList<PlannedMeal> plannedMeals = db.getPlannedMeals();
         mealPlanner = new MealPlanner();
         mealPlanner.setPlannedMeals(plannedMeals);
@@ -59,7 +59,5 @@ public class MealPlannerActivityPresenter {
         void showShoppingListDialog();
         // Validate date string so it matches format
         boolean validDate(String date);
-        // Get views activity context
-        Context getContext();
     }
 }

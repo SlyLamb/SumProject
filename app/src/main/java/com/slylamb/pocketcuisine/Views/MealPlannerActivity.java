@@ -39,7 +39,7 @@ public class MealPlannerActivity extends AppCompatActivity implements MealPlanne
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meal_planner);
         // Initialise presented and button
-        presenter = new MealPlannerActivityPresenter(this);
+        presenter = new MealPlannerActivityPresenter(this, this);
         btnGenerateList = findViewById(R.id.btn_generate_list);
         // Initialise caldroid calendar
         calendar = new CaldroidFragment();
@@ -156,11 +156,5 @@ public class MealPlannerActivity extends AppCompatActivity implements MealPlanne
         } catch (ParseException e) {
             return false;
         }
-    }
-
-    // Get this context
-    @Override
-    public Context getContext() {
-        return this.getContext();
     }
 }

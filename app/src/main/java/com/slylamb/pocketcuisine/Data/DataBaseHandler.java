@@ -225,6 +225,59 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         // Delete recipe which matches title
         db.delete(Constants.TABLE_FAVORITE_RECIPE, Constants.KEY_RECIPE_TITLE + " = " + title, null);
     }
+
+    // Get all planned meals
+    public ArrayList<PlannedMeal> getPlannedMeals() {
+        // Get readable database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Get cursor for planned meals
+        Cursor cursor = db.query(Constants.TABLE_PLANNED_MEAL, new String[]{
+                        Constants.KEY_PLANNEDMEAL_ID, Constants.KEY_PLANNEDMEAL_TITLE, Constants.KEY_PLANNEDMEAL_IMAGE,
+                        Constants.KEY_PLANNEDMEAL_PUBLISHER, Constants.KEY_PLANNEDMEAL_SOURCE, Constants.KEY_PLANNEDMEAL_DATE},
+                null, null, null, null, null);
+        // Initialize planned meals list
+        ArrayList<PlannedMeal> meals = new ArrayList<>();
+        // Go through all planned meals in cursor
+        if (cursor.moveToFirst()) {
+            do {
+                // Create recipe from planned meal info
+                Recipe recipe = new Recipe();
+                recipe.setTitle(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_TITLE)));
+                recipe.setImageLink(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_IMAGE)));
+                recipe.setPublisher(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_PUBLISHER)));
+                recipe.setSourceURL(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_SOURCE)));
+                // Then create planned meal with recipe and date and add it to list
+                PlannedMeal meal = new PlannedMeal();
+                meal.setRecipe(recipe);
+                meal.setDateFromString(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_DATE)));
+                meals.add(meal);
+
+            } while (cursor.moveToNext());
+        }
+        return meals;
+    }
+    // Get planned meal with keyId
+    public PlannedMeal getPlannedMeal(String keyId) {
+        // Get readable database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Get cursor for planned meal at keyId
+        Cursor cursor = db.query(Constants.TABLE_PLANNED_MEAL, new String[] {
+                Constants.KEY_PLANNEDMEAL_ID, Constants.KEY_PLANNEDMEAL_TITLE, Constants.KEY_PLANNEDMEAL_IMAGE,
+                Constants.KEY_PLANNEDMEAL_PUBLISHER, Constants.KEY_PLANNEDMEAL_SOURCE, Constants.KEY_PLANNEDMEAL_DATE},
+                Constants.KEY_PLANNEDMEAL_ID + " = " + keyId,
+                null, null, null, null );
+        // Create recipe object from planned meal info
+        Recipe recipe = new Recipe();
+        recipe.setTitle(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_TITLE)));
+        recipe.setImageLink(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_IMAGE)));
+        recipe.setPublisher(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_PUBLISHER)));
+        recipe.setSourceURL(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_SOURCE)));
+        PlannedMeal meal = new PlannedMeal();
+        meal.setRecipe(recipe);
+        meal.setDateFromString(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_DATE)));
+        cursor.close();
+        return meal;
+    }
     // Add planned meal to database
     public void addPlannedMeal(PlannedMeal meal) {
         // Get writable database
@@ -239,119 +292,27 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         // Interst planned meal values to database
         db.insert(Constants.TABLE_PLANNED_MEAL, null, values);
     }
-    // Get all planned meals
-    public ArrayList<PlannedMeal> getPlannedMeals() {
-        // Get readable database
-        SQLiteDatabase db = this.getReadableDatabase();
-        // Get cursor for planned meals
-        Cursor cursor = db.query(Constants.TABLE_PLANNED_MEAL, new String[] {
-                Constants.KEY_PLANNEDMEAL_ID, Constants.KEY_PLANNEDMEAL_TITLE, Constants.KEY_PLANNEDMEAL_IMAGE,
-                Constants.KEY_PLANNEDMEAL_PUBLISHER, Constants.KEY_PLANNEDMEAL_SOURCE, Constants.KEY_PLANNEDMEAL_DATE},
-                null, null, null, null, null );
-        // Initialize planned meals list
-        ArrayList<PlannedMeal> meals = new ArrayList<>();
-        // Go through all planned meals in cursor
-        if (cursor.moveToFirst()) {
-            do {
-                Recipe recipe = new Recipe();
-                recipe.setTitle(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_TITLE)));
-                recipe.setImageLink(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_IMAGE)));
-                recipe.setPublisher(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_PUBLISHER)));
-                recipe.setSourceURL(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_SOURCE)));
-                PlannedMeal meal = new PlannedMeal();
-                meal.setRecipe(recipe);
-                meal.setDateFromString(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_DATE)));
-                meals.add(meal);
-
-            } while (cursor.moveToNext());
-            return meals;
-        }
-
-        Recipe recipe = new Recipe();
-        recipe.setTitle(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_TITLE)));
-        recipe.setImageLink(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_IMAGE)));
-        recipe.setPublisher(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_PUBLISHER)));
-        recipe.setSourceURL(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_SOURCE)));
-        cursor.close();
-        return recipe;
-
-
-        /*
-        // Todo: get planned meals from database
-        //return new ArrayList<>();
-
-        // DEBUGGING
-        // TEST DATA
-        // 1
-        Recipe recipe = new Recipe();
-        recipe.setImageLink("http://static.food2fork.com/iW8v49knM5faff.jpg");
-        recipe.setTitle("Chicken with Spring Vegetables and Gnocchi");
-        recipe.setPublisher("Framed Cooks");
-        ArrayList<Ingredient> ingredients = new ArrayList<>();
-        Ingredient ingredient = new Ingredient();
-        ingredient.setItemName("10 cups chicken broth");
-        ingredients.add(ingredient);
-        Ingredient ingredient1 = new Ingredient();
-        ingredient1.setItemName("1/2 stick butter");
-        ingredients.add(ingredient1);
-        recipe.setIngredients(ingredients);
-        recipe.setSourceURL("http://www.framedcooks.com/2012/05/chicken-with-spring-vegetables-and-gnocchi.html");
-        ArrayList<PlannedMeal> meals = new ArrayList<>();
-        PlannedMeal meal = new PlannedMeal();
-        meal.setRecipe(recipe);
-        String date = "15-02-2019";
-        final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        Date realDate = new Date();
-        try {
-            realDate = formatter.parse(date);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        meal.setDate(realDate);
-        meals.add(meal);
-        // 2
-        Recipe recipe1 = new Recipe();
-        recipe1.setImageLink("http://static.food2fork.com/Jalapeno2BPopper2BGrilled2BCheese2BSandwich2B12B500fd186186.jpg");
-        recipe1.setTitle("Jalapeno Popper Grilled Cheese Sandwich");
-        recipe1.setPublisher("Closet Cooking");
-        ArrayList<Ingredient> ingredients1 = new ArrayList<>();
-        Ingredient ingredient2 = new Ingredient();
-        ingredient2.setItemName("2 jalapeno peppers, cut in half lengthwise and seeded");
-        ingredients1.add(ingredient2);
-        Ingredient ingredient3 = new Ingredient();
-        ingredient3.setItemName("2 slices sour dough bread");
-        ingredients1.add(ingredient3);
-        recipe1.setIngredients(ingredients1);
-        recipe1.setSourceURL("http://www.closetcooking.com/2011/04/jalapeno-popper-grilled-cheese-sandwich.html");
-        ArrayList<PlannedMeal> meals1 = new ArrayList<>();
-        PlannedMeal meal1 = new PlannedMeal();
-        meal1.setRecipe(recipe1);
-        String date1 = "19-02-2019";
-        Date realDate1 = new Date();
-        try {
-            realDate1 = formatter.parse(date1);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        meal1.setDate(realDate1);
-        meals.add(meal1);
-        return meals;  */
-    }
-    // Add ingredients to shopping list
-    public void addShoppingListFromIngredients(ArrayList<Ingredient> ingredients) {
-        // Todo: add ingredents to database
-    }
-    // Get planned meal with keyId
-    public PlannedMeal getPlannedMeal(String keyId) {
-        // Todo: get planned meal from database and return it
-        return new PlannedMeal();
-
-
-
-    }
     // Delete planned meal with keyId
     public void deletePlannedMeal(String keyId) {
         // Todo: delete planned meal at keyId from database
+    }
+
+    // Add ingredients to shopping list
+    public void addShoppingListFromIngredients(ArrayList<Ingredient> ingredients) {
+        // Get writable database
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Go thru all ingredients, split their name and add it to list of names
+        ArrayList<String> ingredientsNames = new ArrayList<>();
+        for (int i = 0; i < ingredients.size(); i++) {
+            String[] splitted = ingredients.get(i).getItemName().split(",");
+            ingredientsNames.add(splitted[0]);
+        }
+        //
+        ContentValues values = new ContentValues();
+        for (int i = 0; i < ingredientsNames.size(); i++) {
+            values.put(Constants.KEY_ITEM_STRING, ingredientsNames.get(i));
+            db.insert(Constants.TABLE_SHOPPINGLIST_NAME, null, values);
+        }
     }
 
 }

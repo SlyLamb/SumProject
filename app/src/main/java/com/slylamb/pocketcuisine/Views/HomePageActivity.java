@@ -29,6 +29,7 @@ import com.slylamb.pocketcuisine.R;
 
 public class HomePageActivity extends AppCompatActivity {
     private ImageButton btnSearch;
+    private ImageButton btnShoppingList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +37,23 @@ public class HomePageActivity extends AppCompatActivity {
         setContentView(R.layout.homepage);
 
         btnSearch = findViewById(R.id.btnSearch);
+        btnShoppingList =  findViewById(R.id.btnShoppingList);
+
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 startActivity(new Intent(HomePageActivity.this, SearchRecipeActivity.class));
+
+            }
+        });
+
+        btnShoppingList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(HomePageActivity.this, ShoppingListActivity.class));
 
             }
         });

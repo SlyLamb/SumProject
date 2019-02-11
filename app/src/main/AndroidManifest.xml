@@ -23,9 +23,14 @@
         </activity>
         <activity
             android:name=".Views.HomePageActivity"
-            android:parentActivityName=".Views.MainActivity"></activity>
-        <activity android:name=".Views.SearchRecipeActivity"
-            android:parentActivityName=".Views.HomePageActivity"></activity>
+            android:parentActivityName=".Views.MainActivity" />
+        <activity
+            android:name=".Views.SearchRecipeActivity"
+            android:parentActivityName=".Views.HomePageActivity" />
+        <activity
+            android:name=".Views.ShoppingListActivity"
+            android:parentActivityName=".Views.HomePageActivity" />
+        <activity android:name=".Views.FavouritePageActivity"></activity>
     </application>
 
 </manifest>

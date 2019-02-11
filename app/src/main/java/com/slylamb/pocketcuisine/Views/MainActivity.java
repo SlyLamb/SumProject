@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements MainPageActivityP
         EditText txtEmail = findViewById(R.id.txtEmail);
         EditText txtPassword = findViewById(R.id.txtPassword);
         btnLogin = findViewById(R.id.btnLogin);
-         txtLoginSuccess = findViewById(R.id.txtloginStatus);
+         //txtLoginSuccess = findViewById(R.id.txtloginStatus);
          btnConAsGuest = findViewById(R.id.btnConAsGuest);
         //btnLogin.setOnClickListener(this);
 
@@ -89,9 +89,9 @@ public class MainActivity extends AppCompatActivity implements MainPageActivityP
             @Override
             public void onClick(View v) {
                 //presenter.login();  ONLY LINE BEFORE EDITING
-                Intent intent = new Intent(getApplicationContext(), RecipeActivity.class);
-                intent.putExtra("recipeID", "92b194");
-                startActivity(intent);
+//                Intent intent = new Intent(getApplicationContext(), RecipeActivity.class);
+//                intent.putExtra("recipeID", "92b194");
+//                startActivity(intent);
 
             }
         });

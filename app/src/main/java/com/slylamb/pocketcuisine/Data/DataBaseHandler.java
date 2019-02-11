@@ -49,14 +49,30 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         //--------------------------------------------------------------------
         // Gabi code start
         //--------------------------------------------------------------------
-        /*
-        String CREATE_PLANEDMEAL_TABLE ="CREATE TABLE " + Constants.TABLE_NAME + "("
-                + Constants.KEY_ID + " INTEGER PRIMARY KEY," + Constants.KEY_ITEM_STRING + " TEXT"
-                + " );";
 
-        db.execSQL(CREATE_PLANEDMEAL_TABLE);*/
+        String CREATE_FAVORITE_RECIPE_TABLE = "CREATE TABLE " + Constants.TABLE_FAVORITE_RECIPE + "("
+                + Constants.KEY_RECIPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + Constants.KEY_RECIPE_TITLE + " TEXT," + Constants.KEY_RECIPE_IMAGE + " TEXT,"
+                + Constants.KEY_RECIPE_PUBLISHER + " TEXT," + Constants.KEY_RECIPE_SOURCE + " TEXT );";
+        db.execSQL(CREATE_FAVORITE_RECIPE_TABLE);
+
+        String CREATE_PLANNEDMEAL_TABLE = "CREATE TABLE " + Constants.TABLE_PLANNED_MEAL + "("
+                + Constants.KEY_PLANNEDMEAL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + Constants.KEY_PLANNEDMEAL_TITLE + " TEXT," + Constants.KEY_PLANNEDMEAL_IMAGE + " TEXT,"
+                + Constants.KEY_PLANNEDMEAL_PUBLISHER + " TEXT," + Constants.KEY_PLANNEDMEAL_SOURCE + " TEXT,"
+                + Constants.KEY_PLANNEDMEAL_DATE + " TEXT );";
+        db.execSQL(CREATE_PLANNEDMEAL_TABLE);
 
     }
+
+    /*
+     public static final String KEY_PLANNEDMEAL_ID = "planned_meal_id";
+    public static final String KEY_PLANNEDMEAL_TITLE = "planned_meal_title";
+    public static final String KEY_PLANNEDMEAL_IMAGE = "planned_meal_image_link";
+    public static final String KEY_PLANNEDMEAL_PUBLISHER = "planned_meal_publisher";
+    public static final String KEY_PLANNEDMEAL_SOURCE = "planned_meal_source_url";
+    public static final String KEY_PLANNEDMEAL_DATE = "planned_meal_date";
+     */
 
 
     @Override

@@ -23,6 +23,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
@@ -43,7 +49,11 @@ public class RecipeActivityPresenter {
         if (type.equals("API")) {
             // Get api url
             String url = baseUrl + key + recipeSearch + recipeID;
-            getRecipeFromAPI(url);
+            try {
+                getRecipeFromAPI(url);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         // If type is DB, must get recipe from Database
         } else if (type.equals("DB")) {
             recipe = db.getRecipe(recipeID);
@@ -105,11 +115,26 @@ public class RecipeActivityPresenter {
     }
 
     // Initialise recipe and sets its values from API url
-    public void getRecipeFromAPI(String url) {
+    private void getRecipeFromAPI(String sURL) throws IOException {/*
+        // Connect to the URL using java's native library
+        URL url = new URL(sURL);
+        URLConnection request = url.openConnection();
+        request.connect();
+
+        // Convert to a JSON object to print data
+        JsonParser jp = new JsonParser(); //from gson
+        JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
+        JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object.
+        String zipcode = rootobj.get("zip_code").getAsString(); //just grab the zipcode
+
+
+
+
+
         Log.i(TAG, "DEBUGGING - API - inside getRecipeFromAPI, url = " + url);
         JSONObject recipeObj = new JSONObject();
         try {
-            recipeObj = new JSONObject(url);
+            recipeObj = JsonReader.readJsonFromUrl(url);
             Log.i(TAG, "DEBUGGING - API - recipeObj = " + recipeObj);
         } catch (Exception e) {
             e.printStackTrace();
@@ -150,7 +175,7 @@ public class RecipeActivityPresenter {
         }
         ArrayList<Ingredient> ingredients = new ArrayList<>();
         for (int i = 0; i < ingredientsArray.length(); i++) {
-            String ingredientString = new String();
+            String ingredientString = "";
             try {
                 ingredientString = ingredientsArray.getString(i);
             } catch (Exception e) {
@@ -160,7 +185,7 @@ public class RecipeActivityPresenter {
             ingredient.setItemName(ingredientString);
             ingredients.add(ingredient);
         }
-        recipe.setIngredients(ingredients);
+        recipe.setIngredients(ingredients);*/
     }
 
     public interface View {

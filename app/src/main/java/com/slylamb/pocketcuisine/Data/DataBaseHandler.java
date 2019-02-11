@@ -229,18 +229,54 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public void addPlannedMeal(PlannedMeal meal) {
         // Get writable database
         SQLiteDatabase db = this.getWritableDatabase();
-        // Set content values with recipe details
+        // Set content values with planed meal details
         ContentValues values = new ContentValues();
         values.put(Constants.KEY_PLANNEDMEAL_TITLE, meal.getRecipe().getTitle());
         values.put(Constants.KEY_PLANNEDMEAL_IMAGE, meal.getRecipe().getImageLink());
         values.put(Constants.KEY_PLANNEDMEAL_PUBLISHER, meal.getRecipe().getPublisher());
         values.put(Constants.KEY_PLANNEDMEAL_SOURCE, meal.getRecipe().getSourceURL());
         values.put(Constants.KEY_PLANNEDMEAL_DATE, meal.getDateString());
-        // Interst recipe values to database
+        // Interst planned meal values to database
         db.insert(Constants.TABLE_PLANNED_MEAL, null, values);
     }
     // Get all planned meals
     public ArrayList<PlannedMeal> getPlannedMeals() {
+        // Get readable database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Get cursor for planned meals
+        Cursor cursor = db.query(Constants.TABLE_PLANNED_MEAL, new String[] {
+                Constants.KEY_PLANNEDMEAL_ID, Constants.KEY_PLANNEDMEAL_TITLE, Constants.KEY_PLANNEDMEAL_IMAGE,
+                Constants.KEY_PLANNEDMEAL_PUBLISHER, Constants.KEY_PLANNEDMEAL_SOURCE, Constants.KEY_PLANNEDMEAL_DATE},
+                null, null, null, null, null );
+        // Initialize planned meals list
+        ArrayList<PlannedMeal> meals = new ArrayList<>();
+        // Go through all planned meals in cursor
+        if (cursor.moveToFirst()) {
+            do {
+                Recipe recipe = new Recipe();
+                recipe.setTitle(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_TITLE)));
+                recipe.setImageLink(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_IMAGE)));
+                recipe.setPublisher(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_PUBLISHER)));
+                recipe.setSourceURL(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_SOURCE)));
+                PlannedMeal meal = new PlannedMeal();
+                meal.setRecipe(recipe);
+                meal.setDateFromString(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_DATE)));
+                meals.add(meal);
+
+            } while (cursor.moveToNext());
+            return meals;
+        }
+
+        Recipe recipe = new Recipe();
+        recipe.setTitle(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_TITLE)));
+        recipe.setImageLink(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_IMAGE)));
+        recipe.setPublisher(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_PUBLISHER)));
+        recipe.setSourceURL(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_SOURCE)));
+        cursor.close();
+        return recipe;
+
+
+        /*
         // Todo: get planned meals from database
         //return new ArrayList<>();
 
@@ -299,7 +335,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         }
         meal1.setDate(realDate1);
         meals.add(meal1);
-        return meals;
+        return meals;  */
     }
     // Add ingredients to shopping list
     public void addShoppingListFromIngredients(ArrayList<Ingredient> ingredients) {

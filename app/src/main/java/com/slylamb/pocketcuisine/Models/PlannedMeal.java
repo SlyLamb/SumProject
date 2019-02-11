@@ -11,15 +11,15 @@ public class PlannedMeal {
     private String ID;
     private Recipe recipe;
     private Date date;      // Date that the recipe is scheduled for
+    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
     public PlannedMeal() {
         recipe = new Recipe();
     }
     public PlannedMeal(Recipe recipe, String date) {
         this.recipe = recipe;
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         try {
-            this.date = format.parse(date);
+            this.date = formatter.parse(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -35,7 +35,6 @@ public class PlannedMeal {
         return date;
     }
     public String getDateString() {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         return formatter.format(this.date);
     }
 
@@ -45,5 +44,12 @@ public class PlannedMeal {
     }
     public void setDate(Date date) {
         this.date = date;
+    }
+    public void setDateFromString(String dateString) {
+        try {
+            this.date = formatter.parse(dateString);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.slylamb.pocketcuisine.Models;
 
+import android.support.constraint.Constraints;
 import android.text.format.DateUtils;
 import android.util.Log;
 
@@ -69,10 +70,14 @@ public class MealPlanner {
         // Go thru all planned meals before selected date
         int i = 0;
         while (plannedMeals.get(i).getDate().before(date)) {
+            Log.i(Constraints.TAG, "DEBUGGING - meal planner - while - planned meal = " + plannedMeals.get(i).getRecipe().getTitle());
             i++;
         }
+        Log.i(Constraints.TAG, "DEBUGGING - meal planner - thru while - planned meal = " + plannedMeals.get(i).getRecipe().getTitle());
         // Once we get to the current date, go thru all meals on this date
-        while (plannedMeals.get(i).getDate() == date) {
+        Log.i(Constraints.TAG, "DEBUGGING - meal planner - planned meal date = " + plannedMeals.get(i).getDateString() + " and date = " + dateString);
+        while (plannedMeals.get(i).getDateString().equals(dateString)) {
+            Log.i(Constraints.TAG, "DEBUGGING - meal planner - new while - planned meal = " + plannedMeals.get(i).getRecipe().getTitle());
             meals.add(plannedMeals.get(i));
             i++;
         }

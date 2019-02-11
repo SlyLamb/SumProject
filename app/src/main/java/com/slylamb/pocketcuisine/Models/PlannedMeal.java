@@ -34,6 +34,10 @@ public class PlannedMeal {
     public Date getDate() {
         return date;
     }
+    public String getDateString() {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        return formatter.format(this.date);
+    }
 
     // Setters
     public void setRecipe(Recipe recipe) {

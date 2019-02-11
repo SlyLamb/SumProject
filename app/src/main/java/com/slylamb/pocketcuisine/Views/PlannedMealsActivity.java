@@ -29,9 +29,9 @@ public class PlannedMealsActivity extends AppCompatActivity implements PlannedMe
         Intent intent = getIntent();
         date = intent.getStringExtra("date");
         // Get planned meals titles on date chosen
-        ArrayList<String> plannedMealsTitles = new ArrayList<String>(presenter.getPlannedMealsTitles(date));
+        ArrayList<String> plannedMealsTitles = new ArrayList<>(presenter.getPlannedMealsTitles(date));
         // Initialise list view adapter with planned meals
-        adapter = new PlannedMealsListViewAdapter(plannedMealsTitles);
+        adapter = new PlannedMealsListViewAdapter(this.getContext(), plannedMealsTitles);
         lstvPlannedMeals.setAdapter(adapter);
     }
 

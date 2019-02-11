@@ -43,6 +43,28 @@ public class MealPlanner {
         }
         return(ingredients);
     }
+    public ArrayList<PlannedMeal> getPlannedMealsOnDate(String dateString) {
+        // Initialize list of meals and date
+        ArrayList<PlannedMeal> meals = new ArrayList<>();
+        Date date = new Date();
+        // Get date from string with format
+        try {
+            date = formatter.parse(dateString);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // Go thru all planned meals before selected date
+        int i = 0;
+        while (plannedMeals.get(i).getDate().before(date)) {
+            i++;
+        }
+        // Once we get to the current date, go thru all meals on this date
+        while (plannedMeals.get(i).getDate() == date) {
+            meals.add(plannedMeals.get(i));
+            i++;
+        }
+        return meals;
+    }
 
     // Setters
     public void setPlannedMeals(ArrayList<PlannedMeal> meals) {
@@ -74,6 +96,11 @@ public class MealPlanner {
         }
         // If looked at all planned meals and haven't returned true, then return false
         return false;
+    }
+
+    //
+    public void deletePlannedMeal(PlannedMeal meal) {
+        plannedMeals.remove(meal);
     }
 
     // Delete all meals which have now been and gone

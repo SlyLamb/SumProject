@@ -25,6 +25,9 @@ public class PlannedMeal {
         }
     }
     // Getters
+    public String getID() {
+        return ID;
+    }
     public Recipe getRecipe() {
         return recipe;
     }

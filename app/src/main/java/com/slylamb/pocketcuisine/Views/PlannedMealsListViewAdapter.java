@@ -66,21 +66,21 @@ public class PlannedMealsListViewAdapter extends BaseAdapter {
         vh.position = i;
         // Set text in meal button
         vh.btnMeal.setText(plannedMeals.get(vh.position));
+        final int position = vh.position;
         // Set behavior in meal button
         vh.btnMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, Recipe.class);
-                intent.putExtra("plannedMealIDdb", presenter.getPlannedMealId());
+                intent.putExtra("plannedMealIDdb", presenter.getPlannedMealId(position));
                 context.startActivity(intent);
             }
         });
         // Set behavior in delete meal button
-        final int position = vh.position;
         vh.btnDeleteMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.deletePlannedMeal(plannedMeals.get(position));
+                presenter.deletePlannedMeal(position);
             }
         });
         return convertView;

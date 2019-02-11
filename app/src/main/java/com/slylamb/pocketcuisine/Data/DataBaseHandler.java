@@ -118,10 +118,14 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public void addShoppingListFromIngredients(ArrayList<Ingredient> ingredients) {
         // Todo: add ingredents to database
     }
-    //
+    // Get planned meal with keyId
     public PlannedMeal getPlannedMeal(String keyId) {
         // Todo: get planned meal from database and return it
         return new PlannedMeal();
+    }
+    // Delete planned meal with keyId
+    public void deletePlannedMeal(String keyId) {
+        // Todo: delete planned meal at keyId from database
     }
 
 }

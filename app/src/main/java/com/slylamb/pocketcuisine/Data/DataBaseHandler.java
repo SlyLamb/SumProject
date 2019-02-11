@@ -294,7 +294,10 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     }
     // Delete planned meal with keyId
     public void deletePlannedMeal(String keyId) {
-        // Todo: delete planned meal at keyId from database
+        // Get writable database
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Delete planned meal which matches title
+        db.delete(Constants.TABLE_PLANNED_MEAL, Constants.KEY_PLANNEDMEAL_ID + " = " + keyId, null);
     }
 
     // Add ingredients to shopping list

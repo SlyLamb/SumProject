@@ -51,14 +51,12 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
 
 
         String imageLink = recipe.getImageLink();
+        Log.d("downlandlink",imageLink);
         viewHolder.txtRecipeTitle.setText(recipe.getTitle());
         viewHolder.txtRecipePublisher.setText(recipe.getPublisher());
 
-        String newImageLink = imageLink.replace("http","https");
-        Log.d("newdownloadlink",newImageLink);
-
         Picasso.with(context)
-                .load(newImageLink)
+                .load(imageLink)
                 .error(R.drawable.common_full_open_on_phone)
                 .fit()
                 .into(viewHolder.recipeImage);

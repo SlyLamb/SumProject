@@ -65,19 +65,11 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     }
 
-    /*
-     public static final String KEY_PLANNEDMEAL_ID = "planned_meal_id";
-    public static final String KEY_PLANNEDMEAL_TITLE = "planned_meal_title";
-    public static final String KEY_PLANNEDMEAL_IMAGE = "planned_meal_image_link";
-    public static final String KEY_PLANNEDMEAL_PUBLISHER = "planned_meal_publisher";
-    public static final String KEY_PLANNEDMEAL_SOURCE = "planned_meal_source_url";
-    public static final String KEY_PLANNEDMEAL_DATE = "planned_meal_date";
-     */
-
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_SHOPPINGLIST_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_FAVORITE_RECIPE);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_PLANNED_MEAL);
         onCreate(db);
 
     }
@@ -182,8 +174,20 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     //----------------------------------------------------------------------------------------
     // Get recipe at keyId
     public Recipe getRecipe(String keyId) {
-        // Todo: get recipe from database using KEY_ID
-        return new Recipe();
+        // Get readable database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Get cursor for recipe at keyId
+        Cursor cursor = db.query(Constants.TABLE_FAVORITE_RECIPE, new String[] {
+                Constants.KEY_RECIPE_ID, Constants.KEY_RECIPE_TITLE, Constants.KEY_RECIPE_IMAGE,
+                Constants.KEY_RECIPE_PUBLISHER, Constants.KEY_RECIPE_SOURCE}, Constants.KEY_RECIPE_ID + " = " + keyId,
+                null, null, null, null );
+        // Create recipe object from database and return it
+        Recipe recipe = new Recipe();
+        recipe.setTitle(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_TITLE)));
+        recipe.setImageLink(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_IMAGE)));
+        recipe.setPublisher(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_PUBLISHER)));
+        recipe.setSourceURL(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_SOURCE)));
+        return recipe;
     }
     // True if recipe in database, false otherwise
     public boolean hasRecipe(String title) {

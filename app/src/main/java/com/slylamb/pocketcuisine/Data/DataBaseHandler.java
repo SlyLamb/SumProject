@@ -204,7 +204,16 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     }
     // Add recipe to database
     public void addRecipe(Recipe recipe) {
-        // Todo: add recipe to database
+        // Get readable database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Set content values with recipe details
+        ContentValues values = new ContentValues();
+        values.put(Constants.KEY_RECIPE_TITLE, recipe.getTitle());
+        values.put(Constants.KEY_RECIPE_IMAGE, recipe.getImageLink());
+        values.put(Constants.KEY_RECIPE_PUBLISHER, recipe.getPublisher());
+        values.put(Constants.KEY_RECIPE_SOURCE, recipe.getSourceURL());
+        // Interst recipe values to database
+        db.insert(Constants.TABLE_FAVORITE_RECIPE, null, values);
     }
     // Delete recipe from database
     public void deleteRecipe(String title) {

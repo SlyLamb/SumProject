@@ -67,7 +67,6 @@ public class MealPlannerActivity extends AppCompatActivity implements MealPlanne
 
         // Setup calendar listener
         calendar.setCaldroidListener(new CaldroidListener() {
-            private static final String TAG = "b";
 
             @Override
             public void onSelectDate(Date date, View view) {

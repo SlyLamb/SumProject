@@ -6,9 +6,12 @@ public class ShoppingList {
     private String name;
     private ArrayList<String> items;
 
-    // GABRIEL METHODS
-    public ShoppingList(Recipe recipe, String name) {
+    public ShoppingList(ArrayList<String> items, String name) {
+        this.items = items;
         this.name = name;
-        // Todo: convert recipe object into ingredients list (Thinking about using only ingredient names in list, not amount)
+    }
+    // Getters
+    public String getName() {
+        return name;
     }
 }

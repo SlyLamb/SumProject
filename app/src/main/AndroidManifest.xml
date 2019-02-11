@@ -31,6 +31,11 @@
             android:name=".Views.ShoppingListActivity"
             android:parentActivityName=".Views.HomePageActivity" />
         <activity android:name=".Views.FavouritePageActivity"></activity>
+        <activity android:name=".Views.RecipeActivity" />
+        <activity android:name=".Views.MealPlannerActivity"
+            android:parentActivityName=".Views.HomePageActivity"/>
+        <activity android:name=".Views.PlannedMealsActivity"
+            android:parentActivityName=".Views.MealPlannerActivity"></activity>
     </application>
 
 </manifest>

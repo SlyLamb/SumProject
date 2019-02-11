@@ -1,6 +1,7 @@
 package com.slylamb.pocketcuisine.Util;
 
 public class Constants {
+
     public static final int DB_VERSION = 2;
     public static final String DB_NAME = "pocketcuisineDB";
     public static final String TABLE_PLANNED_MEAL = "plannedMealTB";
@@ -16,5 +17,4 @@ public class Constants {
     public static final String KEY_PLANNEDMEAL_IMAGELINK="image_link";
     public static final String KEY_PLANNEDMEAL_NAME = "name";
     public static final String KEY_PLANNEDMEAL_ID = "planned_meal_id";
-
 }

@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 public class Recipe {
 
+    private String ID;
     private String title;
     private String imageLink;
     private String publisher;
-    private ArrayList<String> ingredients;
+    private String sourceURL;
+    private ArrayList<Ingredient> ingredients;
 
     public Recipe(){}
 
@@ -21,7 +23,10 @@ public class Recipe {
     public String getPublisher() {
         return publisher;
     }
-    public ArrayList<String> getIngredients() {
+    public String getSourceURL() {
+        return sourceURL;
+    }
+    public ArrayList<Ingredient> getIngredients() {
         return(ingredients);
     }
     // Setters
@@ -29,13 +34,18 @@ public class Recipe {
         this.title = title;
     }
     public void setImageLink(String imageLink){
-        this.imageLink = imageLink;
+        // Swapping http with https so image is found and displayed
+        this.imageLink = imageLink.replace("http","https");
 
     }
     public void setPublisher(String publisher){
         this.publisher = publisher;
     }
-    public void setIngredients(ArrayList<String> ingredients) {
+    public void setSourceURL(String sourceURL) {
+        // Swapping http with https so web page is found and displayed
+         this.sourceURL = sourceURL.replace("http","https");
+    }
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
         this.ingredients = new ArrayList<>(ingredients);
     }
 

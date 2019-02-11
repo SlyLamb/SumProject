@@ -187,6 +187,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         recipe.setImageLink(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_IMAGE)));
         recipe.setPublisher(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_PUBLISHER)));
         recipe.setSourceURL(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_SOURCE)));
+        cursor.close();
         return recipe;
     }
     // True if recipe in database, false otherwise
@@ -198,14 +199,16 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 Constants.KEY_RECIPE_TITLE + " = " + title,null, null, null, null );
         // If cursor can't move to first and its count is 0, no recipe found that matches selection criteria
         if (!(cursor.moveToFirst()) || cursor.getCount() == 0) {
+            cursor.close();
             return false;
         }
+        cursor.close();
         return true;
     }
     // Add recipe to database
     public void addRecipe(Recipe recipe) {
-        // Get readable database
-        SQLiteDatabase db = this.getReadableDatabase();
+        // Get writable database
+        SQLiteDatabase db = this.getWritableDatabase();
         // Set content values with recipe details
         ContentValues values = new ContentValues();
         values.put(Constants.KEY_RECIPE_TITLE, recipe.getTitle());
@@ -217,11 +220,24 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     }
     // Delete recipe from database
     public void deleteRecipe(String title) {
-        // Todo: delete recipe from database
+        // Get writable database
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Delete recipe which matches title
+        db.delete(Constants.TABLE_FAVORITE_RECIPE, Constants.KEY_RECIPE_TITLE + " = " + title, null);
     }
     // Add planned meal to database
     public void addPlannedMeal(PlannedMeal meal) {
-        // Todo: add planned meal to database
+        // Get writable database
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Set content values with recipe details
+        ContentValues values = new ContentValues();
+        values.put(Constants.KEY_PLANNEDMEAL_TITLE, meal.getRecipe().getTitle());
+        values.put(Constants.KEY_PLANNEDMEAL_IMAGE, meal.getRecipe().getImageLink());
+        values.put(Constants.KEY_PLANNEDMEAL_PUBLISHER, meal.getRecipe().getPublisher());
+        values.put(Constants.KEY_PLANNEDMEAL_SOURCE, meal.getRecipe().getSourceURL());
+        values.put(Constants.KEY_PLANNEDMEAL_DATE, meal.getDateString());
+        // Interst recipe values to database
+        db.insert(Constants.TABLE_PLANNED_MEAL, null, values);
     }
     // Get all planned meals
     public ArrayList<PlannedMeal> getPlannedMeals() {

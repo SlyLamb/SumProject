@@ -30,6 +30,7 @@
         <activity
             android:name=".Views.ShoppingListActivity"
             android:parentActivityName=".Views.HomePageActivity" />
+        <activity android:name=".Views.FavouritePageActivity"></activity>
     </application>
 
 </manifest>

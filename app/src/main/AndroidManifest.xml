@@ -23,19 +23,31 @@
         </activity>
         <activity
             android:name=".Views.HomePageActivity"
-            android:parentActivityName=".Views.MainActivity" />
+            android:parentActivityName=".Views.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Views.SearchRecipeActivity"
-            android:parentActivityName=".Views.HomePageActivity" />
+            android:parentActivityName=".Views.HomePageActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Views.ShoppingListActivity"
-            android:parentActivityName=".Views.HomePageActivity" />
-        <activity android:name=".Views.FavouritePageActivity"></activity>
-        <activity android:name=".Views.RecipeActivity" />
-        <activity android:name=".Views.MealPlannerActivity"
-            android:parentActivityName=".Views.HomePageActivity"/>
+            android:parentActivityName=".Views.HomePageActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Views.FavouritePageActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".Views.RecipeActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Views.MealPlannerActivity"
+            android:parentActivityName=".Views.HomePageActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Views.PlannedMealsActivity"
-            android:parentActivityName=".Views.MealPlannerActivity"></activity>
+            android:parentActivityName=".Views.MealPlannerActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

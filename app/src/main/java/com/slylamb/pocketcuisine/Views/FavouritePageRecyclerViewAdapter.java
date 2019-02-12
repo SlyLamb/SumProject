@@ -28,27 +28,25 @@ import android.os.AsyncTask;
 
 
 
-public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecyclerViewAdapter.ViewHolder>{
+public class FavouritePageRecyclerViewAdapter extends RecyclerView.Adapter<FavouritePageRecyclerViewAdapter.ViewHolder>{
 
     private Context context;
     private List<Recipe> recipeList;
 
-    public RecipeRecyclerViewAdapter(Context context,List<Recipe>recipes){
+    public FavouritePageRecyclerViewAdapter(Context context,List<Recipe>recipes){
         this.context = context;
         recipeList = recipes;
     }
 
     @Override
-    public RecipeRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recipe_row,viewGroup,false);
+    public FavouritePageRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recipe_favourite_page_row,viewGroup,false);
         return new ViewHolder(view,context);
     }
 
     @Override
-    public void onBindViewHolder( RecipeRecyclerViewAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder( FavouritePageRecyclerViewAdapter.ViewHolder viewHolder, int i) {
         Recipe recipe = recipeList.get(i);
-
-
 
         String imageLink = recipe.getImageLink();
         Log.d("downlandlink",imageLink);
@@ -87,7 +85,7 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
 
                     Recipe recipe = recipeList.get(getAdapterPosition());
                     Intent intent = new Intent(context, RecipeActivity.class);
-                    intent.putExtra("recipeIDapi",recipe.getID());
+                    intent.putExtra("recipeIDdb",recipe.getID());
                     context.startActivity(intent);
 
                 }

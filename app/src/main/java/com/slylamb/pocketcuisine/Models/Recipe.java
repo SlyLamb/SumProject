@@ -29,6 +29,11 @@ public class Recipe {
     public ArrayList<Ingredient> getIngredients() {
         return(ingredients);
     }
+
+    public String getID() {
+        return ID;
+    }
+
     // Setters
     public void setTitle(String title){
         this.title = title;
@@ -47,6 +52,10 @@ public class Recipe {
     }
     public void setIngredients(ArrayList<Ingredient> ingredients) {
         this.ingredients = new ArrayList<>(ingredients);
+    }
+
+    public void setID(String id){
+        this.ID = id;
     }
 
 }

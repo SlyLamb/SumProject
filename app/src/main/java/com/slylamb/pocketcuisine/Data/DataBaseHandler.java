@@ -39,6 +39,12 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 + Constants.KEY_STRING_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + Constants.KEY_ITEM_STRING + " TEXT"
                  + " );";
 
+        String CREATE_FAVORITE_RECIPE_TABLE = "CREATE TABLE " + Constants.TABLE_FAVOURITE_RECIPE + "("
+                + Constants.KEY_RECIPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + Constants.KEY_RECIPE_TITLE + " TEXT," + Constants.KEY_RECIPE_IMAGE + " TEXT,"
+                + Constants.KEY_RECIPE_PUBLISHER + " TEXT," + Constants.KEY_RECIPE_SOURCE + " TEXT," + Constants.KEY_RECIPE_RECIPEID + "TEXT"+");";
+        db.execSQL(CREATE_FAVORITE_RECIPE_TABLE);
+
 //        String CREATE_PLANNEDMEAL_TABLE="CREATE TABLE " + Constants.TABLE_PLANNED_MEAL + "("
 //                + Constants.KEY_PLANNEDMEAL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + Constants.KEY_PLANNEDMEAL_NAME + " TEXT,"
 //                + Constants.KEY_PLANNEDMEAL_URL + " TEXT," + Constants.KEY_PLANNEDMEAL_IMAGELINK + " TEXT"+ " );";
@@ -62,11 +68,15 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_SHOPPINGLIST_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_FAVOURITE_RECIPE);
         onCreate(db);
 
     }
 
 
+    //----------------------------------------------------------------------------------------
+    // Ming--Shopping List functions
+    //----------------------------------------------------------------------------------------
     public void addShoppingListFromUserInput(Ingredient ingredient){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -134,7 +144,6 @@ public class DataBaseHandler extends SQLiteOpenHelper {
             Cursor cursor = db.query(Constants.TABLE_SHOPPINGLIST_NAME, new String[] {
                     Constants.KEY_STRING_ITEM_ID,Constants.KEY_ITEM_STRING}, null, null, null, null, null );
 
-
             if (cursor.moveToFirst()) {
                 do {
                     Ingredient ingredient = new Ingredient();
@@ -159,6 +168,63 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
         db.close();
     }
+
+    //----------------------------------------------------------------------------------------
+    // Ming--Favourite Recipe functions
+    //----------------------------------------------------------------------------------------
+
+    public List<Recipe> getALLFavouriteRecipesFromFavouriteRecipeTB() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_FAVOURITE_RECIPE);
+
+        String CREATE_FAVORITE_RECIPE_TABLE = "CREATE TABLE " + Constants.TABLE_FAVOURITE_RECIPE + "("
+                + Constants.KEY_RECIPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + Constants.KEY_RECIPE_TITLE + " TEXT," + Constants.KEY_RECIPE_IMAGE + " TEXT,"
+                + Constants.KEY_RECIPE_PUBLISHER + " TEXT," + Constants.KEY_RECIPE_SOURCE + " TEXT" +");";
+        db.execSQL(CREATE_FAVORITE_RECIPE_TABLE);
+
+        ContentValues values = new ContentValues();
+
+        values.put(Constants.KEY_RECIPE_TITLE, "Chicken cacciatore");
+        values.put(Constants.KEY_RECIPE_IMAGE, "http://static.food2fork.com/4251_MEDIUM71f0.jpg");
+        values.put(Constants.KEY_RECIPE_PUBLISHER, "BBC Good Food");
+        values.put(Constants.KEY_RECIPE_SOURCE, "http://www.bbcgoodfood.com/recipes/4251/chicken-cacciatore");
+        db.insert(Constants.TABLE_FAVOURITE_RECIPE, null, values);
+
+
+
+        List<Recipe> recipeList = new ArrayList<>();
+
+        Cursor cursor = db.query(Constants.TABLE_FAVOURITE_RECIPE, new String[] {
+                Constants.KEY_RECIPE_ID,Constants.KEY_RECIPE_TITLE,Constants.KEY_RECIPE_IMAGE,Constants.KEY_RECIPE_PUBLISHER,
+        Constants.KEY_RECIPE_SOURCE}, null, null, null, null, null );
+
+        if (cursor.moveToFirst()) {
+            do {
+                Recipe recipe = new Recipe();
+
+                recipe.setTitle(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_TITLE)));
+
+                recipe.setPublisher(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_PUBLISHER)));
+
+                recipe.setImageLink(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_IMAGE)));
+
+                recipe.setSourceURL(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_SOURCE)));
+
+                recipe.setID(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_ID)));
+
+
+                recipeList.add(recipe);
+
+            }while (cursor.moveToNext());
+        }
+
+        return recipeList;
+    }
+
+
+
 
 
     //----------------------------------------------------------------------------------------

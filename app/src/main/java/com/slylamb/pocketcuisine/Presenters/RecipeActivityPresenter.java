@@ -31,7 +31,8 @@ public class RecipeActivityPresenter {
     private DataBaseHandler db;
     private RequestQueue queue;
     private final String baseUrl = "https://www.food2fork.com/api/get?key=";
-    private final String key = "f5b73a553a6a92ccfabca695807bdaeb"; //50 calls limit per day
+    //private final String key = "f5b73a553a6a92ccfabca695807bdaeb"; //50 calls limit per day
+    private final String key = "f5b73a553a6a92ccfabca695807bdaeb";
     private final String recipeSearch = "&rId=";
 
     public RecipeActivityPresenter(View view, Context context, String recipeID, String type) {
@@ -41,12 +42,11 @@ public class RecipeActivityPresenter {
         queue = Volley.newRequestQueue(context);
 
 
-        String url = baseUrl + key + recipeSearch + "35382";
-        Log.i(TAG, "DEBUGGING - calling setRecipeFromAPI - url = " + url);
+        String url = baseUrl + key + recipeSearch + recipeID;
+        Log.d("url",url);
         try {
             getRecipeFromAPI(url);
         } catch (Exception e) {
-            Log.i(TAG, "DEBUGGING - calling setRecipeFromAPI - got exception - message = " + e.getMessage());
             e.printStackTrace();
         }
 
@@ -92,7 +92,7 @@ public class RecipeActivityPresenter {
         // Set fields image, name, duration, servings and ingredients
         view.setRecipeDetails(recipe.getImageLink(), recipe.getTitle(), recipe.getSourceURL());
         // Set favorite button, different look if user has recipe or doesn't
-        view.setFavoriteButton(db.hasRecipe(recipe.getTitle()));
+        //view.setFavoriteButton(db.hasRecipe(recipe.getTitle()));
     }
 
     // Handle add favorite button being pressed
@@ -123,7 +123,7 @@ public class RecipeActivityPresenter {
     // Initialise recipe and sets its values from API url
     private void getRecipeFromAPI(String url) throws IOException {
 
-        Log.i(TAG, "DEBUGGING - getRecipeFromAPI, url = " + url);
+        Log.d("getRecipeFromAPI",url);
     // Todo: not working
         final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -134,12 +134,17 @@ public class RecipeActivityPresenter {
                     // Initialize recipe and set its variables
                     recipe = new Recipe();
                     recipe.setImageLink(recipeObj.getString("image_url"));
+                    Log.d("recipeAPI",recipe.getImageLink());
+
                     recipe.setTitle(recipeObj.getString("title"));
+                    Log.d("recipeAPI",recipe.getTitle());
+
                     recipe.setPublisher(recipeObj.getString("publisher"));
+                    Log.d("recipeAPI",recipe.getPublisher());
+
                     recipe.setSourceURL(recipeObj.getString("source_url"));
-                    Log.i(TAG, "DEBUGGING - getRecipeFromAPI - recipe created, title = " + recipe.getTitle()
-                    + " | and image = " + recipe.getImageLink() + " | and publisher = " + recipe.getPublisher()
-                    + " | and source = " + recipe.getSourceURL());
+                    Log.d("recipeAPI",recipe.getSourceURL());
+
                     // For recipes, get JSONArray and convert into List of Strings
                     JSONArray ingredientsArray = recipeObj.getJSONArray("ingredients");
                     ArrayList<Ingredient> ingredients = new ArrayList<>();
@@ -149,6 +154,9 @@ public class RecipeActivityPresenter {
                         ingredients.add(ingredient);
                     }
                     recipe.setIngredients(ingredients);
+
+                    setRecipeDetails();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

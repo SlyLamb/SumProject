@@ -8,95 +8,141 @@
     android:background="@raw/home">
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="307dp"
         android:layout_height="63dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
         android:background="@raw/header"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.268" />
+        app:layout_constraintVertical_bias="0.199" />
 
-    <ImageButton
-        android:id="@+id/btnSearch"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="?android:selectableItemBackground"
+        android:layout_height="150dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.181"
+        app:layout_constraintHorizontal_bias="0.206"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.477"
-        app:srcCompat="@raw/search_image" />
+        app:layout_constraintVertical_bias="0.368">
 
-    <ImageButton
-        android:id="@+id/btnFavourite"
+        <ImageButton
+            android:id="@+id/btnSearch"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="?android:selectableItemBackground"
+            app:srcCompat="@raw/search_image" />
+
+        <TextView
+            android:id="@+id/lblSearch"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:freezesText="true"
+            android:inputType="none"
+            android:text="Recipe Search"
+            android:textAlignment="center"
+            android:textColor="@color/colorMainGray"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="?android:selectableItemBackground"
+        android:layout_height="150dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.821"
+        app:layout_constraintHorizontal_bias="0.78"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.477"
-        app:srcCompat="@raw/favorite_image" />
+        app:layout_constraintVertical_bias="0.368">
 
-    <ImageButton
-        android:id="@+id/btnShoppingList"
-        android:background="?android:selectableItemBackground"
+        <ImageButton
+            android:id="@+id/btnFavourite"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="?android:selectableItemBackground"
+            app:srcCompat="@raw/favorite_image" />
+
+        <TextView
+            android:id="@+id/lblFavorites"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:freezesText="true"
+            android:inputType="none"
+            android:text="Favorites"
+            android:textAlignment="center"
+            android:textColor="@color/colorMainGray"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="150dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.181"
+        app:layout_constraintHorizontal_bias="0.206"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.712"
-        app:srcCompat="@raw/list_image" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.066">
 
-    <ImageButton
-        android:id="@+id/btnPlanner"
-        android:background="?android:selectableItemBackground"
+        <ImageButton
+            android:id="@+id/btnShoppingList"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="?android:selectableItemBackground"
+            app:srcCompat="@raw/list_image" />
+
+        <TextView
+            android:id="@+id/lblShoppingList"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:freezesText="true"
+            android:inputType="none"
+            android:text="Shopping List"
+            android:textAlignment="center"
+            android:textColor="@color/colorMainGray"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="150dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.822"
+        app:layout_constraintHorizontal_bias="0.78"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.712"
-        app:srcCompat="@raw/calendar_image" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        app:layout_constraintVertical_bias="0.064">
+
+        <ImageButton
+            android:id="@+id/btnPlanner"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="?android:selectableItemBackground"
+            app:srcCompat="@raw/calendar_image" />
+
+        <TextView
+            android:id="@+id/lblPlanner"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:freezesText="true"
+            android:inputType="none"
+            android:text="Planner"
+            android:textAlignment="center"
+            android:textColor="@color/colorMainGray"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -57,6 +57,7 @@ public class RecipeActivityPresenter {
         switch (type) {
             case "API":
                 // Get api url
+                Log.i("recipeIDapiPRE", recipeID);
                 String url = baseUrl + key + recipeSearch + recipeID;
                 try {
                     queue = Volley.newRequestQueue(context);
@@ -67,6 +68,7 @@ public class RecipeActivityPresenter {
                 // If type is DB, must get recipe from Database
                 break;
             case "DB":
+                Log.i("recipeIDdbPRE", recipeID);
                 recipe = db.getRecipe(recipeID);
                 // If type is PM, must get recipe from Database as a planned meal
                 break;

@@ -48,6 +48,7 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
 
         // Get intent from previous activity
         Intent intent = getIntent();
+        setIntent(intent);
         String recipeID;
         // If intent has recipeIDapi extras, user came from Recipe Search activity
         if (intent.hasExtra("recipeIDapi")) {
@@ -57,6 +58,7 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
         // If intent has recipeIDdb extras, user came from Favorites
         } else if (intent.hasExtra("recipeIDdb")) {
             recipeID = intent.getStringExtra("recipeIDdb");
+            Log.i("recipeIDdbVIEW", recipeID);
             // Initialize presenter and pass on recipeID for recipe in Database
             presenter = new RecipeActivityPresenter(this, this, recipeID, "DB");
             presenter.setRecipeDetails();
@@ -136,5 +138,13 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
                 }
             }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
+    }
+
+    @Override
+    public void onNewIntent(Intent intent)
+    {
+        super.onNewIntent(intent);
+        // Clear previous intents
+        setIntent(intent);
     }
 }

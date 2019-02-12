@@ -1,6 +1,7 @@
 package com.slylamb.pocketcuisine.Views;
 
 
+import android.app.PendingIntent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -87,10 +88,15 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
 
                     Recipe recipe = recipeList.get(getAdapterPosition());
                     Intent intent = new Intent(context, RecipeActivity.class);
-                    intent.putExtra("recipeIDapi",recipe.getID());
+                    intent.putExtra("recipeID",recipe.getID());
+                    intent.putExtra("activity", "FROM_RECIPE_SEARCH");
                     Log.i("recipeID", recipe.getID());
-                    context.startActivity(intent);
-
+                    PendingIntent pendingIntent = PendingIntent.getActivity(context, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    try {
+                        pendingIntent.send();
+                    } catch (PendingIntent.CanceledException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
 

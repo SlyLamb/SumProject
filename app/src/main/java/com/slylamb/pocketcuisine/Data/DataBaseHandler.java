@@ -198,7 +198,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         values.put(Constants.KEY_RECIPE_IMAGE, "http://static.food2fork.com/4251_MEDIUM71f0.jpg");
         values.put(Constants.KEY_RECIPE_PUBLISHER, "BBC Good Food");
         values.put(Constants.KEY_RECIPE_SOURCE, "http://www.bbcgoodfood.com/recipes/4251/chicken-cacciatore");
-        db.insert(Constants.TABLE_FAVORITE_RECIPE, null, values);
+        long id = db.insert(Constants.TABLE_FAVORITE_RECIPE, null, values);
+        Log.i("recipeIDactual", Long.toString(id));
 
 
 
@@ -240,6 +241,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     //----------------------------------------------------------------------------------------
     // Get recipe at keyId
     public Recipe getRecipe(String keyId) {
+        Log.i("getRecipe",keyId);
         // Get readable database
         SQLiteDatabase db = this.getReadableDatabase();
         // Get cursor for recipe at keyId
@@ -250,11 +252,16 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         // Create recipe object from database and return it
         Recipe recipe = new Recipe();
         recipe.setTitle(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_TITLE)));
+        Log.i("recipeTitle", recipe.getTitle());
         recipe.setImageLink(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_IMAGE)));
+        Log.i("recipeImg", recipe.getImageLink());
         recipe.setPublisher(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_PUBLISHER)));
+        Log.i("recipePublisher", recipe.getPublisher());
         recipe.setSourceURL(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_SOURCE)));
+        Log.i("recipeSource", recipe.getSourceURL());
         // Get recipe id so ingredients can be found
         String recipeId = cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_ID));
+        Log.i("recipeIDdatahandler", recipe.getID());
         // New query for cursor, now getting ingredients that belong to this recipe
         cursor = db.query(Constants.TABLE_INGREDIENT, new String[] {Constants.KEY_INGREDIENT_TEXT,
                 Constants.KEY_INGREDIENT_RECIPE}, Constants.KEY_INGREDIENT_RECIPE + " = " + recipeId,

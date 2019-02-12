@@ -4,6 +4,7 @@ package com.slylamb.pocketcuisine.Views;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -48,27 +49,32 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
 
         // Get intent from previous activity
         Intent intent = getIntent();
-        setIntent(intent);
         String recipeID;
-        // If intent has recipeIDapi extras, user came from Recipe Search activity
-        if (intent.hasExtra("recipeIDapi")) {
-            recipeID = intent.getStringExtra("recipeIDapi");
-            // Initialize presenter and pass on recipeID for recipe in API
-            presenter = new RecipeActivityPresenter(this, this, recipeID, "API");
-        // If intent has recipeIDdb extras, user came from Favorites
-        } else if (intent.hasExtra("recipeIDdb")) {
-            recipeID = intent.getStringExtra("recipeIDdb");
-            Log.i("recipeIDdbVIEW", recipeID);
-            // Initialize presenter and pass on recipeID for recipe in Database
-            presenter = new RecipeActivityPresenter(this, this, recipeID, "DB");
-            presenter.setRecipeDetails();
-        // If intent has plannedMealIDdb, user came from Planned Meals activity
-        } else if (intent.hasExtra("plannedMealIDdb")) {
-            recipeID = intent.getStringExtra("plannedMealIDdb");
-            // Initialize presenter and pass on recipeID for planned meal in Database
-            presenter = new RecipeActivityPresenter(this, this, recipeID, "PM");
-            presenter.setRecipeDetails();
+        String activity = intent.getStringExtra("activity");
+        Log.i("activityString", activity);
+        switch (activity) {
+            case "FROM_RECIPE_SEARCH":
+                recipeID = intent.getStringExtra("recipeID");
+                Log.i("recipeIDapiVIEW", recipeID);
+                // Initialize presenter and pass on recipeID for recipe in API
+                presenter = new RecipeActivityPresenter(this, this, recipeID, "API");
+                break;
+            case "FROM_FAVORITES":
+                recipeID = intent.getStringExtra("recipeID");
+                Log.i("recipeIDdbVIEW", recipeID);
+                // Initialize presenter and pass on recipeID for recipe in Database
+                presenter = new RecipeActivityPresenter(this, this, recipeID, "DB");
+                presenter.setRecipeDetails();
+                break;
+            case "FROM_PLANNED_MEAL":
+                recipeID = intent.getStringExtra("recipeID");
+                // Initialize presenter and pass on recipeID for planned meal in Database
+                presenter = new RecipeActivityPresenter(this, this, recipeID, "PM");
+                presenter.setRecipeDetails();
+                break;
         }
+        intent.removeExtra("activity");
+        intent.removeExtra("recipeID");
 
         // Set images and texts for selected recipe
         //presenter.setRecipeDetails();

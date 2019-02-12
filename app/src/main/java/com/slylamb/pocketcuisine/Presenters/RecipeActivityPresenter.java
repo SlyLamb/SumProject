@@ -92,6 +92,8 @@ public class RecipeActivityPresenter {
         // Set fields image, name, duration, servings and ingredients
         view.setRecipeDetails(recipe.getImageLink(), recipe.getTitle(), recipe.getSourceURL());
         // Set favorite button, different look if user has recipe or doesn't
+
+        //THIS WILL CAUSE CRASH FOR NOW!!!!!
         //view.setFavoriteButton(db.hasRecipe(recipe.getTitle()));
     }
 

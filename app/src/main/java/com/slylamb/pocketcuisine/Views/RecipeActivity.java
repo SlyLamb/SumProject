@@ -122,11 +122,11 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
 
     @Override
     public void setFavoriteButton(boolean picked) {
-        if (picked) {
+        /*if (picked) {
             btnAddFavorites.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
         } else {
             btnAddFavorites.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
-        }
+        }*/
 
     }
 

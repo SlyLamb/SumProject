@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,11 +74,9 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
                 presenter.setRecipeDetails();
                 break;
         }
-        intent.removeExtra("activity");
-        intent.removeExtra("recipeID");
 
-        // Set images and texts for selected recipe
         //presenter.setRecipeDetails();
+
         btnAddFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +122,11 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
 
     @Override
     public void setFavoriteButton(boolean picked) {
-        // Todo: find meaningful color value, or different way to differentiate buttons (different images?)
+        if (picked) {
+            btnAddFavorites.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
+        } else {
+            btnAddFavorites.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+        }
 
     }
 
@@ -144,13 +147,5 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
                 }
             }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
-    }
-
-    @Override
-    public void onNewIntent(Intent intent)
-    {
-        super.onNewIntent(intent);
-        // Clear previous intents
-        setIntent(intent);
     }
 }

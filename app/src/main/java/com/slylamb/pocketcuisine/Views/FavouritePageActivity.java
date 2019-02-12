@@ -72,6 +72,7 @@ public class FavouritePageActivity extends AppCompatActivity {
 
         List<Recipe>newRecipeList = new ArrayList<>();
         db = new DataBaseHandler(this);
+        Log.i("favAct","about to call db method");
         newRecipeList = db.getALLFavouriteRecipesFromFavouriteRecipeTB();
         return newRecipeList;
     }

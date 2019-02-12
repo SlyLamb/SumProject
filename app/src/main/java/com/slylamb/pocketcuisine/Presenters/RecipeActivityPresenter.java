@@ -2,6 +2,8 @@
 package com.slylamb.pocketcuisine.Presenters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -30,15 +32,18 @@ public class RecipeActivityPresenter {
     private Recipe recipe;
     private DataBaseHandler db;
     private RequestQueue queue;
+    Context context;
     private final String baseUrl = "https://www.food2fork.com/api/get?key=";
     //private final String key = "f5b73a553a6a92ccfabca695807bdaeb"; //50 calls limit per day
     //private final String key = "f5b73a553a6a92ccfabca695807bdaeb";
-    private final String key = "3f8ca31c732714c511b5120cc9c9c7bb";
+    private final String key = "3092e7c11f93c302283e456ed92207e4";
     private final String recipeSearch = "&rId=";
 
     public RecipeActivityPresenter(View view, Context context, String recipeID, String type) {
         this.view = view;
+        this.context = context;
         db = new DataBaseHandler(context);
+        recipe = new Recipe();
 
         // DOWN THE BOTTOM
         //queue = Volley.newRequestQueue(context);
@@ -103,7 +108,7 @@ public class RecipeActivityPresenter {
         // Set favorite button, different look if user has recipe or doesn't
 
         //THIS WILL CAUSE CRASH FOR NOW!!!!!
-        //view.setFavoriteButton(db.hasRecipe(recipe.getTitle()));
+        view.setFavoriteButton(db.hasRecipe(recipe.getTitle()));
     }
 
     // Handle add favorite button being pressed
@@ -143,7 +148,6 @@ public class RecipeActivityPresenter {
                     Log.i(TAG, "DEBUGGING - getRecipeFromAPI - inside Json request");
                     JSONObject recipeObj = response.getJSONObject("recipe");
                     // Initialize recipe and set its variables
-                    recipe = new Recipe();
                     recipe.setImageLink(recipeObj.getString("image_url"));
                     Log.d("recipeAPI",recipe.getImageLink());
 

@@ -32,7 +32,8 @@ public class RecipeActivityPresenter {
     private RequestQueue queue;
     private final String baseUrl = "https://www.food2fork.com/api/get?key=";
     //private final String key = "f5b73a553a6a92ccfabca695807bdaeb"; //50 calls limit per day
-    private final String key = "f5b73a553a6a92ccfabca695807bdaeb";
+    //private final String key = "f5b73a553a6a92ccfabca695807bdaeb";
+    private final String key = "bba82bc3b0c0d5036c7d521014b02b62";
     private final String recipeSearch = "&rId=";
 
     public RecipeActivityPresenter(View view, Context context, String recipeID, String type) {

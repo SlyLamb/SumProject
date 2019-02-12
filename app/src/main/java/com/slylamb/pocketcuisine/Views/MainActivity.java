@@ -89,16 +89,9 @@ public class MainActivity extends AppCompatActivity implements MainPageActivityP
             @Override
             public void onClick(View v) {
                 //presenter.login();  ONLY LINE BEFORE EDITING
-
-//                Intent intent = new Intent(getApplicationContext(), RecipeActivity.class);
-//                intent.putExtra("recipeID", "92b194");
-//                startActivity(intent);
-
-                //Intent intent = new Intent(getApplicationContext(), RecipeActivity.class);
-                //intent.putExtra("recipeIDapi", "92b194");
-                //startActivity(intent);
-                //Intent intent = new Intent(getApplicationContext(), MealPlannerActivity.class);
-                //startActivity(intent);
+                // Go to Home Page activity
+                Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+                startActivity(intent);
 
             }
         });
@@ -107,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements MainPageActivityP
             @Override
             public void onClick(View v) {
 
-
-                startActivity(new Intent(MainActivity.this, HomePageActivity.class));
+startActivity(new Intent(getApplicationContext(), RecipeActivity.class));
+                //startActivity(new Intent(MainActivity.this, HomePageActivity.class));
 
             }
         });

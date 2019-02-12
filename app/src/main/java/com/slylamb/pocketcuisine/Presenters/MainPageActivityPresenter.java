@@ -1,7 +1,6 @@
 package com.slylamb.pocketcuisine.Presenters;
 
 import com.slylamb.pocketcuisine.Models.RegisteredUser;
-import com.slylamb.pocketcuisine.Models.User;
 
 public class MainPageActivityPresenter {
     private RegisteredUser user;

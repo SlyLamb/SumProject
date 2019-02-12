@@ -39,12 +39,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 + Constants.KEY_STRING_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + Constants.KEY_ITEM_STRING + " TEXT"
                  + " );";
 
-        String CREATE_FAVORITE_RECIPE_TABLE = "CREATE TABLE " + Constants.TABLE_FAVOURITE_RECIPE + "("
-                + Constants.KEY_RECIPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + Constants.KEY_RECIPE_TITLE + " TEXT," + Constants.KEY_RECIPE_IMAGE + " TEXT,"
-                + Constants.KEY_RECIPE_PUBLISHER + " TEXT," + Constants.KEY_RECIPE_SOURCE + " TEXT," + Constants.KEY_RECIPE_RECIPEID + "TEXT"+");";
-        db.execSQL(CREATE_FAVORITE_RECIPE_TABLE);
-
+   
 //        String CREATE_PLANNEDMEAL_TABLE="CREATE TABLE " + Constants.TABLE_PLANNED_MEAL + "("
 //                + Constants.KEY_PLANNEDMEAL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + Constants.KEY_PLANNEDMEAL_NAME + " TEXT,"
 //                + Constants.KEY_PLANNEDMEAL_URL + " TEXT," + Constants.KEY_PLANNEDMEAL_IMAGELINK + " TEXT"+ " );";
@@ -55,22 +50,35 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         //--------------------------------------------------------------------
         // Gabi code start
         //--------------------------------------------------------------------
-        /*
-        String CREATE_PLANEDMEAL_TABLE ="CREATE TABLE " + Constants.TABLE_NAME + "("
-                + Constants.KEY_ID + " INTEGER PRIMARY KEY," + Constants.KEY_ITEM_STRING + " TEXT"
-                + " );";
 
-        db.execSQL(CREATE_PLANEDMEAL_TABLE);*/
+        String CREATE_FAVORITE_RECIPE_TABLE = "CREATE TABLE " + Constants.TABLE_FAVORITE_RECIPE + "("
+                + Constants.KEY_RECIPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + Constants.KEY_RECIPE_TITLE + " TEXT," + Constants.KEY_RECIPE_IMAGE + " TEXT,"
+                + Constants.KEY_RECIPE_PUBLISHER + " TEXT," + Constants.KEY_RECIPE_SOURCE + " TEXT );";
+        db.execSQL(CREATE_FAVORITE_RECIPE_TABLE);
+
+        String CREATE_PLANNEDMEAL_TABLE = "CREATE TABLE " + Constants.TABLE_PLANNED_MEAL + "("
+                + Constants.KEY_PLANNEDMEAL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + Constants.KEY_PLANNEDMEAL_TITLE + " TEXT," + Constants.KEY_PLANNEDMEAL_IMAGE + " TEXT,"
+                + Constants.KEY_PLANNEDMEAL_PUBLISHER + " TEXT," + Constants.KEY_PLANNEDMEAL_SOURCE + " TEXT,"
+                + Constants.KEY_PLANNEDMEAL_DATE + " TEXT );";
+        db.execSQL(CREATE_PLANNEDMEAL_TABLE);
+
+        String CREATE_INGREDIENT_TABLE = "CREATE TABLE " + Constants.TABLE_INGREDIENT + "("
+                + Constants.KEY_INGREDIENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + Constants.KEY_INGREDIENT_TEXT + " TEXT," + Constants.KEY_INGREDIENT_RECIPE + " TEXT,"
+                + Constants.KEY_INGREDIENT_PLANNEDMEAL + " TEXT );";
+        db.execSQL(CREATE_INGREDIENT_TABLE);
 
     }
-
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_SHOPPINGLIST_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_FAVOURITE_RECIPE);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_FAVORITE_RECIPE);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_PLANNED_MEAL);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_INGREDIENT);
         onCreate(db);
-
     }
 
 
@@ -176,9 +184,9 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public List<Recipe> getALLFavouriteRecipesFromFavouriteRecipeTB() {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_FAVOURITE_RECIPE);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_FAVORITE_RECIPE);
 
-        String CREATE_FAVORITE_RECIPE_TABLE = "CREATE TABLE " + Constants.TABLE_FAVOURITE_RECIPE + "("
+        String CREATE_FAVORITE_RECIPE_TABLE = "CREATE TABLE " + Constants.TABLE_FAVORITE_RECIPE + "("
                 + Constants.KEY_RECIPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Constants.KEY_RECIPE_TITLE + " TEXT," + Constants.KEY_RECIPE_IMAGE + " TEXT,"
                 + Constants.KEY_RECIPE_PUBLISHER + " TEXT," + Constants.KEY_RECIPE_SOURCE + " TEXT" +");";
@@ -190,13 +198,13 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         values.put(Constants.KEY_RECIPE_IMAGE, "http://static.food2fork.com/4251_MEDIUM71f0.jpg");
         values.put(Constants.KEY_RECIPE_PUBLISHER, "BBC Good Food");
         values.put(Constants.KEY_RECIPE_SOURCE, "http://www.bbcgoodfood.com/recipes/4251/chicken-cacciatore");
-        db.insert(Constants.TABLE_FAVOURITE_RECIPE, null, values);
+        db.insert(Constants.TABLE_FAVORITE_RECIPE, null, values);
 
 
 
         List<Recipe> recipeList = new ArrayList<>();
 
-        Cursor cursor = db.query(Constants.TABLE_FAVOURITE_RECIPE, new String[] {
+        Cursor cursor = db.query(Constants.TABLE_FAVORITE_RECIPE, new String[] {
                 Constants.KEY_RECIPE_ID,Constants.KEY_RECIPE_TITLE,Constants.KEY_RECIPE_IMAGE,Constants.KEY_RECIPE_PUBLISHER,
         Constants.KEY_RECIPE_SOURCE}, null, null, null, null, null );
 
@@ -228,107 +236,224 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
 
     //----------------------------------------------------------------------------------------
-    // GABRIEL CODE START
+    // GABRIEL CODE STARTS
     //----------------------------------------------------------------------------------------
     // Get recipe at keyId
     public Recipe getRecipe(String keyId) {
-        // Todo: get recipe from database using KEY_ID
-        return new Recipe();
+        // Get readable database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Get cursor for recipe at keyId
+        Cursor cursor = db.query(Constants.TABLE_FAVORITE_RECIPE, new String[] {
+                Constants.KEY_RECIPE_ID, Constants.KEY_RECIPE_TITLE, Constants.KEY_RECIPE_IMAGE,
+                Constants.KEY_RECIPE_PUBLISHER, Constants.KEY_RECIPE_SOURCE}, Constants.KEY_RECIPE_ID + " = " + keyId,
+                null, null, null, null);
+        // Create recipe object from database and return it
+        Recipe recipe = new Recipe();
+        recipe.setTitle(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_TITLE)));
+        recipe.setImageLink(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_IMAGE)));
+        recipe.setPublisher(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_PUBLISHER)));
+        recipe.setSourceURL(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_SOURCE)));
+        // Get recipe id so ingredients can be found
+        String recipeId = cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_ID));
+        // New query for cursor, now getting ingredients that belong to this recipe
+        cursor = db.query(Constants.TABLE_INGREDIENT, new String[] {Constants.KEY_INGREDIENT_TEXT,
+                Constants.KEY_INGREDIENT_RECIPE}, Constants.KEY_INGREDIENT_RECIPE + " = " + recipeId,
+                null, null, null, null);
+        // Initialise list of ingredients and go thru all ingredients
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                // Create recipe from planned meal info
+                Ingredient ingredient = new Ingredient();
+                ingredient.setItemName(cursor.getString(cursor.getColumnIndex(Constants.KEY_INGREDIENT_TEXT)));
+                ingredients.add(ingredient);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        recipe.setIngredients(ingredients);
+        return recipe;
     }
     // True if recipe in database, false otherwise
     public boolean hasRecipe(String title) {
-        // Todo: return true if any recipe in database match title, false otherwise
-        return false;
+        // Get readable database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Get cursor for recipe with title that matches
+        Cursor cursor = db.query(Constants.TABLE_FAVORITE_RECIPE, new String[] {Constants.KEY_RECIPE_TITLE},
+                Constants.KEY_RECIPE_TITLE + " = " + title,null, null, null, null );
+        // If cursor can't move to first and its count is 0, no recipe found that matches selection criteria
+        if (!(cursor.moveToFirst()) || cursor.getCount() == 0) {
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+        return true;
     }
     // Add recipe to database
     public void addRecipe(Recipe recipe) {
-        // Todo: add recipe to database
+        // Get writable database
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Set content values with recipe details
+        ContentValues values = new ContentValues();
+        values.put(Constants.KEY_RECIPE_TITLE, recipe.getTitle());
+        values.put(Constants.KEY_RECIPE_IMAGE, recipe.getImageLink());
+        values.put(Constants.KEY_RECIPE_PUBLISHER, recipe.getPublisher());
+        values.put(Constants.KEY_RECIPE_SOURCE, recipe.getSourceURL());
+        // Insert recipe values to database and get id
+        long recipeID = db.insert(Constants.TABLE_FAVORITE_RECIPE, null, values);
+        // Get ingredients from recipe
+        ArrayList<Ingredient> ingredients = recipe.getIngredients();
+        // Go thru all ingredients, add their text and recipe id
+        for (int i = 0; i < ingredients.size(); i++) {
+            ContentValues ingredientValues = new ContentValues();
+            ingredientValues.put(Constants.KEY_INGREDIENT_TEXT, ingredients.get(i).getItemName());
+            ingredientValues.put(Constants.KEY_INGREDIENT_RECIPE, Long.toString(recipeID));
+            db.insert(Constants.TABLE_INGREDIENT, null, ingredientValues);
+        }
     }
     // Delete recipe from database
     public void deleteRecipe(String title) {
-        // Todo: delete recipe from database
+        // Get writable database
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Delete recipe which matches title and keep id
+        long recipeID = db.delete(Constants.TABLE_FAVORITE_RECIPE, Constants.KEY_RECIPE_TITLE + " = " + title, null);
+        // Delete ingredients from this recipe
+        db.delete(Constants.TABLE_INGREDIENT, Constants.KEY_INGREDIENT_RECIPE + " = " + Long.toString(recipeID), null);
     }
-    // Add planned meal to database
-    public void addPlannedMeal(PlannedMeal meal) {
-        // Todo: add planned meal to database
-    }
+
     // Get all planned meals
     public ArrayList<PlannedMeal> getPlannedMeals() {
-        // Todo: get planned meals from database
-        //return new ArrayList<>();
-
-        // DEBUGGING
-        // TEST DATA
-        // 1
-        Recipe recipe = new Recipe();
-        recipe.setImageLink("http://static.food2fork.com/iW8v49knM5faff.jpg");
-        recipe.setTitle("Chicken with Spring Vegetables and Gnocchi");
-        recipe.setPublisher("Framed Cooks");
-        ArrayList<Ingredient> ingredients = new ArrayList<>();
-        Ingredient ingredient = new Ingredient();
-        ingredient.setItemName("10 cups chicken broth");
-        ingredients.add(ingredient);
-        Ingredient ingredient1 = new Ingredient();
-        ingredient1.setItemName("1/2 stick butter");
-        ingredients.add(ingredient1);
-        recipe.setIngredients(ingredients);
-        recipe.setSourceURL("http://www.framedcooks.com/2012/05/chicken-with-spring-vegetables-and-gnocchi.html");
+        // Get readable database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Get cursor for planned meals
+        Cursor cursor = db.query(Constants.TABLE_PLANNED_MEAL, new String[]{
+                 Constants.KEY_PLANNEDMEAL_ID, Constants.KEY_PLANNEDMEAL_TITLE, Constants.KEY_PLANNEDMEAL_IMAGE,
+                 Constants.KEY_PLANNEDMEAL_PUBLISHER, Constants.KEY_PLANNEDMEAL_SOURCE, Constants.KEY_PLANNEDMEAL_DATE},
+                null, null, null, null, null);
+        // Initialize planned meals list
         ArrayList<PlannedMeal> meals = new ArrayList<>();
-        PlannedMeal meal = new PlannedMeal();
-        meal.setRecipe(recipe);
-        String date = "15-02-2019";
-        final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        Date realDate = new Date();
-        try {
-            realDate = formatter.parse(date);
-        } catch (Exception e) {
-            e.printStackTrace();
+        // Go through all planned meals in cursor
+        if (cursor.moveToFirst()) {
+            do {
+                // Create recipe from planned meal info
+                Recipe recipe = new Recipe();
+                recipe.setTitle(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_TITLE)));
+                recipe.setImageLink(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_IMAGE)));
+                recipe.setPublisher(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_PUBLISHER)));
+                recipe.setSourceURL(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_SOURCE)));
+                // Get cursor for ingredients from this planned meal
+                Cursor ingredientCursor = db.query(Constants.TABLE_INGREDIENT, new String[] {
+                        Constants.KEY_INGREDIENT_TEXT, Constants.KEY_INGREDIENT_PLANNEDMEAL},
+                        Constants.KEY_INGREDIENT_PLANNEDMEAL + " = " + cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_ID)),
+                        null, null, null, null);
+                // Initialise list of ingredients and go thru all ingredients
+                ArrayList<Ingredient> ingredients = new ArrayList<>();
+                if (ingredientCursor.moveToFirst()) {
+                    do {
+                        // Create ingredient from ingredient text in dtabase
+                        Ingredient ingredient = new Ingredient();
+                        ingredient.setItemName(ingredientCursor.getString(ingredientCursor.getColumnIndex(Constants.KEY_INGREDIENT_TEXT)));
+                        ingredients.add(ingredient);
+                    } while (ingredientCursor.moveToNext());
+                }
+                ingredientCursor.close();
+                recipe.setIngredients(ingredients);
+                // Then create planned meal with recipe and date and add it to list
+                PlannedMeal meal = new PlannedMeal();
+                meal.setRecipe(recipe);
+                meal.setDateFromString(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_DATE)));
+                meals.add(meal);
+
+            } while (cursor.moveToNext());
         }
-        meal.setDate(realDate);
-        meals.add(meal);
-        // 2
-        Recipe recipe1 = new Recipe();
-        recipe1.setImageLink("http://static.food2fork.com/Jalapeno2BPopper2BGrilled2BCheese2BSandwich2B12B500fd186186.jpg");
-        recipe1.setTitle("Jalapeno Popper Grilled Cheese Sandwich");
-        recipe1.setPublisher("Closet Cooking");
-        ArrayList<Ingredient> ingredients1 = new ArrayList<>();
-        Ingredient ingredient2 = new Ingredient();
-        ingredient2.setItemName("2 jalapeno peppers, cut in half lengthwise and seeded");
-        ingredients1.add(ingredient2);
-        Ingredient ingredient3 = new Ingredient();
-        ingredient3.setItemName("2 slices sour dough bread");
-        ingredients1.add(ingredient3);
-        recipe1.setIngredients(ingredients1);
-        recipe1.setSourceURL("http://www.closetcooking.com/2011/04/jalapeno-popper-grilled-cheese-sandwich.html");
-        ArrayList<PlannedMeal> meals1 = new ArrayList<>();
-        PlannedMeal meal1 = new PlannedMeal();
-        meal1.setRecipe(recipe1);
-        String date1 = "19-02-2019";
-        Date realDate1 = new Date();
-        try {
-            realDate1 = formatter.parse(date1);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        meal1.setDate(realDate1);
-        meals.add(meal1);
+        cursor.close();
         return meals;
-    }
-    // Add ingredients to shopping list
-    public void addShoppingListFromIngredients(ArrayList<Ingredient> ingredients) {
-        // Todo: add ingredents to database
     }
     // Get planned meal with keyId
     public PlannedMeal getPlannedMeal(String keyId) {
-        // Todo: get planned meal from database and return it
-        return new PlannedMeal();
-
-
-
+        // Get readable database
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Get cursor for planned meal at keyId
+        Cursor cursor = db.query(Constants.TABLE_PLANNED_MEAL, new String[] {
+                Constants.KEY_PLANNEDMEAL_ID, Constants.KEY_PLANNEDMEAL_TITLE, Constants.KEY_PLANNEDMEAL_IMAGE,
+                Constants.KEY_PLANNEDMEAL_PUBLISHER, Constants.KEY_PLANNEDMEAL_SOURCE, Constants.KEY_PLANNEDMEAL_DATE},
+                Constants.KEY_PLANNEDMEAL_ID + " = " + keyId,
+                null, null, null, null);
+        // Create recipe object from planned meal info
+        Recipe recipe = new Recipe();
+        recipe.setTitle(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_TITLE)));
+        recipe.setImageLink(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_IMAGE)));
+        recipe.setPublisher(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_PUBLISHER)));
+        recipe.setSourceURL(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_SOURCE)));
+        // Get planned meal id and do new query to find ingredients that belong to this meal
+        String plannedMealID = cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_ID));
+        cursor = db.query(Constants.TABLE_INGREDIENT, new String[] {
+                Constants.KEY_INGREDIENT_TEXT, Constants.KEY_INGREDIENT_PLANNEDMEAL},
+                Constants.KEY_INGREDIENT_PLANNEDMEAL + " = " + plannedMealID,
+                null,null,null,null);
+        // Initialize ingredients list
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                // Create ingredient from ingredient text in database
+                Ingredient ingredient = new Ingredient();
+                ingredient.setItemName(cursor.getString(cursor.getColumnIndex(Constants.KEY_INGREDIENT_TEXT)));
+                ingredients.add(ingredient);
+            } while (cursor.moveToNext());
+        }
+        recipe.setIngredients(ingredients);
+        PlannedMeal meal = new PlannedMeal();
+        meal.setRecipe(recipe);
+        meal.setDateFromString(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_DATE)));
+        cursor.close();
+        return meal;
+    }
+    // Add planned meal to database
+    public void addPlannedMeal(PlannedMeal meal) {
+        // Get writable database
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Set content values with planed meal details
+        ContentValues values = new ContentValues();
+        values.put(Constants.KEY_PLANNEDMEAL_TITLE, meal.getRecipe().getTitle());
+        values.put(Constants.KEY_PLANNEDMEAL_IMAGE, meal.getRecipe().getImageLink());
+        values.put(Constants.KEY_PLANNEDMEAL_PUBLISHER, meal.getRecipe().getPublisher());
+        values.put(Constants.KEY_PLANNEDMEAL_SOURCE, meal.getRecipe().getSourceURL());
+        values.put(Constants.KEY_PLANNEDMEAL_DATE, meal.getDateString());
+        // Insert planned meal values to database
+        long mealID = db.insert(Constants.TABLE_PLANNED_MEAL, null, values);
+        // Go thru all ingredients in meal
+        for (int i = 0; i < meal.getRecipe().getIngredients().size(); i++) {
+            ContentValues ingredientValue = new ContentValues();
+            ingredientValue.put(Constants.KEY_INGREDIENT_TEXT, meal.getRecipe().getIngredients().get(i).getItemName());
+            ingredientValue.put(Constants.KEY_INGREDIENT_PLANNEDMEAL, Long.toString(mealID));
+            db.insert(Constants.TABLE_INGREDIENT, null, ingredientValue);
+        }
     }
     // Delete planned meal with keyId
     public void deletePlannedMeal(String keyId) {
-        // Todo: delete planned meal at keyId from database
+        // Get writable database
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Delete planned meal which matches title
+        db.delete(Constants.TABLE_PLANNED_MEAL, Constants.KEY_PLANNEDMEAL_ID + " = " + keyId, null);
+        // Delete ingredients from this meal
+        db.delete(Constants.TABLE_INGREDIENT, Constants.KEY_INGREDIENT_PLANNEDMEAL + " = " + keyId, null);
+    }
+
+    // Add ingredients to shopping list
+    public void addShoppingListFromIngredients(ArrayList<Ingredient> ingredients) {
+        // Get writable database
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Go thru all ingredients, split their name and add it to list of names
+        ArrayList<String> ingredientsNames = new ArrayList<>();
+        for (int i = 0; i < ingredients.size(); i++) {
+            String[] splitted = ingredients.get(i).getItemName().split(",");
+            ingredientsNames.add(splitted[0]);
+        }
+        // Get each ingredient and insert to shopping list table
+        ContentValues values = new ContentValues();
+        for (int i = 0; i < ingredientsNames.size(); i++) {
+            values.put(Constants.KEY_ITEM_STRING, ingredientsNames.get(i));
+            db.insert(Constants.TABLE_SHOPPINGLIST_NAME, null, values);
+        }
     }
 
 }

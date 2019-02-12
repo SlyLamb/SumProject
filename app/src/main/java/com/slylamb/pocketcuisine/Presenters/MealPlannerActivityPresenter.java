@@ -7,8 +7,6 @@ import com.slylamb.pocketcuisine.Data.DataBaseHandler;
 import com.slylamb.pocketcuisine.Models.Ingredient;
 import com.slylamb.pocketcuisine.Models.MealPlanner;
 import com.slylamb.pocketcuisine.Models.PlannedMeal;
-import com.slylamb.pocketcuisine.Models.ShoppingList;
-import com.slylamb.pocketcuisine.Models.User;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

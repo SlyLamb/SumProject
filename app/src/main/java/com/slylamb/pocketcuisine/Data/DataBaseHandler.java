@@ -310,7 +310,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
             db.insert(Constants.TABLE_INGREDIENT, null, ingredientValues);
         }
     }
-    // Delete recipe from database
+    // Delete recipe from database 
     public void deleteRecipe(String title) {
         // Get writable database
         SQLiteDatabase db = this.getWritableDatabase();

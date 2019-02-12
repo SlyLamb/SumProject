@@ -69,7 +69,7 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
         presenter = new RecipeActivityPresenter(this,this,"","");
 
         // Set images and texts for selected recipe
-        presenter.setRecipeDetails();
+        //presenter.setRecipeDetails();
         btnAddFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

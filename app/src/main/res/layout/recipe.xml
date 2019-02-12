@@ -12,6 +12,10 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3"
+            android:paddingTop="15dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="15dp"
             android:orientation="horizontal">
 
                 <ImageView
@@ -23,9 +27,15 @@
 
                 <TextView
                     android:id="@+id/txt_recipe_name"
+                    android:layout_toRightOf="@id/img_recipe"
+                    android:layout_centerHorizontal="true"
+                    android:paddingLeft="5dp"
                     android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:layout_height="match_parent" />
+                    android:text="recipe name"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout

@@ -32,6 +32,7 @@ public class HomePageActivity extends AppCompatActivity {
     private ImageButton btnSearch;
     private ImageButton btnShoppingList;
     private ImageButton btnPlanner;
+    private ImageButton btnFavourite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class HomePageActivity extends AppCompatActivity {
         btnSearch = findViewById(R.id.btnSearch);
         btnShoppingList =  findViewById(R.id.btnShoppingList);
         btnPlanner = findViewById(R.id.btnPlanner);
+        btnFavourite = findViewById(R.id.btnFavourite);
 
 
 
@@ -70,6 +72,17 @@ public class HomePageActivity extends AppCompatActivity {
 
             }
         });
+
+        btnFavourite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(HomePageActivity.this, FavouritePageActivity.class));
+
+            }
+        });
+
+
 
     }
 }

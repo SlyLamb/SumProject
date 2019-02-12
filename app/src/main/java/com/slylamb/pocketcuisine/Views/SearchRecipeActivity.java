@@ -47,8 +47,8 @@ public class SearchRecipeActivity extends AppCompatActivity {
     private ImageButton btnSearch;
     private TextView txtSearchField;
     private final String baseUrl = "https://www.food2fork.com/api/search?key=";
-    //private final String key = "4d78d05d9f20215c272d04f6974c04db"; //50 calls limit per day
-    private final String key = "f5b73a553a6a92ccfabca695807bdaeb";//50 calls limit per day
+    private final String key = "4d78d05d9f20215c272d04f6974c04db"; //50 calls limit per day
+   // private final String key = "f5b73a553a6a92ccfabca695807bdaeb";//50 calls limit per day
 
 
     @Override

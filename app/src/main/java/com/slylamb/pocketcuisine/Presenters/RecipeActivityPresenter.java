@@ -32,16 +32,18 @@ public class RecipeActivityPresenter {
     private RequestQueue queue;
     private final String baseUrl = "https://www.food2fork.com/api/get?key=";
     //private final String key = "f5b73a553a6a92ccfabca695807bdaeb"; //50 calls limit per day
-    private final String key = "f5b73a553a6a92ccfabca695807bdaeb";
+    //private final String key = "f5b73a553a6a92ccfabca695807bdaeb";
+    private final String key = "3f8ca31c732714c511b5120cc9c9c7bb";
     private final String recipeSearch = "&rId=";
 
     public RecipeActivityPresenter(View view, Context context, String recipeID, String type) {
         this.view = view;
         db = new DataBaseHandler(context);
 
-        queue = Volley.newRequestQueue(context);
+        // DOWN THE BOTTOM
+        //queue = Volley.newRequestQueue(context);
 
-
+/*
         String url = baseUrl + key + recipeSearch + recipeID;
         Log.d("url",url);
         try {
@@ -49,29 +51,34 @@ public class RecipeActivityPresenter {
         } catch (Exception e) {
             e.printStackTrace();
         }
+*/
 
-        /*
         // If type is API, must get recipe from API
-        if (type.equals("API")) {
-            // Get api url
-            String url = baseUrl + key + recipeSearch + recipeID;
-            try {
-                getRecipeFromAPI(url);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        // If type is DB, must get recipe from Database
-        } else if (type.equals("DB")) {
-            recipe = db.getRecipe(recipeID);
-        // If type is PM, must get recipe from Database as a planned meal
-        } else if (type.equals("PM")) {
-            PlannedMeal plannedMeal = db.getPlannedMeal(recipeID);
-            recipe = new Recipe();
-            recipe.setTitle(plannedMeal.getRecipe().getTitle());
-            recipe.setImageLink(plannedMeal.getRecipe().getImageLink());
-            recipe.setSourceURL(plannedMeal.getRecipe().getSourceURL());
+        switch (type) {
+            case "API":
+                // Get api url
+                String url = baseUrl + key + recipeSearch + recipeID;
+                try {
+                    queue = Volley.newRequestQueue(context);
+                    getRecipeFromAPI(url);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                // If type is DB, must get recipe from Database
+                break;
+            case "DB":
+                recipe = db.getRecipe(recipeID);
+                // If type is PM, must get recipe from Database as a planned meal
+                break;
+            case "PM":
+                PlannedMeal plannedMeal = db.getPlannedMeal(recipeID);
+                recipe = new Recipe();
+                recipe.setTitle(plannedMeal.getRecipe().getTitle());
+                recipe.setImageLink(plannedMeal.getRecipe().getImageLink());
+                recipe.setSourceURL(plannedMeal.getRecipe().getSourceURL());
+                break;
         }
-
+/*
         // TEST DATA
         recipe = new Recipe();
         recipe.setImageLink("http://static.food2fork.com/iW8v49knM5faff.jpg");

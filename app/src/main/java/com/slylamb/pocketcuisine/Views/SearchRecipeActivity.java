@@ -109,6 +109,7 @@ public class SearchRecipeActivity extends AppCompatActivity {
                         recipe.setTitle(recipeObj.getString("title"));
                         Log.d("imageLink",recipe.getImageLink());
                         recipe.setPublisher(recipeObj.getString("publisher"));
+                        recipe.setID(recipeObj.getString("recipe_id"));
                         recipeList.add(recipe);
 
                     }

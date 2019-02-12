@@ -84,11 +84,8 @@ public class FavouritePageRecyclerViewAdapter extends RecyclerView.Adapter<Favou
                 public void onClick(View v) {
 
                     Recipe recipe = recipeList.get(getAdapterPosition());
-
                     Intent intent = new Intent(context, RecipeActivity.class);
-
-                  //  intent.putExtra()
-
+                    intent.putExtra("recipeIDdb",recipe.getID());
                     context.startActivity(intent);
 
                 }

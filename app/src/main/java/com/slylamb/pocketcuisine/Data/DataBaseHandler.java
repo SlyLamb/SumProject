@@ -181,7 +181,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         String CREATE_FAVORITE_RECIPE_TABLE = "CREATE TABLE " + Constants.TABLE_FAVOURITE_RECIPE + "("
                 + Constants.KEY_RECIPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Constants.KEY_RECIPE_TITLE + " TEXT," + Constants.KEY_RECIPE_IMAGE + " TEXT,"
-                + Constants.KEY_RECIPE_PUBLISHER + " TEXT," + Constants.KEY_RECIPE_SOURCE + " TEXT," + Constants.KEY_RECIPE_RECIPEID + "TEXT"+");";
+                + Constants.KEY_RECIPE_PUBLISHER + " TEXT," + Constants.KEY_RECIPE_SOURCE + " TEXT" +");";
         db.execSQL(CREATE_FAVORITE_RECIPE_TABLE);
 
         ContentValues values = new ContentValues();
@@ -211,6 +211,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 recipe.setImageLink(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_IMAGE)));
 
                 recipe.setSourceURL(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_SOURCE)));
+
+                recipe.setID(cursor.getString(cursor.getColumnIndex(Constants.KEY_RECIPE_ID)));
 
 
                 recipeList.add(recipe);

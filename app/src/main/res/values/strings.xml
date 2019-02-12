@@ -10,5 +10,6 @@
     <string name="txt_favorites">Favorites</string>
     <string name="txt_meal_planner">Meal Planner</string>
     <string name="txt_planned_meals">Planned Meals</string>
+    <string name="txt_shopping_list">Shopping List</string>
 </resources>
 

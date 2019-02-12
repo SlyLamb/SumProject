@@ -58,7 +58,8 @@
             android:textSize="20sp"
             android:inputType="textEmailAddress"
             android:text="Email"
-            app:layout_constraintVertical_bias="0.3" />
+            android:padding="8dp"
+            android:background="@drawable/edit_text_main"/>
 
         <EditText
             android:id="@+id/txtPassword"
@@ -73,7 +74,9 @@
             android:ems="12"
             android:textSize="20sp"
             android:inputType="textPassword"
-            android:text="Password" />
+            android:text="Password"
+            android:padding="8dp"
+            android:background="@drawable/edit_text_main"/>
 
         <Button
             android:id="@+id/btnLogin"
@@ -101,8 +104,8 @@
             android:layout_marginRight="8dp"
             android:layout_marginBottom="10dp"
             android:text="CONTINUE AS GUEST"
-            android:background="@color/colorMainGray"
             android:textSize="18sp"
+            android:background="@color/colorMainGray"
             android:textColor="@color/colorWhite" />
 
 

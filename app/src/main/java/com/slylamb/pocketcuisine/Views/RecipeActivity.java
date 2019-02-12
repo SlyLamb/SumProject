@@ -4,10 +4,12 @@ package com.slylamb.pocketcuisine.Views;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,27 +51,32 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
         // Get intent from previous activity
         Intent intent = getIntent();
         String recipeID;
-        // If intent has recipeIDapi extras, user came from Recipe Search activity
-        if (intent.hasExtra("recipeIDapi")) {
-            recipeID = intent.getStringExtra("recipeIDapi");
-            // Initialize presenter and pass on recipeID for recipe in API
-            presenter = new RecipeActivityPresenter(this, this, recipeID, "API");
-        // If intent has recipeIDdb extras, user came from Favorites
-        } else if (intent.hasExtra("recipeIDdb")) {
-            recipeID = intent.getStringExtra("recipeIDdb");
-            // Initialize presenter and pass on recipeID for recipe in Database
-            presenter = new RecipeActivityPresenter(this, this, recipeID, "DB");
-        // If intent has plannedMealIDdb, user came from Planned Meals activity
-        } else if (intent.hasExtra("plannedMealIDdb")) {
-            recipeID = intent.getStringExtra("plannedMealIDdb");
-            // Initialize presenter and pass on recipeID for planned meal in Database
-            presenter = new RecipeActivityPresenter(this, this, recipeID, "PM");
+        String activity = intent.getStringExtra("activity");
+        Log.i("activityString", activity);
+        switch (activity) {
+            case "FROM_RECIPE_SEARCH":
+                recipeID = intent.getStringExtra("recipeID");
+                Log.i("recipeIDapiVIEW", recipeID);
+                // Initialize presenter and pass on recipeID for recipe in API
+                presenter = new RecipeActivityPresenter(this, this, recipeID, "API");
+                break;
+            case "FROM_FAVORITES":
+                recipeID = intent.getStringExtra("recipeID");
+                Log.i("recipeIDdbVIEW", recipeID);
+                // Initialize presenter and pass on recipeID for recipe in Database
+                presenter = new RecipeActivityPresenter(this, this, recipeID, "DB");
+                presenter.setRecipeDetails();
+                break;
+            case "FROM_PLANNED_MEAL":
+                recipeID = intent.getStringExtra("recipeID");
+                // Initialize presenter and pass on recipeID for planned meal in Database
+                presenter = new RecipeActivityPresenter(this, this, recipeID, "PM");
+                presenter.setRecipeDetails();
+                break;
         }
 
-        presenter = new RecipeActivityPresenter(this,this,"","");
-
-        // Set images and texts for selected recipe
         //presenter.setRecipeDetails();
+
         btnAddFavorites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,7 +122,11 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
 
     @Override
     public void setFavoriteButton(boolean picked) {
-        // Todo: find meaningful color value, or different way to differentiate buttons (different images?)
+        /*if (picked) {
+            btnAddFavorites.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
+        } else {
+            btnAddFavorites.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+        }*/
 
     }
 

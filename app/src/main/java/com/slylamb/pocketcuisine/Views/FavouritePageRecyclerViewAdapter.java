@@ -1,6 +1,8 @@
 package com.slylamb.pocketcuisine.Views;
 
 
+import android.app.PendingIntent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -85,8 +87,15 @@ public class FavouritePageRecyclerViewAdapter extends RecyclerView.Adapter<Favou
 
                     Recipe recipe = recipeList.get(getAdapterPosition());
                     Intent intent = new Intent(context, RecipeActivity.class);
-                    intent.putExtra("recipeIDdb",recipe.getID());
-                    context.startActivity(intent);
+                    intent.putExtra("recipeID",recipe.getID());
+                    intent.putExtra("activity", "FROM_FAVORITES");
+                    Log.i("recipeIDdb", recipe.getID());
+                    PendingIntent pendingIntent = PendingIntent.getActivity(context, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    try {
+                        pendingIntent.send();
+                    } catch (PendingIntent.CanceledException e) {
+                        e.printStackTrace();
+                    }
 
                 }
             });

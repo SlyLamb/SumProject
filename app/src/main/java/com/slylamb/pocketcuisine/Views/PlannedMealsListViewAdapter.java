@@ -1,5 +1,6 @@
 package com.slylamb.pocketcuisine.Views;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -72,8 +73,14 @@ public class PlannedMealsListViewAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, Recipe.class);
-                intent.putExtra("plannedMealIDdb", presenter.getPlannedMealId(position));
-                context.startActivity(intent);
+                intent.putExtra("recipeID", presenter.getPlannedMealId(position));
+                intent.putExtra("activity", "FROM_PLANNED_MEAL");
+                PendingIntent pendingIntent = PendingIntent.getActivity(context, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                try {
+                    pendingIntent.send();
+                } catch (PendingIntent.CanceledException e) {
+                    e.printStackTrace();
+                }
             }
         });
         // Set behavior in delete meal button

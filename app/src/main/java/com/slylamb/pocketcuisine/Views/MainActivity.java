@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements MainPageActivityP
         EditText txtEmail = findViewById(R.id.txtEmail);
         EditText txtPassword = findViewById(R.id.txtPassword);
         btnLogin = findViewById(R.id.btnLogin);
-         //txtLoginSuccess = findViewById(R.id.txtloginStatus);
+         //txtLoginSuccess = findViewById(R.id.txtLoginStatus);
          btnConAsGuest = findViewById(R.id.btnConAsGuest);
         //btnLogin.setOnClickListener(this);
 

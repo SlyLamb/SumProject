@@ -65,6 +65,9 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
             // Initialize presenter and pass on recipeID for planned meal in Database
             presenter = new RecipeActivityPresenter(this, this, recipeID, "PM");
         }
+
+        presenter = new RecipeActivityPresenter(this,this,"","");
+
         // Set images and texts for selected recipe
         presenter.setRecipeDetails();
         btnAddFavorites.setOnClickListener(new View.OnClickListener() {

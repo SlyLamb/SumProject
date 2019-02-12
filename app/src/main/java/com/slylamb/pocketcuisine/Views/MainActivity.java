@@ -100,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements MainPageActivityP
             @Override
             public void onClick(View v) {
 
-
-                startActivity(new Intent(MainActivity.this, HomePageActivity.class));
+startActivity(new Intent(getApplicationContext(), RecipeActivity.class));
+                //startActivity(new Intent(MainActivity.this, HomePageActivity.class));
 
             }
         });

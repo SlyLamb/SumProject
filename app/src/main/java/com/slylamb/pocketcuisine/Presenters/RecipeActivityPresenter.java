@@ -2,18 +2,34 @@
 package com.slylamb.pocketcuisine.Presenters;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.slylamb.pocketcuisine.Data.DataBaseHandler;
+import com.slylamb.pocketcuisine.Models.Ingredient;
 import com.slylamb.pocketcuisine.Models.PlannedMeal;
 import com.slylamb.pocketcuisine.Models.Recipe;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.ArrayList;
+
+import static android.support.constraint.Constraints.TAG;
 
 public class RecipeActivityPresenter {
 
     private View view;
     private Recipe recipe;
     private DataBaseHandler db;
+    private RequestQueue queue;
     private final String baseUrl = "https://www.food2fork.com/api/get?key=";
     private final String key = "f5b73a553a6a92ccfabca695807bdaeb"; //50 calls limit per day
     private final String recipeSearch = "&rId=";
@@ -21,6 +37,20 @@ public class RecipeActivityPresenter {
     public RecipeActivityPresenter(View view, Context context, String recipeID, String type) {
         this.view = view;
         db = new DataBaseHandler(context);
+
+        queue = Volley.newRequestQueue(context);
+
+
+        String url = baseUrl + key + recipeSearch + "35382";
+        Log.i(TAG, "DEBUGGING - calling setRecipeFromAPI - url = " + url);
+        try {
+            getRecipeFromAPI(url);
+        } catch (Exception e) {
+            Log.i(TAG, "DEBUGGING - calling setRecipeFromAPI - got exception - message = " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        /*
         // If type is API, must get recipe from API
         if (type.equals("API")) {
             // Get api url
@@ -41,7 +71,7 @@ public class RecipeActivityPresenter {
             recipe.setImageLink(plannedMeal.getRecipe().getImageLink());
             recipe.setSourceURL(plannedMeal.getRecipe().getSourceURL());
         }
-/*
+
         // TEST DATA
         recipe = new Recipe();
         recipe.setImageLink("http://static.food2fork.com/iW8v49knM5faff.jpg");
@@ -91,7 +121,49 @@ public class RecipeActivityPresenter {
     }
 
     // Initialise recipe and sets its values from API url
-    private void getRecipeFromAPI(String sURL) throws IOException {/*
+    private void getRecipeFromAPI(String url) throws IOException {
+
+        Log.i(TAG, "DEBUGGING - getRecipeFromAPI, url = " + url);
+    // Todo: not working
+        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    Log.i(TAG, "DEBUGGING - getRecipeFromAPI - inside Json request");
+                    JSONObject recipeObj = response.getJSONObject("recipe");
+                    // Initialize recipe and set its variables
+                    recipe = new Recipe();
+                    recipe.setImageLink(recipeObj.getString("image_url"));
+                    recipe.setTitle(recipeObj.getString("title"));
+                    recipe.setPublisher(recipeObj.getString("publisher"));
+                    recipe.setSourceURL(recipeObj.getString("source_url"));
+                    Log.i(TAG, "DEBUGGING - getRecipeFromAPI - recipe created, title = " + recipe.getTitle()
+                    + " | and image = " + recipe.getImageLink() + " | and publisher = " + recipe.getPublisher()
+                    + " | and source = " + recipe.getSourceURL());
+                    // For recipes, get JSONArray and convert into List of Strings
+                    JSONArray ingredientsArray = recipeObj.getJSONArray("ingredients");
+                    ArrayList<Ingredient> ingredients = new ArrayList<>();
+                    for (int i = 0; i < ingredientsArray.length(); i++) {
+                        Ingredient ingredient = new Ingredient();
+                        ingredient.setItemName(ingredientsArray.getString(i));
+                        ingredients.add(ingredient);
+                    }
+                    recipe.setIngredients(ingredients);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError arg0) {
+                // TODO Auto-generated method stub
+            }
+        });
+        queue.add(request);
+
+
+
+        /*
         // Connect to the URL using java's native library
         URL url = new URL(sURL);
         URLConnection request = url.openConnection();

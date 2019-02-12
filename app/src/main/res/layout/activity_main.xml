@@ -23,7 +23,7 @@
         android:padding="8dp">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imgHeaderBanner"
             android:layout_width="307dp"
             android:layout_height="63dp"
             android:layout_gravity="center"
@@ -32,7 +32,7 @@
             android:background="@raw/header" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/txtHeaderLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -100,8 +100,8 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/colorMainGray"
             android:text="CONTINUE AS GUEST"
+            android:background="@color/colorMainGray"
             android:textSize="18sp"
             android:textColor="@color/colorWhite" />
 

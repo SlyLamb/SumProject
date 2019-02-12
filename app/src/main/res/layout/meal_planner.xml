@@ -3,23 +3,68 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    tools:layout_editor_absoluteX="8dp"
-    tools:layout_editor_absoluteY="8dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@raw/marble_light">
 
     <LinearLayout
-        android:id="@+id/calendar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:alpha="0.75"
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:padding="8dp">
 
+        <ImageView
+            android:id="@+id/imgHeaderBanner"
+            android:layout_width="307dp"
+            android:layout_height="63dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@raw/header" />
+
+        <TextView
+            android:id="@+id/txtHeaderLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="30dp"
+            android:text="@string/txt_meal_planner"
+            android:textAlignment="center"
+            android:textSize="27sp"
+            android:textColor="@color/colorMainGray"/>
+
+        <LinearLayout
+            android:id="@+id/calendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_generate_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Generate shopping list"
+            android:background="@color/colorMainGray"
+            android:textSize="18sp"
+            android:textColor="@color/colorWhite"/>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_generate_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Generate shopping list" />
 
 </LinearLayout>

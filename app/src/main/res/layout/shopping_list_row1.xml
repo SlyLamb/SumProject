@@ -26,7 +26,6 @@
 
 
             <TextView
-
                 android:id="@+id/itemName"
                 android:text="Shopping List Item"
                 android:textSize="18sp"
@@ -40,7 +39,7 @@
                 android:background="?android:selectableItemBackground"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 app:srcCompat="@raw/delete_image"
                 />
         </LinearLayout>

@@ -90,6 +90,8 @@ public class PlannedMealsListViewAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Log.i("plannedMealPosition", "" + position);
                 presenter.deletePlannedMeal(plannedMeals.get(position));
+                plannedMeals.remove(position);
+                notifyDataSetChanged();
             }
         });
         return convertView;

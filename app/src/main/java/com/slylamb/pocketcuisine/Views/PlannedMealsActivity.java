@@ -30,7 +30,6 @@ public class PlannedMealsActivity extends AppCompatActivity {
         // Get intent with date from MealPlannerActivity
         Intent intent = getIntent();
         date = intent.getStringExtra("date");
-        Log.i(TAG, "DEBUGGING - planned meal activity - date = " + date);
         // Get planned meals titles on date chosen
         ArrayList<String> plannedMealsTitles = new ArrayList<>(presenter.getPlannedMealsTitles(date));
         // Initialise list view adapter with planned meals

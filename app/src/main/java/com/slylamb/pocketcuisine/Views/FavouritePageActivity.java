@@ -62,7 +62,7 @@ public class FavouritePageActivity extends AppCompatActivity {
 
         recipeList = getRecipes();
 
-        recipeRecyclerViewAdapter = new RecipeRecyclerViewAdapter(this, recipeList );
+        //recipeRecyclerViewAdapter = new RecipeRecyclerViewAdapter(this, recipeList );
         recyclerView.setAdapter(recipeRecyclerViewAdapter);
         recipeRecyclerViewAdapter.notifyDataSetChanged();
 

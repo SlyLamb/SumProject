@@ -18,6 +18,7 @@ import java.util.List;
 
 
 import com.slylamb.pocketcuisine.Models.Recipe;
+import com.slylamb.pocketcuisine.Presenters.RecipeSearchActivityPresenter;
 import com.slylamb.pocketcuisine.R;
 import com.squareup.picasso.Picasso;
 
@@ -31,45 +32,40 @@ import android.os.AsyncTask;
 
 public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecyclerViewAdapter.ViewHolder>{
 
-    private Context context;
-    private List<Recipe> recipeList;
+    private final RecipeSearchActivityPresenter presenter;
 
-    public RecipeRecyclerViewAdapter(Context context,List<Recipe>recipes){
+    private Context context;
+
+    public RecipeRecyclerViewAdapter(RecipeSearchActivityPresenter presenter,Context context){
         this.context = context;
-        recipeList = recipes;
+        this.presenter = presenter;
+        Log.d("RecipeRecyclerView","RecipeRecyclerViewAdapter constructor has been called");
     }
 
     @Override
     public RecipeRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recipe_row,viewGroup,false);
+        Log.d("onCreateViewHolder","onCreateViewHolder has been called");
         return new ViewHolder(view,context);
     }
 
     @Override
-    public void onBindViewHolder( RecipeRecyclerViewAdapter.ViewHolder viewHolder, int i) {
-        Recipe recipe = recipeList.get(i);
+    public void onBindViewHolder( RecipeRecyclerViewAdapter.ViewHolder viewHolder, int position) {
 
-
-
-        String imageLink = recipe.getImageLink();
-        Log.d("downlandlink",imageLink);
-        viewHolder.txtRecipeTitle.setText(recipe.getTitle());
-        viewHolder.txtRecipePublisher.setText(recipe.getPublisher());
-
-        Picasso.with(context)
-                .load(imageLink)
-                .error(R.drawable.common_full_open_on_phone)
-                .fit()
-                .into(viewHolder.recipeImage);
+        presenter.onBindRecipeRowViewAtPosition(position,viewHolder);
+        Log.d("onBindViewHolder","onBindViewHolder has been called");
 
     }
 
     @Override
     public int getItemCount() {
-        return recipeList.size();
+        //return presenter.getRecipesRowsCount();
+       // Log.d("getItemCount",String.valueOf(presenter.getRecipesRowsCount()));
+
+        return 5;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements RecipeSearchActivityPresenter.RecipeRowView{
         ImageView recipeImage;
         TextView txtRecipePublisher;
         TextView txtRecipeTitle;
@@ -86,7 +82,7 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
                 @Override
                 public void onClick(View v) {
 
-                    Recipe recipe = recipeList.get(getAdapterPosition());
+                    Recipe recipe = presenter.getRecipeList().get(getAdapterPosition());
                     Intent intent = new Intent(context, RecipeActivity.class);
                     intent.putExtra("recipeID",recipe.getID());
                     intent.putExtra("activity", "FROM_RECIPE_SEARCH");
@@ -102,9 +98,26 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
 
         }
 
-        @Override
-        public void onClick(View v) {
 
+        @Override
+        public void setRowViewImage(String imageLink) {
+
+            Picasso.with(context)
+                .load(imageLink)
+                .error(R.drawable.common_full_open_on_phone)
+                .fit()
+                .into(recipeImage);
+
+        }
+
+        @Override
+        public void setRowViewPublisher(String publisher) {
+            txtRecipePublisher.setText(publisher);
+        }
+
+        @Override
+        public void setRowViewTitle(String title) {
+            txtRecipeTitle.setText(title);
         }
     }
 }

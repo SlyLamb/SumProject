@@ -355,6 +355,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 // Create recipe from planned meal info
                 Recipe recipe = new Recipe();
                 recipe.setTitle(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_TITLE)));
+                Log.i("getPlannedMeals", "recipe = " + recipe.getTitle());
                 recipe.setImageLink(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_IMAGE)));
                 recipe.setPublisher(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_PUBLISHER)));
                 recipe.setSourceURL(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_SOURCE)));
@@ -452,6 +453,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         // Delete planned meal which matches title
         long mealID = db.delete(Constants.TABLE_PLANNED_MEAL, Constants.KEY_PLANNEDMEAL_ID + " = ?", new String[] {keyId});
+        Log.i("deletePlannedMealID", Long.toString(mealID));
         // Delete ingredients from this meal
         db.delete(Constants.TABLE_INGREDIENT, Constants.KEY_INGREDIENT_PLANNEDMEAL + " = ?", new String[] {Long.toString(mealID)});
     }

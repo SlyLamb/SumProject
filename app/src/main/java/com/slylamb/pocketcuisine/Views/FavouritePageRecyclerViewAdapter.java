@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -72,6 +73,7 @@ public class FavouritePageRecyclerViewAdapter extends RecyclerView.Adapter<Favou
         ImageView recipeImage;
         TextView txtRecipePublisher;
         TextView txtRecipeTitle;
+        Button btnDeleteFavorite;
 
 
         public ViewHolder(View itemView, final Context cxt) {
@@ -80,6 +82,7 @@ public class FavouritePageRecyclerViewAdapter extends RecyclerView.Adapter<Favou
             recipeImage = (ImageView) itemView.findViewById(R.id.recipeImage);
             txtRecipeTitle = (TextView) itemView.findViewById(R.id.txtRecipeTitle);
             txtRecipePublisher = (TextView) itemView.findViewById(R.id.txtRecipePublisher);
+            btnDeleteFavorite = itemView.findViewById(R.id.btnDeleteFavorite);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -100,7 +103,6 @@ public class FavouritePageRecyclerViewAdapter extends RecyclerView.Adapter<Favou
 
                 }
             });
-
         }
 
         @Override

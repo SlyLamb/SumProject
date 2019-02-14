@@ -109,8 +109,6 @@ public class RecipeActivityPresenter {
         // Set fields image, name, duration, servings and ingredients
         view.setRecipeDetails(recipe.getImageLink(), recipe.getTitle(), recipe.getSourceURL());
         // Set favorite button, different look if user has recipe or doesn't
-
-        //THIS WILL CAUSE CRASH FOR NOW!!!!!
         view.setFavoriteButton(db.hasRecipe(recipe.getTitle()));
     }
 
@@ -131,6 +129,7 @@ public class RecipeActivityPresenter {
     public void addToMealPlanner(String date) {
         // Create planned meal from current recipe and date given in button
         PlannedMeal meal = new PlannedMeal(recipe, date);
+        Log.i("addToMealPlanner", "recipe = " + meal.getRecipe().getTitle());
         db.addPlannedMeal(meal);
     }
 

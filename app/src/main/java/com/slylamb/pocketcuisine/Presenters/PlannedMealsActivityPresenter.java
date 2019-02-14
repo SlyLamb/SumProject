@@ -58,7 +58,7 @@ public class PlannedMealsActivityPresenter {
                 meal = plannedMealsOnDate.get(i);
                 planner.deletePlannedMeal(meal);
                 plannedMealsOnDate.remove(i);
-                db.deletePlannedMeal(meal.getID());
+                db.deletePlannedMeal(meal.getRecipe().getTitle());
             }
         }
     }

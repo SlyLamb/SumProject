@@ -3,6 +3,7 @@ package com.slylamb.pocketcuisine.Views;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +24,10 @@ public class PlannedMealsListViewAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<String> plannedMeals;
 
-    public PlannedMealsListViewAdapter(Context context, ArrayList<String> plannedMealsTitles) {
+    public PlannedMealsListViewAdapter(Context context, ArrayList<String> plannedMealsTitles, PlannedMealsActivityPresenter presenter) {
         this.context = context;
         plannedMeals = new ArrayList<>(plannedMealsTitles);
-        presenter = new PlannedMealsActivityPresenter(context);
+        this.presenter = presenter;
     }
     class ViewHolder {
         int position;
@@ -87,7 +88,8 @@ public class PlannedMealsListViewAdapter extends BaseAdapter {
         vh.btnDeleteMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.deletePlannedMeal(position);
+                Log.i("plannedMealPosition", "" + position);
+                presenter.deletePlannedMeal(plannedMeals.get(position));
             }
         });
         return convertView;

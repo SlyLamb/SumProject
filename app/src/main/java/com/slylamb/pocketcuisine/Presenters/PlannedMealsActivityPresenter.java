@@ -47,11 +47,19 @@ public class PlannedMealsActivityPresenter {
         return plannedMealsOnDate.get(i).getID();
     }
 
-    public void deletePlannedMeal(int i) {
-        // Delete meal from planner, plannedMealsOnDate and database
-        PlannedMeal meal = plannedMealsOnDate.get(i);
-        planner.deletePlannedMeal(meal);
-        plannedMealsOnDate.remove(i);
-        db.deletePlannedMeal(meal.getID());
+    public void deletePlannedMeal(String title) {
+        PlannedMeal meal;
+        Log.i("plannedMealsTitle", title);
+        for (int i = 0; i < plannedMealsOnDate.size(); i++) {
+            Log.i("plannedMealLooking", "Title at i = " + i + " is " + plannedMealsOnDate.get(i).getRecipe().getTitle());
+            if (plannedMealsOnDate.get(i).getRecipe().getTitle().equals(title)) {
+                Log.i("plannedMealFound", "At i = " + i);
+                // Delete meal from planner, plannedMealsOnDate and database
+                meal = plannedMealsOnDate.get(i);
+                planner.deletePlannedMeal(meal);
+                plannedMealsOnDate.remove(i);
+                db.deletePlannedMeal(meal.getID());
+            }
+        }
     }
 }

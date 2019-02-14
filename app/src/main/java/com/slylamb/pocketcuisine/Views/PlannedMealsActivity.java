@@ -34,7 +34,7 @@ public class PlannedMealsActivity extends AppCompatActivity {
         // Get planned meals titles on date chosen
         ArrayList<String> plannedMealsTitles = new ArrayList<>(presenter.getPlannedMealsTitles(date));
         // Initialise list view adapter with planned meals
-        adapter = new PlannedMealsListViewAdapter(this, plannedMealsTitles);
+        adapter = new PlannedMealsListViewAdapter(this, plannedMealsTitles, presenter);
         lstvPlannedMeals.setAdapter(adapter);
     }
 }

@@ -50,18 +50,6 @@ public class RecipeActivityPresenter {
         db = new DataBaseHandler(context);
         recipe = new Recipe();
 
-        // DOWN THE BOTTOM
-        //queue = Volley.newRequestQueue(context);
-
-/*
-        String url = baseUrl + key + recipeSearch + recipeID;
-        Log.d("url",url);
-        try {
-            getRecipeFromAPI(url);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-*/
 
         // If type is API, must get recipe from API
         switch (type) {
@@ -90,20 +78,7 @@ public class RecipeActivityPresenter {
                 recipe.setSourceURL(plannedMeal.getRecipe().getSourceURL());
                 break;
         }
-/*
-        // TEST DATA
-        recipe = new Recipe();
-        recipe.setImageLink("http://static.food2fork.com/iW8v49knM5faff.jpg");
-        recipe.setTitle("Chicken with Spring Vegetables and Gnocchi");
-        recipe.setPublisher("Framed Cooks");
-        ArrayList<Ingredient> ingredients = new ArrayList<>();
-        Ingredient ingredient = new Ingredient();
-        ingredient.setItemName("10 cups chicken broth");
-        ingredients.add(ingredient);
-        ingredient.setItemName("1/2 stick butter");
-        ingredients.add(ingredient);
-        recipe.setIngredients(ingredients);
-        recipe.setSourceURL("http://www.framedcooks.com/2012/05/chicken-with-spring-vegetables-and-gnocchi.html");*/
+
     }
 
     // Set images and texts for current recipe in view
@@ -190,79 +165,6 @@ public class RecipeActivityPresenter {
         });
         queue.add(request);
 
-
-
-        /*
-        // Connect to the URL using java's native library
-        URL url = new URL(sURL);
-        URLConnection request = url.openConnection();
-        request.connect();
-
-        // Convert to a JSON object to print data
-        JsonParser jp = new JsonParser(); //from gson
-        JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
-        JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object.
-        String zipcode = rootobj.get("zip_code").getAsString(); //just grab the zipcode
-
-
-
-
-
-        Log.i(TAG, "DEBUGGING - API - inside getRecipeFromAPI, url = " + url);
-        JSONObject recipeObj = new JSONObject();
-        try {
-            recipeObj = JsonReader.readJsonFromUrl(url);
-            Log.i(TAG, "DEBUGGING - API - recipeObj = " + recipeObj);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        recipe = new Recipe();
-        String imgLink = null, title = null, publisher = null, sourceURL = null;
-        try {
-            imgLink = recipeObj.getString("image_url");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            title = recipeObj.getString("title");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            publisher = recipeObj.getString("publisher");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            sourceURL = recipeObj.getString("source_url");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Log.i(TAG, "DEBUGGING - API - imgLink = " + imgLink + ", title = " + title + ", publisher = " + publisher + ", source = " + sourceURL);
-        recipe.setImageLink(imgLink);
-        recipe.setTitle(title);
-        recipe.setPublisher(publisher);
-        recipe.setSourceURL(sourceURL);
-        // For recipes, get JSONArray and convert into List of Strings
-        JSONArray ingredientsArray = new JSONArray();
-        try {
-            ingredientsArray = recipeObj.getJSONArray("ingredients");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ArrayList<Ingredient> ingredients = new ArrayList<>();
-        for (int i = 0; i < ingredientsArray.length(); i++) {
-            String ingredientString = "";
-            try {
-                ingredientString = ingredientsArray.getString(i);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            Ingredient ingredient = new Ingredient();
-            ingredient.setItemName(ingredientString);
-            ingredients.add(ingredient);
-        }
-        recipe.setIngredients(ingredients);*/
     }
 
     public interface View {

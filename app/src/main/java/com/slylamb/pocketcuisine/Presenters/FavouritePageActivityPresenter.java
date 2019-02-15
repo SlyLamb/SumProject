@@ -13,17 +13,14 @@ public class FavouritePageActivityPresenter {
 
     private DataBaseHandler db;
     private List<Recipe> recipeList;
-    private String url;
-    private Recipe recipe;
-    private RequestQueue queue;
     private Context context;
-    private RecyclerView recyclerView;
     private View view;
 
     public List<Recipe> getRecipeList() {
         return recipeList;
     }
 
+    //constructor
     public FavouritePageActivityPresenter(View view, Context context){
 
         this.view = view;
@@ -32,6 +29,7 @@ public class FavouritePageActivityPresenter {
 
     }
 
+    //implement onBindViewHolder for recipe row viewholder
     public void onBindRecipeRowViewAtPosition(int position, FavouritePageActivityPresenter.RecipeRowView rowView) {
 
         Recipe recipe = recipeList.get(position);
@@ -42,11 +40,13 @@ public class FavouritePageActivityPresenter {
 
     }
 
+    //implement getItemCount
     public int getRecipesRowsCount(){
         Log.d("recipelist",String.valueOf(recipeList.size()));
         return recipeList.size();
     }
 
+    //get the favourite recipes stored in the database and return a list of Recipe objects
     public List<Recipe> getRecipes(){
 
         List<Recipe>newRecipeList = new ArrayList<>();
@@ -58,18 +58,21 @@ public class FavouritePageActivityPresenter {
         return newRecipeList;
     }
 
+    // give recipeList filed the value returned from database
     public void getRecipesList(){
         this.recipeList = getRecipes();
         Log.d("recipeListSize",String.valueOf(recipeList.size()));
     }
 
 
+    //interface for the recipe row view
     public interface RecipeRowView{
         void setRowViewImage(String imageLink);
         void setRowViewPublisher(String publisher);
         void setRowViewTitle(String title);
     }
 
+    //interface for the view implemented by activity
     public interface View{
         void refreshRecipeList();
         void setRecyclerViewAdapter();

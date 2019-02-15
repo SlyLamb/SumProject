@@ -35,28 +35,26 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Log.d("dbhandler","onCreate has been called");
 
+        // create shopping list table from ingredient list
         String CREATE_SHOPPINGLIST_TABLE ="CREATE TABLE " + Constants.TABLE_SHOPPINGLIST_NAME + "("
                 + Constants.KEY_STRING_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + Constants.KEY_ITEM_STRING + " TEXT"
                  + " );";
 
-   
-//        String CREATE_PLANNEDMEAL_TABLE="CREATE TABLE " + Constants.TABLE_PLANNED_MEAL + "("
-//                + Constants.KEY_PLANNEDMEAL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + Constants.KEY_PLANNEDMEAL_NAME + " TEXT,"
-//                + Constants.KEY_PLANNEDMEAL_URL + " TEXT," + Constants.KEY_PLANNEDMEAL_IMAGELINK + " TEXT"+ " );";
 
         db.execSQL(CREATE_SHOPPINGLIST_TABLE);
-       // db.execSQL(CREATE_PLANNEDMEAL_TABLE);
 
         //--------------------------------------------------------------------
         // Gabi code start
         //--------------------------------------------------------------------
 
+        //create favourite recipe table
         String CREATE_FAVORITE_RECIPE_TABLE = "CREATE TABLE " + Constants.TABLE_FAVORITE_RECIPE + "("
                 + Constants.KEY_RECIPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Constants.KEY_RECIPE_TITLE + " TEXT," + Constants.KEY_RECIPE_IMAGE + " TEXT,"
                 + Constants.KEY_RECIPE_PUBLISHER + " TEXT," + Constants.KEY_RECIPE_SOURCE + " TEXT );";
         db.execSQL(CREATE_FAVORITE_RECIPE_TABLE);
 
+        //create planned meal table
         String CREATE_PLANNEDMEAL_TABLE = "CREATE TABLE " + Constants.TABLE_PLANNED_MEAL + "("
                 + Constants.KEY_PLANNEDMEAL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Constants.KEY_PLANNEDMEAL_TITLE + " TEXT," + Constants.KEY_PLANNEDMEAL_IMAGE + " TEXT,"
@@ -64,6 +62,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 + Constants.KEY_PLANNEDMEAL_DATE + " TEXT );";
         db.execSQL(CREATE_PLANNEDMEAL_TABLE);
 
+        //create ingredient table
         String CREATE_INGREDIENT_TABLE = "CREATE TABLE " + Constants.TABLE_INGREDIENT + "("
                 + Constants.KEY_INGREDIENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + Constants.KEY_INGREDIENT_TEXT + " TEXT," + Constants.KEY_INGREDIENT_RECIPE + " TEXT,"
@@ -85,6 +84,11 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     //----------------------------------------------------------------------------------------
     // Ming--Shopping List functions
     //----------------------------------------------------------------------------------------
+
+    /**
+     * add the user input to the shopping list
+     * @param ingredient ingredient object composed by user input
+     */
     public void addShoppingListFromUserInput(Ingredient ingredient){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -99,6 +103,10 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     }
 
+    /**
+     *  add shopping list items from recipe obj in the recipe page
+     * @param recipe recipe obj
+     */
     public void addShoppingListFromRecipe(Recipe recipe) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -111,52 +119,12 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 db.insert(Constants.TABLE_SHOPPINGLIST_NAME, null, values);
             }
         }
-
-
-
-
-/*
-        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_SHOPPINGLIST_NAME);
-
-
-        String CREATE_SHOPPINGLIST_TABLE = "CREATE TABLE " + Constants.TABLE_SHOPPINGLIST_NAME + "("
-                + Constants.KEY_STRING_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + Constants.KEY_ITEM_STRING + " TEXT"
-                + " );";
-
-        db.execSQL(CREATE_SHOPPINGLIST_TABLE);
-
-
-        List<String> ingredientItems = new ArrayList<>();
-
-        List<String> newingredientItems = new ArrayList<>();
-
-        // hardcoded example, will remove later
-        ingredientItems.add("2 jalapeno peppers, cut in half lengthwise and seeded");
-        ingredientItems.add("2 slices sour dough bread");
-        ingredientItems.add("1 tablespoon butter, room temperature");
-        ingredientItems.add("2 tablespoons cream cheese, room temperature");
-        ingredientItems.add("1/2 cup jack and cheddar cheese, shredded");
-        ingredientItems.add("1 tablespoon tortilla chips, crumbled\n");
-
-        for (int i = 0; i < ingredientItems.size(); i++) {
-            String[] splitted = ingredientItems.get(i).split(",");
-            newingredientItems.add(splitted[0]);
-        }
-
-        //ArrayList<String> ingredients = new ArrayList<>(recipe.getIngredients());
-
-        ContentValues values = new ContentValues();
-
-        for (int i = 0; i < newingredientItems.size(); i++) {
-
-            values.put(Constants.KEY_ITEM_STRING, newingredientItems.get(i));
-            Log.d("database ingredient", newingredientItems.get(i));
-            db.insert(Constants.TABLE_SHOPPINGLIST_NAME, null, values);
-            Log.d("dbhandler", "insert has been called");
-
-        }*/
     }
 
+    /**
+     *  get all the ingredient items stored in database
+     * @return a list of Ingredient objects obtained from the database
+     */
     public List<Ingredient> getALLStringItemsFromShoppingListTB() {
             SQLiteDatabase db = this.getReadableDatabase();
 
@@ -182,6 +150,10 @@ public class DataBaseHandler extends SQLiteOpenHelper {
             return ingredientList;
     }
 
+    /**
+     * delete the string ingredient item from shopping list table
+     * @param id the id of the item to be deleted in the table
+     */
     public void deleteStringItemFromShoppingListTB(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(Constants.TABLE_SHOPPINGLIST_NAME, Constants.KEY_STRING_ITEM_ID + " = ?",
@@ -194,20 +166,14 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     // Ming--Favourite Recipe functions
     //----------------------------------------------------------------------------------------
 
+    /**
+     * get all the favourite recipes stored in the favourite recipe table in database
+     * @return a list of Recipe objects from the database
+     */
     public List<Recipe> getALLFavouriteRecipesFromFavouriteRecipeTB() {
         Log.i("tbMethod","called");
         SQLiteDatabase db = this.getReadableDatabase();
         Log.i("gettingDb","readable db gotten");
-
-/*        ContentValues values = new ContentValues();
-
-        values.put(Constants.KEY_RECIPE_TITLE, "Chicken cacciatore");
-        values.put(Constants.KEY_RECIPE_IMAGE, "http://static.food2fork.com/4251_MEDIUM71f0.jpg");
-        values.put(Constants.KEY_RECIPE_PUBLISHER, "BBC Good Food");
-        values.put(Constants.KEY_RECIPE_SOURCE, "http://www.bbcgoodfood.com/recipes/4251/chicken-cacciatore");
-        long id = db.insert(Constants.TABLE_FAVORITE_RECIPE, null, values);
-        Log.i("recipeIDactual", Long.toString(id));
-*/
 
         List<Recipe> recipeList = new ArrayList<>();
 

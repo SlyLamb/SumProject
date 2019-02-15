@@ -74,7 +74,6 @@ public class FavouritePageRecyclerViewAdapter extends RecyclerView.Adapter<Favou
             recipeImage = (ImageView) itemView.findViewById(R.id.recipeImage);
             txtRecipeTitle = (TextView) itemView.findViewById(R.id.txtRecipeTitle);
             txtRecipePublisher = (TextView) itemView.findViewById(R.id.txtRecipePublisher);
-            btnDeleteFavorite = itemView.findViewById(R.id.btnDeleteFavorite);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

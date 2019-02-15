@@ -44,7 +44,6 @@ public class RegisteredUser  {
         if (TextUtils.isEmpty(email)) {
 
         } else {
-            //mEmailField.setError(null);
             this.email = email;
         }
 
@@ -55,7 +54,6 @@ public class RegisteredUser  {
         if (TextUtils.isEmpty(password)) {
 
         } else {
-            //mEmailField.setError(null);
             this.password = password;
         }
 
@@ -64,7 +62,6 @@ public class RegisteredUser  {
 
     private void createAccount(String email, String password) {
 
-        // What is Executor this??
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
                     @Override

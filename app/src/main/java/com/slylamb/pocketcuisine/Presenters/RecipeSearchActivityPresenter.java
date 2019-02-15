@@ -45,6 +45,7 @@ public class RecipeSearchActivityPresenter {
     }
 
 
+    //set the url using the base url and the user input keyword
     public void setUrl(String keyword) {
 
         url = baseUrl+key+"&q="+keyword;
@@ -62,6 +63,7 @@ public class RecipeSearchActivityPresenter {
     }
 
 
+    //implement onBindViewHolder function in recipesearchactivityadapter class
     public void onBindRecipeRowViewAtPosition(int position, RecipeRowView rowView) {
 
         Recipe recipe = recipeList.get(position);
@@ -72,17 +74,19 @@ public class RecipeSearchActivityPresenter {
 
     }
 
+    //implement getitemcount function in recipesearchactivityadapter class
     public int getRecipesRowsCount(){
         Log.d("recipelist",String.valueOf(recipeList.size()));
         return recipeList.size();
     }
 
+    //
     public void getRecipesList(){
         this.recipeList = getRecipes(url);
         Log.d("recipeListSize",String.valueOf(recipeList.size()));
     }
 
-
+    //get a list of recipes from the API server based on user input
     public List<Recipe> getRecipes(String url) {
         Log.d("getrecipe","getrecipecalled");
         recipeList.clear();
@@ -109,10 +113,12 @@ public class RecipeSearchActivityPresenter {
                         recipe.setPublisher(recipeObj.getString("publisher"));
                         recipe.setID(recipeObj.getString("recipe_id"));
                         recipeList.add(recipe);
+                        //set recycler view adapter
                         view.setRecyclerViewAdapter();
 
                     }
 
+                    // notify the adapter that the data has been changed
                     view.refreshRecipeList();
 
 
@@ -135,12 +141,14 @@ public class RecipeSearchActivityPresenter {
 
     }
 
+    // interface view for each recipe row
     public interface RecipeRowView{
         void setRowViewImage(String imageLink);
         void setRowViewPublisher(String publisher);
         void setRowViewTitle(String title);
     }
 
+    //interface view for the activity class which implements the view
     public interface View{
         void refreshRecipeList();
         void setRecyclerViewAdapter();

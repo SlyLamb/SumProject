@@ -28,6 +28,7 @@ public class HomePageActivity extends PocketCuisineActivity {
 
 
 
+        // link the search button with the recipesearch class
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,6 +38,7 @@ public class HomePageActivity extends PocketCuisineActivity {
             }
         });
 
+        //link the favourite button with the favouritePageActivity class
         btnFavourite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,6 +48,7 @@ public class HomePageActivity extends PocketCuisineActivity {
             }
         });
 
+        //link the shopping list button with the shoppinglistactivity
         btnShoppingList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,6 +58,7 @@ public class HomePageActivity extends PocketCuisineActivity {
             }
         });
 
+        //link the planner button with the mealplanneractivity
         btnPlanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

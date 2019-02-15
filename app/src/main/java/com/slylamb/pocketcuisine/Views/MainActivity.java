@@ -48,6 +48,7 @@ public class MainActivity extends PocketCuisineActivity implements MainPageActiv
          btnConAsGuest = findViewById(R.id.btnConAsGuest);
         //btnLogin.setOnClickListener(this);
 
+        //get user email
         txtEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -67,6 +68,7 @@ public class MainActivity extends PocketCuisineActivity implements MainPageActiv
             }
         });
 
+        //get user password
         txtPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

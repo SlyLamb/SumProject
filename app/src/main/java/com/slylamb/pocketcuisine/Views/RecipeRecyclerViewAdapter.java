@@ -1,6 +1,5 @@
 package com.slylamb.pocketcuisine.Views;
 
-
 import android.app.PendingIntent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,24 +9,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.List;
 
 
 import com.slylamb.pocketcuisine.Models.Recipe;
 import com.slylamb.pocketcuisine.Presenters.RecipeSearchActivityPresenter;
 import com.slylamb.pocketcuisine.R;
 import com.squareup.picasso.Picasso;
-
-import java.net.URL;
-import java.net.URLConnection;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-
 
 
 public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecyclerViewAdapter.ViewHolder>{
@@ -42,6 +31,7 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
         Log.d("RecipeRecyclerView","RecipeRecyclerViewAdapter constructor has been called");
     }
 
+    //inflate the viewholder with xml layout
     @Override
     public RecipeRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recipe_row,viewGroup,false);
@@ -49,6 +39,7 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
         return new ViewHolder(view,context);
     }
 
+    //bind the data with the viewholder in each row
     @Override
     public void onBindViewHolder( RecipeRecyclerViewAdapter.ViewHolder viewHolder, int position) {
 
@@ -57,11 +48,11 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
 
     }
 
+    //return the number of items in the recycler view
     @Override
     public int getItemCount() {
         return presenter.getRecipesRowsCount();
 
-        //return 5;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements RecipeSearchActivityPresenter.RecipeRowView{
@@ -82,8 +73,12 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
                 public void onClick(View v) {
 
                     Recipe recipe = presenter.getRecipeList().get(getAdapterPosition());
+                    //send the info about the specific view that the user has clicked on to the
+                    //the next recipe page
                     Intent intent = new Intent(context, RecipeActivity.class);
+                    //send the recipe id to the next page
                     intent.putExtra("recipeID",recipe.getID());
+                    //send the source of the activity to the next page for certain action
                     intent.putExtra("activity", "FROM_RECIPE_SEARCH");
                     Log.i("recipeID", recipe.getID());
                     PendingIntent pendingIntent = PendingIntent.getActivity(context, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -98,6 +93,7 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
         }
 
 
+        //implement reciperowview interface to set the image in each row
         @Override
         public void setRowViewImage(String imageLink) {
 
@@ -109,11 +105,13 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
 
         }
 
+        //implement the reciperowview interface to set the publisher name in each row
         @Override
         public void setRowViewPublisher(String publisher) {
             txtRecipePublisher.setText(publisher);
         }
 
+        //implement the reciperowview interface to set the title name in each row
         @Override
         public void setRowViewTitle(String title) {
             txtRecipeTitle.setText(title);

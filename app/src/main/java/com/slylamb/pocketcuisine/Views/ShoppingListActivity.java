@@ -1,31 +1,16 @@
 package com.slylamb.pocketcuisine.Views;
 
-import android.graphics.Canvas;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.support.v7.widget.helper.ItemTouchHelper;
 
-
-import com.google.android.gms.common.internal.ShowFirstParty;
 import com.slylamb.pocketcuisine.Data.DataBaseHandler;
 import com.slylamb.pocketcuisine.Models.Ingredient;
 import com.slylamb.pocketcuisine.Models.Recipe;
@@ -48,10 +33,8 @@ public class ShoppingListActivity extends PocketCuisineActivity {
     private EditText txtQuantity;
     private Button btnSave;
     private Button btnAdd;
-    //SwipeController swipeController = null;
 
 
-    //private List<String> ingredientItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,22 +50,23 @@ public class ShoppingListActivity extends PocketCuisineActivity {
         ingredientList = new ArrayList<>();
         ingredientItems = new ArrayList<>();
 
-        List<String> newingredientItems= new ArrayList<>();
-
-
         Recipe recipe = new Recipe();
-        db.addShoppingListFromRecipe( recipe);
+
+       // db.addShoppingListFromRecipe( recipe);
+
+        // get all the existing ingredient items in the shopping list table
         ingredientList = db.getALLStringItemsFromShoppingListTB();
 
-        for(int i=0;i<ingredientList.size();i++){
-            Ingredient ingredient = new Ingredient();
-            ingredient.setItemName(ingredientList.get(i).getItemName());
-            ingredient.setID(ingredientList.get(i).getID());
-            ingredientItems.add(ingredient);
-        }
+//        for(int i=0;i<ingredientList.size();i++){
+//            Ingredient ingredient = new Ingredient();
+//            ingredient.setItemName(ingredientList.get(i).getItemName());
+//            ingredient.setID(ingredientList.get(i).getID());
+//            ingredientItems.add(ingredient);
+//        }
 
 
-        recyclerViewAdapter = new ShoppingListRecyclerViewAdapter(this,ingredientItems);
+        //instantiate the recyclerviewadpater with the returned ingredientlist from database
+        recyclerViewAdapter = new ShoppingListRecyclerViewAdapter(this,ingredientList);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerViewAdapter.notifyDataSetChanged();
 
@@ -96,6 +80,8 @@ public class ShoppingListActivity extends PocketCuisineActivity {
     }
 
 
+    // to ensure that when user clicks on back button the main page will be displayed
+    // once a new item has been added successfully,
     @Override
     public void onBackPressed() {
         finish();
@@ -103,6 +89,7 @@ public class ShoppingListActivity extends PocketCuisineActivity {
         startActivity(intent);
     }
 
+    //pop up dialog for user to key in new item info
     public void showPopUpDialog(){
         dialogBuilder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.shopping_list_pop_up, null);
@@ -122,6 +109,7 @@ public class ShoppingListActivity extends PocketCuisineActivity {
 
     }
 
+    //save the user input into database
     public void saveItemToDataBase(View v){
 
         Ingredient ingredient = new Ingredient();
@@ -130,6 +118,7 @@ public class ShoppingListActivity extends PocketCuisineActivity {
         String item = itemQty + " "+itemName;
         ingredient.setItemName(item);
         db.addShoppingListFromUserInput(ingredient);
+        //inform the user that the item has been saved
         Snackbar.make(v, "Item Saved!", Snackbar.LENGTH_LONG).show();
 
         new Thread() {

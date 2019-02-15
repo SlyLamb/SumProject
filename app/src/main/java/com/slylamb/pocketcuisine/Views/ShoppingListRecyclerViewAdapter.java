@@ -1,6 +1,5 @@
 package com.slylamb.pocketcuisine.Views;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.slylamb.pocketcuisine.Data.DataBaseHandler;
@@ -24,10 +22,8 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
 
     private Context context;
     private List<Ingredient>ingredientItems;
-    private AlertDialog.Builder alertDialogBuilder;
+    private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
-
-    private LayoutInflater inflater;
 
     public ShoppingListRecyclerViewAdapter(Context context, List<Ingredient>ingredientItems){
         this.context = context;
@@ -36,6 +32,7 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
     }
 
 
+    //inflate the shopping list viewholder with xml layout
     @Override
     public ShoppingListRecyclerViewAdapter.ViewHolder onCreateViewHolder( ViewGroup viewGroup, int i) {
 
@@ -45,6 +42,7 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
         return new ViewHolder(view, context);
     }
 
+    // bind the data with the layout in each row in the recycler view
     @Override
     public void onBindViewHolder( ShoppingListRecyclerViewAdapter.ViewHolder viewHolder, int i) {
 
@@ -54,6 +52,7 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
 
     }
 
+    //get the number of items
     @Override
     public int getItemCount() {
         return ingredientItems.size();
@@ -85,21 +84,22 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
         }
 
 
+        //delete the shopping list item using the id stored in each ingredient object
         public void deleteItem(final int id){
 
-            alertDialogBuilder = new AlertDialog.Builder(context);
+            dialogBuilder = new AlertDialog.Builder(context);
 
-            inflater = LayoutInflater.from(context);
-            View view = inflater.inflate(R.layout.shopping_list_dialog_delete, null);
+            View view = LayoutInflater.from(context).inflate(R.layout.shopping_list_dialog_delete, null);
 
             Button btnNo = (Button) view.findViewById(R.id.noButton);
             Button btnYes = (Button) view.findViewById(R.id.yesButton);
 
-            alertDialogBuilder.setView(view);
-            alertDialogBuilder.setTitle("Delete Item");
-            alertDialogBuilder.setMessage("Are you sure to delete this Item?");
+            // dialog popped up to aler the user to confirm the deletion
+            dialogBuilder.setView(view);
+            dialogBuilder.setTitle("Delete Item");
+            dialogBuilder.setMessage("Are you sure to delete this Item?");
 
-            dialog = alertDialogBuilder.create();
+            dialog = dialogBuilder.create();
             dialog.show();
 
             btnNo.setOnClickListener(new View.OnClickListener() {

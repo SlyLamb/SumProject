@@ -27,19 +27,24 @@ public class FavouritePageActivity extends PocketCuisineActivity implements Favo
 
         favouritePageRecyclerViewAdapter = new FavouritePageRecyclerViewAdapter(presenter,this);
 
+        //to set the value of the recipeList field in presenter
         presenter.getRecipesList();
 
+        //notify the adapter that the dataset has been changed
         favouritePageRecyclerViewAdapter.notifyDataSetChanged();
 
     }
 
-
+    // implement the View interface in FavouritePageActivityPresenter so that the presenter has access
+    //to recyclerview and view adapter
     @Override
     public void refreshRecipeList() {
         favouritePageRecyclerViewAdapter.notifyDataSetChanged();
 
     }
 
+    // implement the View interface in FavouritePageActivityPresenter so that the presenter has access
+    //to recyclerview and view adapter
     @Override
     public void setRecyclerViewAdapter() {
         recyclerView.setAdapter(favouritePageRecyclerViewAdapter);

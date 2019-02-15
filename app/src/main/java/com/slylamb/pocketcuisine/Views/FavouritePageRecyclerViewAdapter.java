@@ -1,8 +1,7 @@
 package com.slylamb.pocketcuisine.Views;
 
 
-import android.app.PendingIntent;
-import android.os.Bundle;
+
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,21 +15,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
-
-
-import com.slylamb.pocketcuisine.Models.Recipe;
 import com.slylamb.pocketcuisine.Presenters.FavouritePageActivityPresenter;
 import com.slylamb.pocketcuisine.R;
 import com.squareup.picasso.Picasso;
-
-import java.net.URL;
-import java.net.URLConnection;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-
-
 
 public class FavouritePageRecyclerViewAdapter extends RecyclerView.Adapter<FavouritePageRecyclerViewAdapter.ViewHolder>{
 
@@ -42,12 +29,14 @@ public class FavouritePageRecyclerViewAdapter extends RecyclerView.Adapter<Favou
         this.presenter = presenter;
     }
 
+    // inflate the viewholder with the xml layout
     @Override
     public FavouritePageRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recipe_favourite_page_row,viewGroup,false);
         return new ViewHolder(view,context);
     }
 
+    // inflate the viewholder with the view and actual data in each row
     @Override
     public void onBindViewHolder( FavouritePageRecyclerViewAdapter.ViewHolder viewHolder, int position) {
 
@@ -56,6 +45,7 @@ public class FavouritePageRecyclerViewAdapter extends RecyclerView.Adapter<Favou
 
     }
 
+    //get the number of items
     @Override
     public int getItemCount() {
         return presenter.getRecipesRowsCount();
@@ -65,7 +55,6 @@ public class FavouritePageRecyclerViewAdapter extends RecyclerView.Adapter<Favou
         ImageView recipeImage;
         TextView txtRecipePublisher;
         TextView txtRecipeTitle;
-        Button btnDeleteFavorite;
 
 
         public ViewHolder(View itemView, final Context cxt) {
@@ -101,6 +90,7 @@ public class FavouritePageRecyclerViewAdapter extends RecyclerView.Adapter<Favou
         }
 
 
+        //set the image of each row in the view holder
         @Override
         public void setRowViewImage(String imageLink) {
 
@@ -112,11 +102,13 @@ public class FavouritePageRecyclerViewAdapter extends RecyclerView.Adapter<Favou
 
         }
 
+        //set the publisher of each row in the view holder
         @Override
         public void setRowViewPublisher(String publisher) {
             txtRecipePublisher.setText(publisher);
         }
 
+        //set the view title of each row in the view holder
         @Override
         public void setRowViewTitle(String title) {
             txtRecipeTitle.setText(title);

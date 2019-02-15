@@ -95,6 +95,13 @@ public class MealPlannerActivity extends PocketCuisineActivity implements MealPl
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+        Intent intent = new Intent(MealPlannerActivity.this, HomePageActivity.class);
+        startActivity(intent);
+    }
+
     // Set dates with meals with different background to those without meals yet
     @Override
     public void setDatesWithMeals() {

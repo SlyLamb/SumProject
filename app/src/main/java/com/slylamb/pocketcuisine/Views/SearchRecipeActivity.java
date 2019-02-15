@@ -38,7 +38,7 @@ import java.util.List;
 import com.slylamb.pocketcuisine.Models.Recipe;
 import com.slylamb.pocketcuisine.R;
 
-public class SearchRecipeActivity extends AppCompatActivity {
+public class SearchRecipeActivity extends PocketCuisineActivity {
 
     private RecyclerView recyclerView;
     private RecipeRecyclerViewAdapter recipeRecyclerViewAdapter;

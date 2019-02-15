@@ -33,7 +33,7 @@ import java.util.Calendar;
 import static android.content.ContentValues.TAG;
 
 
-public class RecipeActivity extends AppCompatActivity implements RecipeActivityPresenter.View {
+public class RecipeActivity extends PocketCuisineActivity implements RecipeActivityPresenter.View {
 
     private RecipeActivityPresenter presenter;
     private ImageView imgRecipe;

@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MealPlannerActivity extends AppCompatActivity implements MealPlannerActivityPresenter.View {
+public class MealPlannerActivity extends PocketCuisineActivity implements MealPlannerActivityPresenter.View {
 
     private MealPlannerActivityPresenter presenter;
     private CaldroidFragment calendar;

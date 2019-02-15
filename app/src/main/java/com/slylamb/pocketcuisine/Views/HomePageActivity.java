@@ -28,7 +28,7 @@ import com.slylamb.pocketcuisine.Presenters.MainPageActivityPresenter;
 import com.slylamb.pocketcuisine.R;
 
 
-public class HomePageActivity extends AppCompatActivity {
+public class HomePageActivity extends PocketCuisineActivity {
     private ImageButton btnSearch;
     private ImageButton btnFavourite;
     private ImageButton btnShoppingList;

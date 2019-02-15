@@ -35,7 +35,7 @@ import java.util.List;
 
 
 
-public class ShoppingListActivity extends AppCompatActivity {
+public class ShoppingListActivity extends PocketCuisineActivity {
 
     private RecyclerView recyclerView;
     private ShoppingListRecyclerViewAdapter recyclerViewAdapter;

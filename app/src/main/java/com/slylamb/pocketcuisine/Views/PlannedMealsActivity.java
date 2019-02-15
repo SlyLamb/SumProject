@@ -14,7 +14,7 @@ import com.slylamb.pocketcuisine.R;
 
 import java.util.ArrayList;
 
-public class PlannedMealsActivity extends AppCompatActivity {
+public class PlannedMealsActivity extends PocketCuisineActivity {
 
     private static final String TAG = "PlannedMealActivity";
     private PlannedMealsActivityPresenter presenter;

@@ -95,6 +95,14 @@ public class ShoppingListActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        Intent intent = new Intent(ShoppingListActivity.this, HomePageActivity.class);
+        startActivity(intent);
+    }
+
     public void showPopUpDialog(){
         dialogBuilder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.shopping_list_pop_up, null);

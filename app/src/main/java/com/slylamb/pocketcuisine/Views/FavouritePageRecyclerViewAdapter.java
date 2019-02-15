@@ -19,6 +19,7 @@ import java.util.List;
 
 
 import com.slylamb.pocketcuisine.Models.Recipe;
+import com.slylamb.pocketcuisine.Presenters.FavouritePageActivityPresenter;
 import com.slylamb.pocketcuisine.R;
 import com.squareup.picasso.Picasso;
 
@@ -32,12 +33,12 @@ import android.os.AsyncTask;
 
 public class FavouritePageRecyclerViewAdapter extends RecyclerView.Adapter<FavouritePageRecyclerViewAdapter.ViewHolder>{
 
+    private final FavouritePageActivityPresenter presenter;
     private Context context;
-    private List<Recipe> recipeList;
 
-    public FavouritePageRecyclerViewAdapter(Context context,List<Recipe>recipes){
+    public FavouritePageRecyclerViewAdapter(FavouritePageActivityPresenter presenter,Context context){
         this.context = context;
-        recipeList = recipes;
+        this.presenter = presenter;
     }
 
     @Override
@@ -47,28 +48,19 @@ public class FavouritePageRecyclerViewAdapter extends RecyclerView.Adapter<Favou
     }
 
     @Override
-    public void onBindViewHolder( FavouritePageRecyclerViewAdapter.ViewHolder viewHolder, int i) {
-        Recipe recipe = recipeList.get(i);
+    public void onBindViewHolder( FavouritePageRecyclerViewAdapter.ViewHolder viewHolder, int position) {
 
-        String imageLink = recipe.getImageLink();
-        Log.d("downlandlink",imageLink);
-        viewHolder.txtRecipeTitle.setText(recipe.getTitle());
-        viewHolder.txtRecipePublisher.setText(recipe.getPublisher());
-
-        Picasso.with(context)
-                .load(imageLink)
-                .error(R.drawable.common_full_open_on_phone)
-                .fit()
-                .into(viewHolder.recipeImage);
+        presenter.onBindRecipeRowViewAtPosition(position,viewHolder);
+        Log.d("onBindViewHolder","onBindViewHolder has been called");
 
     }
 
     @Override
     public int getItemCount() {
-        return recipeList.size();
+        return presenter.getRecipesRowsCount();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements FavouritePageActivityPresenter.RecipeRowView {
         ImageView recipeImage;
         TextView txtRecipePublisher;
         TextView txtRecipeTitle;
@@ -86,7 +78,7 @@ public class FavouritePageRecyclerViewAdapter extends RecyclerView.Adapter<Favou
                 public void onClick(View v) {
 
                     Log.d("itemview","itemview has been clicked");
-                    Recipe recipe = recipeList.get(getAdapterPosition());
+                    Recipe recipe = presenter.getRecipeList().get(getAdapterPosition());
                     Intent intent = new Intent(context, RecipeActivity.class);
                     intent.putExtra("recipeID",recipe.getID());
                     intent.putExtra("activity", "FROM_FAVORITES");
@@ -103,9 +95,26 @@ public class FavouritePageRecyclerViewAdapter extends RecyclerView.Adapter<Favou
 
         }
 
-        @Override
-        public void onClick(View v) {
 
+        @Override
+        public void setRowViewImage(String imageLink) {
+
+            Picasso.with(context)
+                    .load(imageLink)
+                    .error(R.drawable.common_full_open_on_phone)
+                    .fit()
+                    .into(recipeImage);
+
+        }
+
+        @Override
+        public void setRowViewPublisher(String publisher) {
+            txtRecipePublisher.setText(publisher);
+        }
+
+        @Override
+        public void setRowViewTitle(String title) {
+            txtRecipeTitle.setText(title);
         }
     }
 }

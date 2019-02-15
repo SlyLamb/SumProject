@@ -59,10 +59,9 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
 
     @Override
     public int getItemCount() {
-        //return presenter.getRecipesRowsCount();
-       // Log.d("getItemCount",String.valueOf(presenter.getRecipesRowsCount()));
+        return presenter.getRecipesRowsCount();
 
-        return 5;
+        //return 5;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements RecipeSearchActivityPresenter.RecipeRowView{

@@ -38,42 +38,46 @@ import java.util.List;
 
 import com.slylamb.pocketcuisine.Data.DataBaseHandler;
 import com.slylamb.pocketcuisine.Models.Recipe;
+import com.slylamb.pocketcuisine.Presenters.FavouritePageActivityPresenter;
 import com.slylamb.pocketcuisine.R;
 
 import com.slylamb.pocketcuisine.R;
 
-public class FavouritePageActivity extends AppCompatActivity {
+public class FavouritePageActivity extends AppCompatActivity implements FavouritePageActivityPresenter.View {
 
     private RecyclerView recyclerView;
-    private RecipeRecyclerViewAdapter recipeRecyclerViewAdapter;
-    private List<Recipe> recipeList;
-    private DataBaseHandler db;
+    private FavouritePageActivityPresenter presenter;
+    private FavouritePageRecyclerViewAdapter favouritePageRecyclerViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_favourite_page);
 
+        presenter = new FavouritePageActivityPresenter(this,this);
+
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        recipeList = new ArrayList<>();
+        favouritePageRecyclerViewAdapter = new FavouritePageRecyclerViewAdapter(presenter,this);
 
-        recipeList = getRecipes();
+        presenter.getRecipesList();
 
-        //recipeRecyclerViewAdapter = new RecipeRecyclerViewAdapter(this, recipeList );
-        recyclerView.setAdapter(recipeRecyclerViewAdapter);
-        recipeRecyclerViewAdapter.notifyDataSetChanged();
+        favouritePageRecyclerViewAdapter.notifyDataSetChanged();
 
     }
 
-    public List<Recipe> getRecipes(){
 
-        List<Recipe>newRecipeList = new ArrayList<>();
-        db = new DataBaseHandler(this);
-        Log.i("favAct","about to call db method");
-        newRecipeList = db.getALLFavouriteRecipesFromFavouriteRecipeTB();
-        return newRecipeList;
+    @Override
+    public void refreshRecipeList() {
+        favouritePageRecyclerViewAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void setRecyclerViewAdapter() {
+        recyclerView.setAdapter(favouritePageRecyclerViewAdapter);
+
     }
 }

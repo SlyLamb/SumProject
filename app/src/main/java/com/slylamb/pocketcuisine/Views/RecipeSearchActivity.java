@@ -45,8 +45,6 @@ public class RecipeSearchActivity extends AppCompatActivity implements RecipeSea
     private RecyclerView recyclerView;
     private RecipeRecyclerViewAdapter recipeRecyclerViewAdapter;
     private RecipeSearchActivityPresenter presenter;
-//    private List<Recipe> recipeList;
-//    private RequestQueue queue;
     private ImageButton btnSearch;
     private TextView txtSearchField;
     private final String baseUrl = "https://www.food2fork.com/api/search?key=";
@@ -63,7 +61,6 @@ public class RecipeSearchActivity extends AppCompatActivity implements RecipeSea
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipesearch);
 
-//        queue = Volley.newRequestQueue(this);
 
         btnSearch = findViewById(R.id.btnSearch);
         txtSearchField = findViewById(R.id.txtSearchField);
@@ -74,7 +71,6 @@ public class RecipeSearchActivity extends AppCompatActivity implements RecipeSea
         presenter = new RecipeSearchActivityPresenter(this,this);
 
 
-//        recipeList = new ArrayList<>();
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,14 +82,11 @@ public class RecipeSearchActivity extends AppCompatActivity implements RecipeSea
                 String keyword = txtSearchField.getText().toString();
                 Log.d("keyword",keyword);
 
-                //presenter = new RecipeSearchActivityPresenter(,getBaseContext(),keyword);
                 presenter.setUrl(keyword);
 
                 recipeRecyclerViewAdapter = new RecipeRecyclerViewAdapter(presenter, v.getContext());
 
-
                 presenter.getRecipesList();
-
 
                 recipeRecyclerViewAdapter.notifyDataSetChanged();
 
@@ -101,11 +94,6 @@ public class RecipeSearchActivity extends AppCompatActivity implements RecipeSea
             }
         });
 
-
-
-//        recipeRecyclerViewAdapter = new RecipeRecyclerViewAdapter(this, recipeList );
-//        recyclerView.setAdapter(recipeRecyclerViewAdapter);
-//        recipeRecyclerViewAdapter.notifyDataSetChanged();
 
     }
 

@@ -11,7 +11,7 @@ public class Constants {
     public static final String TABLE_INGREDIENT = "ingredientTB";
 
 
-    //Table columns
+    //Ingredient Shopping List Table columns
     public static final String KEY_STRING_ITEM_ID = "id";
     public static final String KEY_ITEM = "item";
     public static final String KEY_ITEM_STRING = "item_string";

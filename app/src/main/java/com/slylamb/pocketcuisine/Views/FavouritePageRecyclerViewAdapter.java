@@ -79,6 +79,9 @@ public class FavouritePageRecyclerViewAdapter extends RecyclerView.Adapter<Favou
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    /*
+
+                    LINK TO RECIPE ACTIVITY NOT WORKING
 
                     Log.d("itemview","itemview has been clicked");
                     Recipe recipe = presenter.getRecipeList().get(getAdapterPosition());
@@ -92,6 +95,7 @@ public class FavouritePageRecyclerViewAdapter extends RecyclerView.Adapter<Favou
                     } catch (PendingIntent.CanceledException e) {
                         e.printStackTrace();
                     }
+                    */
 
                 }
             });

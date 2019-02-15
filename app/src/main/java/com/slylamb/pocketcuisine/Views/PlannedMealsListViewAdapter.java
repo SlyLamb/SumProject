@@ -73,6 +73,10 @@ public class PlannedMealsListViewAdapter extends BaseAdapter {
         vh.btnMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
+
+                LINK TO RECIPE ACTIVITY NOT WORKING
+
                 Intent intent = new Intent(context, Recipe.class);
                 intent.putExtra("recipeID", presenter.getPlannedMealId(position));
                 intent.putExtra("activity", "FROM_PLANNED_MEAL");
@@ -82,6 +86,7 @@ public class PlannedMealsListViewAdapter extends BaseAdapter {
                 } catch (PendingIntent.CanceledException e) {
                     e.printStackTrace();
                 }
+                */
             }
         });
         // Set behavior in delete meal button

@@ -119,8 +119,10 @@ public class RecipeActivityPresenter {
         // If user does not have current recipe in favorites yet, add it, otherwise, delete it
         if (!db.hasRecipe(recipe.getTitle())) {
             db.addRecipe(recipe);
+            // if changing colors doesnt work, add toast here for successfully added
         } else {
             db.deleteRecipe(recipe.getTitle());
+            // and here for successfully removed
         }
         // Then update the button in the view
         view.setFavoriteButton(db.hasRecipe(recipe.getTitle()));

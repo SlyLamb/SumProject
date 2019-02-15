@@ -55,8 +55,10 @@ public class PlannedMealsListViewAdapter extends BaseAdapter {
         if (convertView == null) {
             // If it's not recycled, inflate it from xml
             convertView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.planned_meal, viewGroup, false);
+
             // Create a new ViewHolder
             vh = new ViewHolder();
+
             // Find view for buttons
             vh.btnMeal = convertView.findViewById(R.id.btn_meal);
             vh.btnDeleteMeal = convertView.findViewById(R.id.btn_delete_meal);
@@ -66,9 +68,11 @@ public class PlannedMealsListViewAdapter extends BaseAdapter {
         }
         // Set its position
         vh.position = i;
+
         // Set text in meal button
         vh.btnMeal.setText(plannedMeals.get(vh.position));
         final int position = vh.position;
+
         // Set behavior in meal button
         vh.btnMeal.setOnClickListener(new View.OnClickListener() {
             @Override

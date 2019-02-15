@@ -28,11 +28,14 @@ public class PlannedMealsActivity extends PocketCuisineActivity {
         setContentView(R.layout.planned_meals);
         lstvPlannedMeals = findViewById(R.id.lstv_planned_meals);
         presenter = new PlannedMealsActivityPresenter(this);
+
         // Get intent with date from MealPlannerActivity
         Intent intent = getIntent();
         date = intent.getStringExtra("date");
+
         // Get planned meals titles on date chosen
         ArrayList<String> plannedMealsTitles = new ArrayList<>(presenter.getPlannedMealsTitles(date));
+
         // Initialise list view adapter with planned meals
         adapter = new PlannedMealsListViewAdapter(this, plannedMealsTitles, presenter);
         lstvPlannedMeals.setAdapter(adapter);

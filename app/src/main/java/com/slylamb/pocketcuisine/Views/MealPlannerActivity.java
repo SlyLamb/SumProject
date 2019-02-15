@@ -39,18 +39,23 @@ public class MealPlannerActivity extends PocketCuisineActivity implements MealPl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meal_planner);
+
         // Initialise presented and button
         presenter = new MealPlannerActivityPresenter(this, this);
         btnGenerateList = findViewById(R.id.btn_generate_list);
+
         // Initialise caldroid calendar
         calendar = new CaldroidFragment();
+
         // If activity is created after rotation
         if (savedInstanceState != null) {
             calendar.restoreStatesFromKey(savedInstanceState, "CALDROID_SAVED_STATE");
         } else {    // Otherwise, if activity is fresh
             Bundle args = new Bundle();
+
             // Get calendar instance
             Calendar cal = Calendar.getInstance();
+
             // Put month, year, and enable swiping to next and previous months and six weeks in calendar to show
             args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH)+1);
             args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
@@ -72,6 +77,7 @@ public class MealPlannerActivity extends PocketCuisineActivity implements MealPl
             public void onSelectDate(Date date, View view) {
                 // Get string format of date clicked on
                 String dateString = formatter.format(date);
+
                 // Check if there are planned meals on selected date
                 if (presenter.hasMealOnDate(dateString)) {
                     // If there are, go to PlannedMealsActivity and pass it the date string
@@ -106,6 +112,7 @@ public class MealPlannerActivity extends PocketCuisineActivity implements MealPl
     @Override
     public void setDatesWithMeals() {
         Calendar cal = Calendar.getInstance();
+
         // Get list of dates with events on them
         ArrayList<String> datesWithMeals = presenter.getDatesWithMeals();
         for (int i = 0; i < datesWithMeals.size(); i++) {
@@ -127,9 +134,11 @@ public class MealPlannerActivity extends PocketCuisineActivity implements MealPl
         // Inflate dialog layout
         LayoutInflater myLayout = LayoutInflater.from(MealPlannerActivity.this);
         final View view = myLayout.inflate(R.layout.generate_shopping_list_dialog, null);
+
         // Dialog has 2 edit texts,one for the from date and the other for the to date
         final EditText etxtDateFrom = view.findViewById(R.id.etxt_date_from);
         final EditText etxtDateTo = view.findViewById(R.id.etxt_date_to);
+
         // Create dialog with title, message, and positive and negative behaviours
         new AlertDialog.Builder(MealPlannerActivity.this).setTitle("Add to Shopping Lists:")
                 .setMessage("Pick a date range").setCancelable(true).setView(view)
@@ -152,7 +161,7 @@ public class MealPlannerActivity extends PocketCuisineActivity implements MealPl
                 .create().show();
     }
 
-    // Validade date format, must match dd-mm-yyyy
+    // Validate date format, must match dd-mm-yyyy
     @Override
     public boolean validDate(String date) {
         // Setup format

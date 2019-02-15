@@ -55,6 +55,7 @@ public class RecipeActivity extends PocketCuisineActivity implements RecipeActiv
         String recipeID;
         String activity = intent.getStringExtra("activity");
         Log.i("activityString", activity);
+
         switch (activity) {
             case "FROM_RECIPE_SEARCH":
                 recipeID = intent.getStringExtra("recipeID");
@@ -101,6 +102,7 @@ public class RecipeActivity extends PocketCuisineActivity implements RecipeActiv
         });
     }
 
+    // initialize the view
     private void initializeView() {
         imgRecipe = findViewById(R.id.img_recipe);
         txtRecipeName = findViewById(R.id.txt_recipe_name);
@@ -141,6 +143,7 @@ public class RecipeActivity extends PocketCuisineActivity implements RecipeActiv
 
     }
 
+    // dialog for adding recipe to planner
     @Override
     public void showMealPlannerDialog() {
         final Calendar calendar = Calendar.getInstance();

@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,7 @@ import java.util.Calendar;
 import static android.content.ContentValues.TAG;
 
 
-public class RecipeActivity extends Activity implements RecipeActivityPresenter.View {
+public class RecipeActivity extends AppCompatActivity implements RecipeActivityPresenter.View {
 
     private RecipeActivityPresenter presenter;
     private ImageView imgRecipe;

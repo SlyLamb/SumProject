@@ -24,30 +24,30 @@
         <activity
             android:name=".Views.HomePageActivity"
             android:parentActivityName=".Views.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Views.SearchRecipeActivity"
             android:parentActivityName=".Views.HomePageActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Views.ShoppingListActivity"
             android:parentActivityName=".Views.HomePageActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Views.FavouritePageActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Views.RecipeActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Views.MealPlannerActivity"
             android:parentActivityName=".Views.HomePageActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Views.PlannedMealsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Views.PlannedMealsActivity"
             android:parentActivityName=".Views.MealPlannerActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".Views.PocketCuisineActivity"></activity>
     </application>
 
 </manifest>

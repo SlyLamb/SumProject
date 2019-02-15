@@ -30,13 +30,19 @@
                 android:layout_below="@id/tile"
                 android:layout_width="match_parent"
                 android:hint="item"
+                android:textColor="@color/colorMainGray"
+                android:padding="5dp"
                 android:layout_height="wrap_content"
+                android:textSize="18sp"
                 android:background="@drawable/edit_text_main"/>
 
             <EditText
                 android:id="@+id/txtQty"
                 android:layout_below="@id/txtItem"
                 android:hint="quantity"
+                android:textSize="18sp"
+                android:padding="5dp"
+                android:textColor="@color/colorMainGray"
                 android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -27,7 +27,7 @@
             android:layout_height="63dp"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:background="@raw/header" />
 
         <TextView
@@ -35,8 +35,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:text="@string/txt_shopping_list"
             android:textAlignment="center"
             android:textSize="27sp"
@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorMainGray"
-            android:padding="2dp"
+            android:padding="1dp"
             android:text="Add items"
             android:layout_gravity="right"
             android:textColor="@color/colorWhite"

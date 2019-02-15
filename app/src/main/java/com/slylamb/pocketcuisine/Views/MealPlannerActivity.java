@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MealPlannerActivity extends AppCompatActivity implements MealPlannerActivityPresenter.View {
+public class MealPlannerActivity extends PocketCuisineActivity implements MealPlannerActivityPresenter.View {
 
     private MealPlannerActivityPresenter presenter;
     private CaldroidFragment calendar;
@@ -93,6 +93,13 @@ public class MealPlannerActivity extends AppCompatActivity implements MealPlanne
                 showShoppingListDialog();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        Intent intent = new Intent(MealPlannerActivity.this, HomePageActivity.class);
+        startActivity(intent);
     }
 
     // Set dates with meals with different background to those without meals yet

@@ -3,6 +3,7 @@ package com.slylamb.pocketcuisine.Views;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +24,10 @@ public class PlannedMealsListViewAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<String> plannedMeals;
 
-    public PlannedMealsListViewAdapter(Context context, ArrayList<String> plannedMealsTitles) {
+    public PlannedMealsListViewAdapter(Context context, ArrayList<String> plannedMealsTitles, PlannedMealsActivityPresenter presenter) {
         this.context = context;
         plannedMeals = new ArrayList<>(plannedMealsTitles);
-        presenter = new PlannedMealsActivityPresenter(context);
+        this.presenter = presenter;
     }
     class ViewHolder {
         int position;
@@ -72,6 +73,10 @@ public class PlannedMealsListViewAdapter extends BaseAdapter {
         vh.btnMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
+
+                LINK TO RECIPE ACTIVITY NOT WORKING
+
                 Intent intent = new Intent(context, Recipe.class);
                 intent.putExtra("recipeID", presenter.getPlannedMealId(position));
                 intent.putExtra("activity", "FROM_PLANNED_MEAL");
@@ -81,13 +86,17 @@ public class PlannedMealsListViewAdapter extends BaseAdapter {
                 } catch (PendingIntent.CanceledException e) {
                     e.printStackTrace();
                 }
+                */
             }
         });
         // Set behavior in delete meal button
         vh.btnDeleteMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.deletePlannedMeal(position);
+                Log.i("plannedMealPosition", "" + position);
+                presenter.deletePlannedMeal(plannedMeals.get(position));
+                plannedMeals.remove(position);
+                notifyDataSetChanged();
             }
         });
         return convertView;

@@ -46,7 +46,7 @@ public class MealPlanner {
             }
             // Then go thru all planned meals up to date to, saving their ingredients to list
             if (i < count) {
-                while (plannedMeals.get(i).getDate().before(to)) {
+                while (plannedMeals.get(i).getDate().before(to) || plannedMeals.get(i).getDate().equals(to)) {
                     ingredients.addAll(plannedMeals.get(i).getRecipe().getIngredients());
                     if (i < count-1) i++;
                     else break;

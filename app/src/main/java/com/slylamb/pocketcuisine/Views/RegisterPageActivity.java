@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.slylamb.pocketcuisine.Presenters.RegisterPageActivityPresenter;
 
 
-public class RegisterPageActivity extends AppCompatActivity implements RegisterPageActivityPresenter.View {
+public class RegisterPageActivity extends PocketCuisineActivity implements RegisterPageActivityPresenter.View {
 
 
 //

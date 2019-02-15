@@ -10,10 +10,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -31,7 +33,7 @@ import java.util.Calendar;
 import static android.content.ContentValues.TAG;
 
 
-public class RecipeActivity extends Activity implements RecipeActivityPresenter.View {
+public class RecipeActivity extends PocketCuisineActivity implements RecipeActivityPresenter.View {
 
     private RecipeActivityPresenter presenter;
     private ImageView imgRecipe;
@@ -117,6 +119,14 @@ public class RecipeActivity extends Activity implements RecipeActivityPresenter.
                 .fit()
                 .into(imgRecipe);
         txtRecipeName.setText(name);
+        // Set webview so it does not open browser with URL
+        wvwPublisherSite.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return false;
+            }
+        });
+        // Load url to wevview so it displays website content in app
         wvwPublisherSite.loadUrl(sourceURL);
     }
 

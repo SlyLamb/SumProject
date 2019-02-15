@@ -49,9 +49,6 @@ public class MealPlannerActivityPresenter {
     // Add new shopping list for all planned meals between dateFrom and dateTo
     public void addIngredientsToList(String dateFrom, String dateTo) {
         ArrayList<Ingredient> ingredients = mealPlanner.getIngredients(dateFrom, dateTo);
-        for (int i = 0; i < ingredients.size(); i++) {
-            Log.i(TAG, "DEBUGGING - meal planner presenter - ingredient[" + i + "] = " + ingredients.get(i).getItemName());
-        }
         // Add ingredients to database
         db.addShoppingListFromIngredients(ingredients);
     }

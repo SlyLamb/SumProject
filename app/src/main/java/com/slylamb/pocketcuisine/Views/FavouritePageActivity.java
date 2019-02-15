@@ -43,7 +43,7 @@ import com.slylamb.pocketcuisine.R;
 
 import com.slylamb.pocketcuisine.R;
 
-public class FavouritePageActivity extends AppCompatActivity implements FavouritePageActivityPresenter.View {
+public class FavouritePageActivity extends PocketCuisineActivity implements FavouritePageActivityPresenter.View {
 
     private RecyclerView recyclerView;
     private FavouritePageActivityPresenter presenter;

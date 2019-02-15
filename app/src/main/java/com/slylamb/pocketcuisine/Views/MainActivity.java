@@ -29,7 +29,7 @@ import com.slylamb.pocketcuisine.R;
 //import com.slylamb.pocketcuisine.RegisterPageActivityPresenter;
 import com.slylamb.pocketcuisine.Views.HomePageActivity;
 
-public class MainActivity extends AppCompatActivity implements MainPageActivityPresenter.View {
+public class MainActivity extends PocketCuisineActivity implements MainPageActivityPresenter.View {
 
     private MainPageActivityPresenter presenter;
     private Button btnLogin,btnConAsGuest;

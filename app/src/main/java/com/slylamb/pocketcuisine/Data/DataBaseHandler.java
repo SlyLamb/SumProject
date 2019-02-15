@@ -355,6 +355,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 // Create recipe from planned meal info
                 Recipe recipe = new Recipe();
                 recipe.setTitle(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_TITLE)));
+                Log.i("getPlannedMeals", "recipe = " + recipe.getTitle());
                 recipe.setImageLink(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_IMAGE)));
                 recipe.setPublisher(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_PUBLISHER)));
                 recipe.setSourceURL(cursor.getString(cursor.getColumnIndex(Constants.KEY_PLANNEDMEAL_SOURCE)));
@@ -429,6 +430,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public void addPlannedMeal(PlannedMeal meal) {
         // Get writable database
         SQLiteDatabase db = this.getWritableDatabase();
+        Log.i("addPlannedMeal", "meal title = " + meal.getRecipe().getTitle());
         // Set content values with planed meal details
         ContentValues values = new ContentValues();
         values.put(Constants.KEY_PLANNEDMEAL_TITLE, meal.getRecipe().getTitle());
@@ -438,6 +440,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         values.put(Constants.KEY_PLANNEDMEAL_DATE, meal.getDateString());
         // Insert planned meal values to database
         long mealID = db.insert(Constants.TABLE_PLANNED_MEAL, null, values);
+        Log.i("addPlanedMeal", "mealID = " + mealID);
         // Go thru all ingredients in meal
         for (int i = 0; i < meal.getRecipe().getIngredients().size(); i++) {
             ContentValues ingredientValue = new ContentValues();
@@ -447,13 +450,16 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         }
     }
     // Delete planned meal with keyId
-    public void deletePlannedMeal(String keyId) {
+    public void deletePlannedMeal(String title) {
         // Get writable database
         SQLiteDatabase db = this.getWritableDatabase();
+        Log.i("deletePlannedMealTitle", "" + title);
         // Delete planned meal which matches title
-        long mealID = db.delete(Constants.TABLE_PLANNED_MEAL, Constants.KEY_PLANNEDMEAL_ID + " = ?", new String[] {keyId});
+        long mealID = db.delete(Constants.TABLE_PLANNED_MEAL, Constants.KEY_PLANNEDMEAL_TITLE + " = ?", new String[] {title});
+        Log.i("deletePlannedMealID", Long.toString(mealID));
         // Delete ingredients from this meal
         db.delete(Constants.TABLE_INGREDIENT, Constants.KEY_INGREDIENT_PLANNEDMEAL + " = ?", new String[] {Long.toString(mealID)});
+        db.close();
     }
 
     // Add ingredients to shopping list

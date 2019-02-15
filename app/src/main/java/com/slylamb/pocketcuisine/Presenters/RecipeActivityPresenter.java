@@ -39,6 +39,8 @@ public class RecipeActivityPresenter {
     //private final String key = "bba82bc3b0c0d5036c7d521014b02b62";
     //private final String key = "2066d15049b02e6f8ea0b11f77f9fd30";
     private final String key = "3092e7c11f93c302283e456ed92207e4";
+    //private final String key = "3092e7c11f93c302283e456ed92207e4";
+    //private final String key = "47dfa0226334502d4bce0a4cb3ba8863";
 
     private final String recipeSearch = "&rId=";
 
@@ -109,8 +111,6 @@ public class RecipeActivityPresenter {
         // Set fields image, name, duration, servings and ingredients
         view.setRecipeDetails(recipe.getImageLink(), recipe.getTitle(), recipe.getSourceURL());
         // Set favorite button, different look if user has recipe or doesn't
-
-        //THIS WILL CAUSE CRASH FOR NOW!!!!!
         view.setFavoriteButton(db.hasRecipe(recipe.getTitle()));
     }
 
@@ -131,6 +131,7 @@ public class RecipeActivityPresenter {
     public void addToMealPlanner(String date) {
         // Create planned meal from current recipe and date given in button
         PlannedMeal meal = new PlannedMeal(recipe, date);
+        Log.i("addToMealPlanner", "recipe = " + meal.getRecipe().getTitle());
         db.addPlannedMeal(meal);
     }
 

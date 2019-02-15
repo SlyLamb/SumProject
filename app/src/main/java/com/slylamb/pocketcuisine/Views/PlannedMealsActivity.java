@@ -7,13 +7,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 
+import com.slylamb.pocketcuisine.Models.MealPlanner;
 import com.slylamb.pocketcuisine.Models.PlannedMeal;
 import com.slylamb.pocketcuisine.Presenters.PlannedMealsActivityPresenter;
 import com.slylamb.pocketcuisine.R;
 
 import java.util.ArrayList;
 
-public class PlannedMealsActivity extends AppCompatActivity {
+public class PlannedMealsActivity extends PocketCuisineActivity {
 
     private static final String TAG = "PlannedMealActivity";
     private PlannedMealsActivityPresenter presenter;
@@ -30,11 +31,17 @@ public class PlannedMealsActivity extends AppCompatActivity {
         // Get intent with date from MealPlannerActivity
         Intent intent = getIntent();
         date = intent.getStringExtra("date");
-        Log.i(TAG, "DEBUGGING - planned meal activity - date = " + date);
         // Get planned meals titles on date chosen
         ArrayList<String> plannedMealsTitles = new ArrayList<>(presenter.getPlannedMealsTitles(date));
         // Initialise list view adapter with planned meals
-        adapter = new PlannedMealsListViewAdapter(this, plannedMealsTitles);
+        adapter = new PlannedMealsListViewAdapter(this, plannedMealsTitles, presenter);
         lstvPlannedMeals.setAdapter(adapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        Intent intent = new Intent(PlannedMealsActivity.this, MealPlannerActivity.class);
+        startActivity(intent);
     }
 }

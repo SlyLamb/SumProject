@@ -39,7 +39,7 @@ public class MealPlanner {
         ArrayList<Ingredient> ingredients = new ArrayList<>();
         // Go thru planned meals until you reach date from
         int count = plannedMeals.size();
-        for (int i = 0; i < count; i++) { // Todo: out of bounds
+        for (int i = 0; i < count; i++) {
             while (plannedMeals.get(i).getDate().before(from)) {
                 if (i < count-1) i++;
                 else break;

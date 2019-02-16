@@ -412,6 +412,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
             ContentValues ingredientValue = new ContentValues();
             ingredientValue.put(Constants.KEY_INGREDIENT_TEXT, meal.getRecipe().getIngredients().get(i).getItemName());
             ingredientValue.put(Constants.KEY_INGREDIENT_PLANNEDMEAL, Long.toString(mealID));
+            Log.i("addPlannedMeal", "added ingredient = " + meal.getRecipe().getIngredients().get(i).getItemName());
             db.insert(Constants.TABLE_INGREDIENT, null, ingredientValue);
         }
     }
@@ -432,16 +433,10 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public void addShoppingListFromIngredients(ArrayList<Ingredient> ingredients) {
         // Get writable database
         SQLiteDatabase db = this.getWritableDatabase();
-        // Go thru all ingredients, split their name and add it to list of names
-        ArrayList<String> ingredientsNames = new ArrayList<>();
-        for (int i = 0; i < ingredients.size(); i++) {
-            String[] splitted = ingredients.get(i).getItemName().split(",");
-            ingredientsNames.add(splitted[0]);
-        }
         // Get each ingredient and insert to shopping list table
         ContentValues values = new ContentValues();
-        for (int i = 0; i < ingredientsNames.size(); i++) {
-            values.put(Constants.KEY_ITEM_STRING, ingredientsNames.get(i));
+        for (int i = 0; i < ingredients.size(); i++) {
+            values.put(Constants.KEY_ITEM_STRING, ingredients.get(i).getItemName());
             db.insert(Constants.TABLE_SHOPPINGLIST_NAME, null, values);
         }
     }

@@ -109,6 +109,9 @@ public class RecipeActivityPresenter {
         // Create planned meal from current recipe and date given in button
         PlannedMeal meal = new PlannedMeal(recipe, date);
         Log.i("addToMealPlanner", "recipe = " + meal.getRecipe().getTitle());
+        for (int i = 0; i < recipe.getIngredients().size(); i++) {
+            Log.i("addToMealPlanner","adding ingredient = " + recipe.getIngredients().get(i).getItemName());
+        }
         db.addPlannedMeal(meal);
     }
 
